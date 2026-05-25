@@ -13,8 +13,8 @@ struct TestData {
             scenes: [
                 SceneModel( /// Scene 1
                     dialogs: [
-                        DialogModel(name: "Me", text: "WOW! YOUR LUNCH LOOKS YUMMY", character: "1", type: .player),
-                        DialogModel(name: "Friend", text: "MY MOM MADE IT THIS MORNING", character: "2", type: .character)
+                        DialogModel(name: "Me", text: "WOW! YOUR LUNCH LOOKS YUMMY", character: "1", type: .player, characterPosition: CharacterPosition(x: 0.08, y: 0.65), dialogPosition: CharacterPosition(x: 0.5, y: 0.55)),
+                        DialogModel(name: "Friend", text: "MY MOM MADE IT THIS MORNING", character: "2", type: .character, characterPosition: CharacterPosition(x: 0.08, y: 0.65), dialogPosition: CharacterPosition(x: 0.5, y: 0.55))
                     ],
                     actions: [
                         ActionModel(text: "CAN I HAVE ONE PIECE?", nextScene: 2),
@@ -24,15 +24,15 @@ struct TestData {
                 ),
                 SceneModel( /// Scene 2
                     dialogs: [
-                        DialogModel(name: "Friend", text: "SURE! YOU CAN HAVE/TAKE ONE", character: "2", type: .character),
-                        DialogModel(name: "Me", text: "THANK YOU", character: "1", type: .player),
-                        DialogModel(text: "GOOD JOB ASKING FIRST!", type: .narrator)
+                        DialogModel(name: "Friend", text: "SURE! YOU CAN HAVE/TAKE ONE", character: "2", type: .character, characterPosition: CharacterPosition(x: 0.08, y: 0.65), dialogPosition: CharacterPosition(x: 0.5, y: 0.55)),
+                        DialogModel(name: "Me", text: "THANK YOU", character: "1", type: .player, characterPosition: CharacterPosition(x: 0.08, y: 0.65), dialogPosition: CharacterPosition(x: 0.5, y: 0.55)),
+                        DialogModel(text: "GOOD JOB ASKING FIRST!", type: .narrator, dialogPosition: CharacterPosition(x: 0.5, y: 0.55))
                     ],
                     background: "bg-classroom"
                 ),
                 SceneModel( /// Scene 3
                     dialogs: [
-                        DialogModel(name: "Friend", text: "OH YOU DIDNT ASK FIRST", character: "2", type: .character)
+                        DialogModel(name: "Friend", text: "OH YOU DIDNT ASK FIRST", character: "2", type: .character, characterPosition: CharacterPosition(x: 0.08, y: 0.65), dialogPosition: CharacterPosition(x: 0.5, y: 0.55))
                     ],
                     actions: [
                         ActionModel(text: "SORRY", nextScene: 4),
@@ -42,15 +42,15 @@ struct TestData {
                 ),
                 SceneModel( /// Scene 4
                     dialogs: [
-                        DialogModel(name: "Friend", text: "THATS OKEYY, PLEASE ASK NEXT TIME", character: "2", type: .character),
-                        DialogModel(text: "FRIENDS SHOULD ASK PERMISSION FIRST", type: .narrator)
+                        DialogModel(name: "Friend", text: "THATS OKEYY, PLEASE ASK NEXT TIME", character: "2", type: .character, characterPosition: CharacterPosition(x: 0.08, y: 0.65), dialogPosition: CharacterPosition(x: 0.5, y: 0.55)),
+                        DialogModel(text: "FRIENDS SHOULD ASK PERMISSION FIRST", type: .narrator, dialogPosition: CharacterPosition(x: 0.5, y: 0.55))
                     ],
                     background: "bg-classroom"
                 ),
                 SceneModel( /// Scene 5
                     dialogs: [
-                        DialogModel(text: "FRIEND LOOKS SAD", type: .narrator),
-                        DialogModel(text: "FRIENDS SHOULD ASK PERMISSION FIRST", type: .narrator)
+                        DialogModel(text: "FRIEND LOOKS SAD", type: .narrator, dialogPosition: CharacterPosition(x: 0.5, y: 0.55)),
+                        DialogModel(text: "FRIENDS SHOULD ASK PERMISSION FIRST", type: .narrator, dialogPosition: CharacterPosition(x: 0.5, y: 0.55))
                     ],
                     background: "bg-classroom"
                 )

@@ -13,6 +13,11 @@ enum DialogType {
     case narrator
 }
 
+struct CharacterPosition {
+    let x: CGFloat
+    let y: CGFloat
+}
+
 struct StoryModel: Identifiable {
     let id = UUID()
     let scenes: [SceneModel]
@@ -37,12 +42,16 @@ struct DialogModel: Identifiable {
     let text: String
     var character: String? = nil
     let type: DialogType
+    let characterPosition: CharacterPosition?
+    let dialogPosition: CharacterPosition?
     
-    init(name: String? = nil, text: String, character: String? = nil, type: DialogType) {
+    init(name: String? = nil, text: String, character: String? = nil, type: DialogType, characterPosition: CharacterPosition? = nil, dialogPosition: CharacterPosition? = nil) {
         self.name = name
         self.text = text
         self.character = character
         self.type = type
+        self.characterPosition = characterPosition
+        self.dialogPosition = dialogPosition
     }
 }
 

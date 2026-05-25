@@ -40,99 +40,95 @@ struct TestView: View {
         return nil
     }
     
+    func resolvedX(_ position: CharacterPosition, for type: DialogType) -> CGFloat {
+        if type == .character {
+            return 1.0 - position.x
+        }
+        return position.x
+    }
+    
     var body: some View {
-        ZStack {
-            // Background
-            Image(currentScene.background)
-                .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
-            
-            // Content
-            VStack {
-                Spacer()
+        GeometryReader { geometry in
+            ZStack {
+                // Background
+                Image(currentScene.background)
+                    .resizable()
+                    .scaledToFill()
+                    .ignoresSafeArea()
                 
-                VStack(spacing: 0) {
-                    // Character
-                    HStack {
-                        if showActions {
-                            if let character = playerCharacter {
-                                Image(character)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 80, height: 100)
-                                    .offset(y: 40)
-                                    .clipped()
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                            }
-                        } else if currentDialog.type != .narrator {
-                            Image(currentDialog.character ?? "")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 80, height: 100)
-                                .offset(y: 40)
-                                .clipped()
-                                .frame(maxWidth: .infinity, alignment: currentDialog.type == .player ? .leading : .trailing)
-                        }
+                // Karakter
+                if !showActions && currentDialog.type != .narrator {
+                    if let charPos = currentDialog.characterPosition {
+                        Image(currentDialog.character ?? "")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: geometry.size.height * 0.4)
+                            .position(
+                                x: geometry.size.width * resolvedX(charPos, for: currentDialog.type),
+                                y: geometry.size.height * charPos.y
+                            )
                     }
-                    .frame(maxWidth: .infinity, maxHeight: 100)
-                    .background(
-                        LinearGradient(
-                            colors: [.clear, .white],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-                    
-                    // Actions / Dialogs
-                    if showActions, let actions = currentScene.actions {
-                        HStack(spacing: 8) {
-                            ForEach(actions) { action in
-                                Button(action.text) {
-                                    sceneHistory.append(currentSceneIndex)
-                                    let nextIndex = action.nextScene - 1
-                                    currentSceneIndex = nextIndex
-                                    currentDialogIndex = 0
-                                    showActions = false
-                                }
-                                .padding(10)
-                                .multilineTextAlignment(.center)
-                                .frame(maxWidth: .infinity)
-                                .border(Color.blue, width: 1)
-                            }
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: 100, alignment: .center)
-                        .padding(10)
-                        .border(Color.gray, width: 1)
-                        .background(Color.white.ignoresSafeArea())
-                    } else {
-                        VStack {
+                }
+                
+                // Dialog bubble
+                if !showActions {
+                    if let dialogPos = currentDialog.dialogPosition {
+                        VStack(alignment: currentDialog.type == .narrator ? .center : currentDialog.type == .player ? .leading : .trailing, spacing: 4) {
                             if let name = currentDialog.name {
                                 Text(name)
-                                    .frame(maxWidth: .infinity, alignment: currentDialog.type == .player ? .leading : .trailing)
                                     .bold()
+                                    .frame(maxWidth: .infinity, alignment: currentDialog.type == .player ? .leading : .trailing)
                             }
                             
                             Text(currentDialog.text)
                                 .frame(maxWidth: .infinity, alignment: currentDialog.type == .narrator ? .center : currentDialog.type == .player ? .leading : .trailing)
-                            
-                            if currentDialog.type != .narrator {
-                                Spacer()
-                            }
                         }
-                        .frame(maxWidth: .infinity, maxHeight: 100, alignment: .leading)
-                        .padding(10)
-                        .border(Color.gray, width: 1)
-                        .background(Color.white.ignoresSafeArea())
+                        .padding()
+                        .frame(width: geometry.size.width * 0.7)
+                        .background(Color.white)
+                        .cornerRadius(12)
+                        .position(
+                            x: geometry.size.width * resolvedX(dialogPos, for: currentDialog.type),
+                            y: geometry.size.height * dialogPos.y
+                        )
+                    }
+                }
+
+                VStack {
+                    Spacer()
+                    
+                    // Actions
+                    if showActions, let actions = currentScene.actions {
+                        VStack(spacing: 0) {
+                            HStack(spacing: 8) {
+                                ForEach(actions) { action in
+                                    Button(action.text) {
+                                        sceneHistory.append(currentSceneIndex)
+                                        let nextIndex = action.nextScene - 1
+                                        currentSceneIndex = nextIndex
+                                        currentDialogIndex = 0
+                                        showActions = false
+                                    }
+                                    .padding(10)
+                                    .multilineTextAlignment(.center)
+                                    .frame(maxWidth: .infinity)
+                                    .background(Color.white.opacity(0.9))
+                                    .cornerRadius(8)
+                                }
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: 100, alignment: .center)
+                        }
                     }
                     
-                    // Navigasi
+                    // Navigasi (saat dialog)
                     HStack {
                         if !isFirstDialog {
                             Button("Prev") {
                                 goToPrev()
                             }
                             .padding(10)
+                            .background(Color.white.opacity(0.8))
+                            .cornerRadius(8)
                         }
                         
                         Spacer()
@@ -142,11 +138,13 @@ struct TestView: View {
                                 goToNext()
                             }
                             .padding(10)
+                            .background(Color.white.opacity(0.8))
+                            .cornerRadius(8)
                         }
                     }
-                    .background(Color.white)
+                    .padding()
+                    .padding(.bottom)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
     }
@@ -176,6 +174,10 @@ struct TestView: View {
         }
     }
 }
+
+/// Character and dialog is coordinate based
+/// Should set default position or size for "narator dialog"
+/// Each dialog should contain every character involved with it's coordinate, not just the character that do the dialog
 
 #Preview {
     TestView()
