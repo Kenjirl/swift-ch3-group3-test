@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct TestData {
     static let stories: [StoryModel] = [
@@ -13,14 +14,14 @@ struct TestData {
             scenes: [
                 SceneModel( /// Scene 1
                     dialogs: [
-                        DialogModel(name: "Me", text: "WOW! YOUR LUNCH LOOKS YUMMY", character: "1", type: .player),
-                        DialogModel(name: "Friend", text: "MY MOM MADE IT THIS MORNING", character: "2", type: .character)
+                        DialogModel(name: "Me", text: "WOW! YOUR LUNCH LOOKS YUMMY", character: "male", type: .player),
+                        DialogModel(name: "Friend", text: "MY MOM MADE IT THIS MORNING", character: "female", type: .character)
                     ],
                     actions: [
                         ActionModel(text: "CAN I HAVE ONE PIECE?", nextScene: 2),
                         ActionModel(text: "*GRAB FOOD IMMEDIATELY*", nextScene: 3)
                     ],
-                    background: "bg-classroom"
+					background: ""
                 ),
                 SceneModel( /// Scene 2
                     dialogs: [

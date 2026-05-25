@@ -8,175 +8,184 @@
 import SwiftUI
 
 struct TestView: View {
-    let story: StoryModel = TestData.stories[0]
-    
-    @State private var currentSceneIndex: Int = 0
-    @State private var currentDialogIndex: Int = 0
-    @State private var showActions: Bool = false
-    @State private var sceneHistory: [Int] = []
-    
-    var currentScene: SceneModel {
-        story.scenes[currentSceneIndex]
-    }
-    
-    var currentDialog: DialogModel {
-        currentScene.dialogs[currentDialogIndex]
-    }
-    
-    var isFirstDialog: Bool {
-        sceneHistory.isEmpty && currentSceneIndex == 0 && currentDialogIndex == 0
-    }
-    
-    var isLastDialog: Bool {
-        currentDialogIndex == currentScene.dialogs.count - 1 && currentScene.actions == nil
-    }
-    
-    var playerCharacter: String? {
-        for scene in story.scenes {
-            if let dialog = scene.dialogs.first(where: { $0.type == .player }) {
-                return dialog.character
-            }
-        }
-        return nil
-    }
-    
-    var body: some View {
-        ZStack {
-            // Background
-            Image(currentScene.background)
-                .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
-            
-            // Content
-            VStack {
-                Spacer()
-                
-                VStack(spacing: 0) {
-                    // Character
-                    HStack {
-                        if showActions {
-                            if let character = playerCharacter {
-                                Image(character)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 80, height: 100)
-                                    .offset(y: 40)
-                                    .clipped()
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                            }
-                        } else if currentDialog.type != .narrator {
-                            Image(currentDialog.character ?? "")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 80, height: 100)
-                                .offset(y: 40)
-                                .clipped()
-                                .frame(maxWidth: .infinity, alignment: currentDialog.type == .player ? .leading : .trailing)
-                        }
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: 100)
-                    .background(
-                        LinearGradient(
-                            colors: [.clear, .white],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-                    
-                    // Actions / Dialogs
-                    if showActions, let actions = currentScene.actions {
-                        HStack(spacing: 8) {
-                            ForEach(actions) { action in
-                                Button(action.text) {
-                                    sceneHistory.append(currentSceneIndex)
-                                    let nextIndex = action.nextScene - 1
-                                    currentSceneIndex = nextIndex
-                                    currentDialogIndex = 0
-                                    showActions = false
-                                }
-                                .padding(10)
-                                .multilineTextAlignment(.center)
-                                .frame(maxWidth: .infinity)
-                                .border(Color.blue, width: 1)
-                            }
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: 100, alignment: .center)
-                        .padding(10)
-                        .border(Color.gray, width: 1)
-                        .background(Color.white.ignoresSafeArea())
-                    } else {
-                        VStack {
-                            if let name = currentDialog.name {
-                                Text(name)
-                                    .frame(maxWidth: .infinity, alignment: currentDialog.type == .player ? .leading : .trailing)
-                                    .bold()
-                            }
-                            
-                            Text(currentDialog.text)
-                                .frame(maxWidth: .infinity, alignment: currentDialog.type == .narrator ? .center : currentDialog.type == .player ? .leading : .trailing)
-                            
-                            if currentDialog.type != .narrator {
-                                Spacer()
-                            }
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: 100, alignment: .leading)
-                        .padding(10)
-                        .border(Color.gray, width: 1)
-                        .background(Color.white.ignoresSafeArea())
-                    }
-                    
-                    // Navigasi
-                    HStack {
-                        if !isFirstDialog {
-                            Button("Prev") {
-                                goToPrev()
-                            }
-                            .padding(10)
-                        }
-                        
-                        Spacer()
-                        
-                        if !showActions && !isLastDialog {
-                            Button("Next") {
-                                goToNext()
-                            }
-                            .padding(10)
-                        }
-                    }
-                    .background(Color.white)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-            }
-        }
-    }
-    
-    func goToNext() {
-        let dialogs = currentScene.dialogs
-        
-        if currentDialogIndex < dialogs.count - 1 {
-            currentDialogIndex += 1
-        } else if currentScene.actions != nil {
-            showActions = true
-        }
-    }
-    
-    func goToPrev() {
-        if showActions {
-            showActions = false
-        } else if currentDialogIndex > 0 {
-            currentDialogIndex -= 1
-        } else if let previousScene = sceneHistory.last {
-            sceneHistory.removeLast()
-            currentSceneIndex = previousScene
-            currentDialogIndex = story.scenes[previousScene].dialogs.count - 1
-            if story.scenes[previousScene].actions != nil {
-                showActions = true
-            }
-        }
-    }
+	let story: StoryModel = TestData.stories[0]
+	
+	@State private var currentSceneIndex: Int = 0
+	@State private var currentDialogIndex: Int = 0
+	@State private var showActions: Bool = false
+	@State private var sceneHistory: [Int] = []
+	
+	var currentScene: SceneModel {
+		story.scenes[currentSceneIndex]
+	}
+	
+	var currentDialog: DialogModel {
+		currentScene.dialogs[currentDialogIndex]
+	}
+	
+	var isFirstDialog: Bool {
+		sceneHistory.isEmpty && currentSceneIndex == 0 && currentDialogIndex == 0
+	}
+	
+	var isLastDialog: Bool {
+		currentDialogIndex == currentScene.dialogs.count - 1 && currentScene.actions == nil
+	}
+	
+	var playerCharacter: String? {
+		for scene in story.scenes {
+			if let dialog = scene.dialogs.first(where: { $0.type == .player }) {
+				return dialog.character
+			}
+		}
+		return nil
+	}
+	
+	var body: some View {
+		ZStack {
+			// Background
+			Image(.male)
+				.position(x: 120, y: 200)
+			Image(.female)
+				.position(x: 580, y: 200)
+			//table and food
+			HStack {
+				Image(.lunch1)
+					.padding(EdgeInsets(top: 0, leading: 90, bottom: 0, trailing: 0))
+				Spacer()
+				Image(.lunch2)
+					.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 130))
+			}
+			.background(Color(.desk))
+			.frame(height: 100)
+			.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+			
+			// Content
+			ZStack {
+				// Actions / Dialogs
+				if showActions, let actions = currentScene.actions {
+					HStack(spacing: 8) {
+						ForEach(actions) { action in
+							Button {
+								sceneHistory.append(currentSceneIndex)
+								let nextIndex = action.nextScene - 1
+								currentSceneIndex = nextIndex
+								currentDialogIndex = 0
+								showActions = false
+							} label: {
+								Text(action.text)
+									.padding(10)
+									.foregroundStyle(Color.white)
+							}
+							.padding(10)
+							.multilineTextAlignment(.center)
+							.background(
+								RoundedRectangle(cornerRadius: 30)
+									.fill(Color(.accentPink))
+							)
+						}
+					}
+					.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+					.padding(10)
+				} else {
+					ZStack{
+						Image(.textBox)
+							.resizable()
+							.scaledToFit()
+							.frame(width: 230)
+						Text(currentDialog.text)
+							.foregroundStyle(Color.white)
+							.frame(width: 230)
+							.offset(x: 10)
+					}
+					.offset(x: -50, y: -50)
+				}
+				
+				
+				//VStack(spacing: 0) {
+					// Character
+//					HStack {
+//						if showActions {
+//							if let character = playerCharacter {
+//								Image(character)
+//									.resizable()
+//									.scaledToFill()
+//									.frame(width: 80, height: 100)
+//									.offset(y: 40)
+//									.clipped()
+//									.frame(maxWidth: .infinity, alignment: .leading)
+//							}
+//						} else if currentDialog.type != .narrator {
+//							Image(currentDialog.character ?? "")
+//								.resizable()
+//								.scaledToFill()
+//								.frame(width: 80, height: 100)
+//								.offset(y: 40)
+//								.clipped()
+//								.frame(maxWidth: .infinity, alignment: currentDialog.type == .player ? .leading : .trailing)
+//						}
+//					}
+//					.frame(maxWidth: .infinity, maxHeight: 100)
+				//}
+				//				.frame(maxWidth: .infinity,  alignment: .center)
+				//				.background(Color.white)
+			}
+			//.background(Color.white)
+			
+			
+			
+			// Navigasi
+			HStack {
+				if !isFirstDialog {
+					Button {
+						goToPrev()
+					} label: {
+						Image(.prevButton)
+					}
+				}
+				
+				Spacer()
+				
+				if !showActions && !isLastDialog {
+					Button {
+						goToNext()
+					} label: {
+						Image(.nextButton)
+					}
+				}
+			}
+			.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
+			//.background(Color.white)
+			
+		}
+		.background(Color(.bg1))
+	}
+	
+	func goToNext() {
+		let dialogs = currentScene.dialogs
+		
+		if currentDialogIndex < dialogs.count - 1 {
+			currentDialogIndex += 1
+		} else if currentScene.actions != nil {
+			showActions = true
+		}
+	}
+	
+	func goToPrev() {
+		if showActions {
+			showActions = false
+		} else if currentDialogIndex > 0 {
+			currentDialogIndex -= 1
+		} else if let previousScene = sceneHistory.last {
+			sceneHistory.removeLast()
+			currentSceneIndex = previousScene
+			currentDialogIndex = story.scenes[previousScene].dialogs.count - 1
+			if story.scenes[previousScene].actions != nil {
+				showActions = true
+			}
+		}
+	}
 }
 
 #Preview {
-    TestView()
+	TestView()
 }
