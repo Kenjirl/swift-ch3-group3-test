@@ -7,15 +7,36 @@
 
 import Foundation
 
+enum AssetType {
+    case player
+    case npc
+    case other
+}
+
 enum DialogType {
     case player
-    case character
+    case npc
     case narrator
 }
 
-struct CharacterPosition {
+extension AssetType {
+    var dialogType: DialogType {
+        switch self {
+            case .player: return .player
+            case .npc: return .npc
+            case .other: return .narrator
+        }
+    }
+}
+
+struct AssetPosition {
     let x: CGFloat
     let y: CGFloat
+}
+
+struct AssetSize {
+    let width: CGFloat
+    let height: CGFloat
 }
 
 struct StoryModel: Identifiable {
@@ -25,33 +46,39 @@ struct StoryModel: Identifiable {
 
 struct SceneModel: Identifiable {
     let id = UUID()
+    let assets: [AssetModel]
     let dialogs: [DialogModel]
     var actions: [ActionModel]? = nil
     let background: String
     
-    init(dialogs: [DialogModel], actions: [ActionModel]? = nil, background: String) {
+    init(assets: [AssetModel], dialogs: [DialogModel], actions: [ActionModel]? = nil, background: String) {
+        self.assets = assets
         self.dialogs = dialogs
         self.actions = actions
         self.background = background
     }
 }
 
+struct AssetModel: Identifiable {
+    let id = UUID()
+    let source: String
+    let type: AssetType
+    let position: AssetPosition
+    let size: AssetSize
+}
+
 struct DialogModel: Identifiable {
     let id = UUID()
     var name: String? = nil
     let text: String
-    var character: String? = nil
     let type: DialogType
-    let characterPosition: CharacterPosition?
-    let dialogPosition: CharacterPosition?
+    let position: AssetPosition?
     
-    init(name: String? = nil, text: String, character: String? = nil, type: DialogType, characterPosition: CharacterPosition? = nil, dialogPosition: CharacterPosition? = nil) {
+    init(name: String? = nil, text: String, type: DialogType, position: AssetPosition? = nil) {
         self.name = name
         self.text = text
-        self.character = character
         self.type = type
-        self.characterPosition = characterPosition
-        self.dialogPosition = dialogPosition
+        self.position = position
     }
 }
 
