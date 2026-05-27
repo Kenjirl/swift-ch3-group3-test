@@ -6,15 +6,21 @@
 //
 
 import SwiftUI
+import Lottie
 
 struct TestView: View {
 	let story: StoryModel = TestData.stories[0]
+	@State private var phase: AnimationPhase = .idle
+
+	enum AnimationPhase {
+		case idle, forward, reverse
+	}
 	
 	@State private var currentSceneIndex: Int = 0
 	@State private var currentDialogIndex: Int = 0
 	@State private var showActions: Bool = false
 	@State private var sceneHistory: [Int] = []
-	
+		
 	var currentScene: SceneModel {
 		story.scenes[currentSceneIndex]
 	}
@@ -49,8 +55,34 @@ struct TestView: View {
 				.position(x: 580, y: 200)
 			//table and food
 			HStack {
-				Image(.lunch1)
-					.padding(EdgeInsets(top: 0, leading: 90, bottom: 0, trailing: 0))
+				LottieView{
+					try await DotLottieFile.named("sparkles 3")
+				}	.playbackMode(playbackMode)
+						.animationDidFinish { completed in
+							guard completed else { return }  // ignore incomplete callbacks
+							switch phase {
+							case .forward:
+								DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+									phase = .reverse  // small delay helps Lottie register the state change
+								}
+							case .reverse:
+								phase = .idle
+							case .idle:
+								break
+							}
+						}
+						.onTapGesture {
+							guard phase == .idle else { return }
+							phase = .forward
+						}
+//				LottieView{
+//					try await DotLottieFile.named("sparkles")
+//				}
+//				.playing() // Set playback behavior
+//								.resizable() // Allows the animation to scale
+//								.frame(width: 250)
+//				Image(.lunch1)
+//					.padding(EdgeInsets(top: 0, leading: 90, bottom: 0, trailing: 0))
 				Spacer()
 				Image(.lunch2)
 					.padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 130))
@@ -134,6 +166,7 @@ struct TestView: View {
 			
 			
 			// Navigasi
+			
 			HStack {
 				if !isFirstDialog {
 					Button {
@@ -184,7 +217,17 @@ struct TestView: View {
 			}
 		}
 	}
+	
+	var playbackMode: LottiePlaybackMode {
+		switch phase {
+		case .idle:    return .paused(at: .progress(0))
+		case .forward: return .playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce))
+		case .reverse: return .playing(.fromProgress(1, toProgress: 0, loopMode: .playOnce))
+		}
+	}
 }
+
+
 
 #Preview {
 	TestView()
