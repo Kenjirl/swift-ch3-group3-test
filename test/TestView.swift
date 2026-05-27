@@ -16,8 +16,10 @@ struct TestView: View {
 		case idle, forward, reverse
 	}
 	
-	@State private var currentSceneIndex: Int = 0
-	@State private var currentDialogIndex: Int = 0
+	@AppStorage("score") var score: Int = 0
+	
+	@AppStorage("currentSceneIndex") var currentSceneIndex: Int = 0
+	@AppStorage("currentDialogIndex") var currentDialogIndex: Int = 0
 	@State private var showActions: Bool = false
 	@State private var sceneHistory: [Int] = []
 		
