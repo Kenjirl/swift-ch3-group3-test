@@ -11,8 +11,10 @@ import Combine
 // MARK: - Model
 
 struct DragItem: Identifiable {
+    
     let id: String = UUID().uuidString
     let asset: String
+    var defaultRotation:CGFloat = 0
 }
 
 // MARK: - ViewModel
@@ -20,12 +22,12 @@ struct DragItem: Identifiable {
 internal class DragViewModel: ObservableObject {
 
     let dragItems: [DragItem] = [
-        DragItem(asset: "puzzle_item_1"),
-        DragItem(asset: "puzzle_item_2"),
-        DragItem(asset: "puzzle_item_3"),
-        DragItem(asset: "puzzle_item_4"),
-        DragItem(asset: "puzzle_item_5"),
-        DragItem(asset: "puzzle_item_6"),
+        DragItem(asset: "puzzle_broccolo",defaultRotation: 25),
+        DragItem(asset: "puzzle_toast"),
+        DragItem(asset: "puzzle_tomato"),
+        DragItem(asset: "puzzle_egg"),
+        DragItem(asset: "puzzle_watermellon"),
+        DragItem(asset: "puzzle_nasi"),
     ]
 
     /// Returns 2 rows of 3 randomly distributed items.
@@ -77,6 +79,8 @@ struct MiniGameMainScene: View {
                             .frame(width: mealBoxFrame)
                             .padding(.top, topPadding)
                             .padding(.trailing, trailingPad)
+                        
+                        Text("Ohh explanation")
                         Spacer()
                     }
                     .frame(width: mealBoxArea)
@@ -93,139 +97,9 @@ struct MiniGameMainScene: View {
     }
 }
 
-// MARK: - Box View
 
-struct MealBoxOpen: View {
 
-    @EnvironmentObject var puzzleVM: DragViewModel
 
-    /// Items stored in @State: calcolati una volta sola all'onAppear,
-    /// non ricalcolati ad ogni re-render.
-    @State private var items: [[DragItem]] = []
-
-    var body: some View {
-
-        Image("puzzle_box")
-            .resizable()
-            .scaledToFit()                    // box è l'ancora del frame ✓
-            .overlay(MealOverlayGrid(items: items))
-            .overlay(alignment: .topTrailing, content: {
-                Button {
-                    items = puzzleVM.getThreeItemPerRaw()
-                } label: {
-                    Text("refresh")
-                }
-
-            })
-            .onAppear {
-                items = puzzleVM.getThreeItemPerRaw()
-            }
-    }
-}
-
-// MARK: - Grid Overlay
-
-struct MealOverlayGrid: View {
-
-    let items: [[DragItem]]
-
-    var body: some View {
-
-        GeometryReader { geo in
-            let w = geo.size.width // essendo applicato in overlay al meal box, legge la sua larghezza
-            let h = geo.size.height // altezza meal box
-
-            // Margini interni al box
-            let hPad = w * 0.08
-            let vPad = h * 0.10
-
-            // Superficie disponibile dopo i margini
-            let innerW  = w - hPad * 2
-            let innerH  = h - vPad * 2
-
-            // Proporzioni dei 3 scomparti del vassoio
-            let leftW   = innerW * 0.40   // scomparto sinistro (40%)
-            let rightW  = innerW * 0.60   // scomparti destri   (60%)
-            let topH    = innerH * 0.42   // scomparto alto      (42%)
-            let bottomH = innerH * 0.30   // scomparto basso     (30%)
-
-            let rowSpacing = innerH * 0.15
-
-            // Scomparto sinistro
-            let leftTopOffsetX  = rowSpacing * 0.70  // item [0][0] spostato a destra
-            let leftVerticalPad = rowSpacing * 0.20  // padding verticale
-
-            // Top-right
-            let topRightOverlap = -rightW * 0.15     // avvicina i due item orizzontalmente
-
-            // Bottom-right
-            let bottomItemSpacing = rowSpacing * 0.15
-            let bottomLeadPad     = rowSpacing * 0.90
-            let bottomTrailPad    = rowSpacing * 0.10
-            let bottomItemScale   = 0.85              // scala ridotta item sovrapposto
-
-            // Posizione verticale del frame
-            let centerY = h / 2.15                   // compensa il padding visivo del vassoio
-
-            HStack(alignment: .center, spacing: 0) {
-
-                // ── Scomparto sinistro: 40% larghezza, altezza piena
-                // items[0][0] sopra, items[1][0] sotto
-                VStack(alignment: .leading, spacing: 0) {
-                    slotImage(row: 0, col: 0, rotation:  15)
-                        .offset(x: leftTopOffsetX)
-                    slotImage(row: 1, col: 0, rotation:  -20)
-                        .offset(x: -rowSpacing)
-                }
-                .padding(.vertical, leftVerticalPad)
-                .frame(width: leftW, height: innerH)
-
-                // ── Scomparti destri: 60% larghezza, split 42 / 30
-                VStack(spacing: rowSpacing) {
-
-                    // Top-right: items[0][1] e items[0][2]
-                    HStack(spacing: topRightOverlap) {
-                        slotImage(row: 0, col: 1, rotation: -15)
-                        slotImage(row: 0, col: 2, rotation:   15)
-                    }
-                    .frame(width: rightW, height: topH)
-
-                    // Bottom-right: items[1][1] e items[1][2]
-                    HStack(spacing: bottomItemSpacing) {
-                        slotImage(row: 1, col: 1, rotation:  -15)
-                        slotImage(row: 1, col: 2, rotation: 15)
-                            .scaleEffect(bottomItemScale)
-                        slotImage(row: 1, col: 2, rotation: 15)
-                    }
-                    .padding(.leading, bottomLeadPad)
-                    .padding(.trailing, bottomTrailPad)
-                    .frame(width: rightW, height: bottomH)
-                }
-            }
-            .frame(width: innerW, height: innerH)
-            .position(x: w / 2, y: centerY)
-        }
-    }
-
-    // Helper: accesso sicuro + immagine
-    @ViewBuilder
-    private func slotImage(row: Int, col: Int, rotation: Double) -> some View {
-        if let item = items[ifExists: row]?[ifExists: col] {
-            Image(item.asset)
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .rotationEffect(.degrees(rotation))
-        }
-    }
-}
-
-// Subscript sicuro per Array — evita crash su indici fuori range
-private extension Array {
-    subscript(ifExists index: Int) -> Element? {
-        indices.contains(index) ? self[index] : nil
-    }
-}
 
 #Preview {
     MiniGameMainScene()

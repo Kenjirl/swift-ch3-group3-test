@@ -21,3 +21,10 @@ extension Color {
         Color(red: 125/255, green: 162/255, blue: 180/255)
     }
 }
+
+// Subscript sicuro per Array — evita crash su indici fuori range
+ extension Array {
+    subscript(ifExists index: Int) -> Element? {
+        indices.contains(index) ? self[index] : nil
+    }
+}
