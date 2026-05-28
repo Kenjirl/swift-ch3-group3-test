@@ -14,25 +14,28 @@ struct MealBoxOpen: View {
 
     /// Items stored in @State: calcolati una volta sola all'onAppear,
     /// non ricalcolati ad ogni re-render.
-    @State private var items: [[DragItem]] = []
+   // @State private var items: [[DragItem]] = []
 
     var body: some View {
 
         Image("puzzle_box")
             .resizable()
-            .scaledToFit()                    // box è l'ancora del frame ✓
-            .overlay(MealOverlayGrid(items: items))
+            .scaledToFit()                    // box è l'ancora del frame
+            .overlay(MealOverlayGrid())
+            .onPreferenceChange(SlotFrameKey.self) { frames in
+                puzzleVM.slotFrames = frames
+            }
             .overlay(alignment: .topTrailing, content: {
                 Button {
-                    items = puzzleVM.getThreeItemPerRaw()
+                    /* items = puzzleVM.*/puzzleVM.setItemsForPuzzleMiniGame()
                 } label: {
                     Text("refresh")
-                }
+                } // for test
 
             })
-            .onAppear {
-                items = puzzleVM.getThreeItemPerRaw()
-            }
+//            .onAppear {
+//               /* items = */puzzleVM.getThreeItemPerRaw()
+//            }
     }
 }
 
@@ -40,7 +43,8 @@ struct MealBoxOpen: View {
 
 struct MealOverlayGrid: View {
 
-    let items: [[DragItem]]
+    @EnvironmentObject var puzzleVM:DragViewModel
+   // let items: [[DragItem]]
 
     var body: some View {
 
@@ -82,12 +86,12 @@ struct MealOverlayGrid: View {
 
             HStack(alignment: .center, spacing: 0) {
 
-                // ── Scomparto sinistro: 40% larg hezza, altezza piena
+                // ── Scomparto sinistro: 40% larghezza, altezza piena
                 // items[0][0] sopra, items[1][0] sotto
                 VStack(alignment: .leading, spacing: 0) {
-                    slotImage(row: 0, col: 0)
+                    slotView(row: 0, col: 0)
                         .offset(x: leftTopOffsetX)
-                    slotImage(row: 1, col: 0)
+                    slotView(row: 1, col: 0)
                         .offset(x: -rowSpacing)
                 }
                 .padding(.vertical, leftVerticalPad)
@@ -98,17 +102,17 @@ struct MealOverlayGrid: View {
 
                     // Top-right: items[0][1] e items[0][2]
                     HStack(spacing: topRightOverlap) {
-                        slotImage(row: 0, col: 1)
-                        slotImage(row: 0, col: 2)
+                        slotView(row: 0, col: 1)
+                        slotView(row: 0, col: 2)
                     }
                     .frame(width: rightW, height: topH)
 
                     // Bottom-right: items[1][1] e items[1][2]
                     HStack(spacing: bottomItemSpacing) {
-                        slotImage(row: 1, col: 1)
-                        slotImage(row: 1, col: 2)
+                        slotView(row: 1, col: 1)
+                        slotView(row: 1, col: 2)
                             .scaleEffect(bottomItemScale)
-                        slotImage(row: 1, col: 2)
+                        slotView(row: 1, col: 2)
                     }
                     .padding(.leading, bottomLeadPad)
                     .padding(.trailing, bottomTrailPad)
@@ -120,15 +124,18 @@ struct MealOverlayGrid: View {
         }
     }
 
-    // Helper: accesso sicuro + immagine
+    // Renderizza lo slot e pubblica il suo frame in canvas space tramite SlotFrameKey
     @ViewBuilder
-    private func slotImage(row: Int, col: Int) -> some View {
-        if let item = items[ifExists: row]?[ifExists: col] {
-            Image(item.asset)
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .rotationEffect(.degrees(item.defaultRotation))
-        }
+    private func slotView(row: Int, col: Int) -> some View {
+        let item = puzzleVM.itemsForPuzzleMiniGame[ifExists: row]?[ifExists: col]
+        puzzleVM.slotImage(row: row, col: col)
+            .background(
+                GeometryReader { geo in
+                    Color.clear.preference(
+                        key: SlotFrameKey.self,
+                        value: item.map { [$0.id: geo.frame(in: .named("canvas"))] } ?? [:]
+                    )
+                }
+            )
     }
 }

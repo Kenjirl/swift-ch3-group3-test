@@ -23,8 +23,16 @@ extension Color {
 }
 
 // Subscript sicuro per Array — evita crash su indici fuori range
- extension Array {
+extension Array {
     subscript(ifExists index: Int) -> Element? {
         indices.contains(index) ? self[index] : nil
+    }
+}
+
+// Raccoglie i frame globali degli slot del vassoio: [item.id: CGRect]
+struct SlotFrameKey: PreferenceKey {
+    static var defaultValue: [String: CGRect] = [:]
+    static func reduce(value: inout [String: CGRect], nextValue: () -> [String: CGRect]) {
+        value.merge(nextValue()) { _, new in new }
     }
 }
