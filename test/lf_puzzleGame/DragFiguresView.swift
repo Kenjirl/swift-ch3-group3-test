@@ -132,59 +132,56 @@ struct DragItemView<DragElement: View>: View {
     @State private var offset: CGSize = .zero // handle the movement
    // @State private var baseOffset: CGSize = .zero
     @State private var ownCenter: CGPoint = .zero // the starting position
+    @State private var startignSize:CGSize = .zero
+    
     @State private var isDragEnable:Bool = true
-    @State private var scaleValue:CGFloat = 0.75
+    
+    @State private var scaledSize:CGSize = CGSize(width: 0.75, height: 0.75)
     
     var body: some View {
         
         ZStack {
+            
+            // the placeholder
+            
             element()
-                .scaleEffect(0.75)
+                .scaleEffect(CGSize(width: 0.75, height: 0.75))
                 .opacity(0.6)
                 .background(
                     GeometryReader { geo in
                         
-                        Color.itemBackground
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                        Color.clear
                             .onAppear {
                                 let frame = geo.frame(in: .named("canvas"))
                                 ownCenter = CGPoint(x: frame.midX, y: frame.midY)
+                                startignSize = frame.size
                             }
                     }
                 )
+                .background(content: {
+                    Color.itemBackground
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .scaleEffect(0.9)
+                })
             
-            
+            // the object moved
             element()
-    //            .overlay(alignment: .topTrailing, content: {
-    //                Image(systemName: "circle")
-    //            })
+                .scaleEffect(scaledSize)
                 .offset(offset)
-                .scaleEffect(scaleValue)
-//                .background(
-//                    GeometryReader { geo in
-//                        
-//                        Color.itemBackground
-//                            .clipShape(RoundedRectangle(cornerRadius: 20))
-//                            .onAppear {
-//                                let frame = geo.frame(in: .named("canvas"))
-//                                ownCenter = CGPoint(x: frame.midX, y: frame.midY)
-//                            }
-//                    }
-//                )
                 .gesture(drag,isEnabled: isDragEnable)
+            
         }
     }
 
     private var drag: some Gesture {
         DragGesture()
             .onChanged { move in
+                
                 offset = CGSize(
-                    width:  /*baseOffset.width  +*/ move.translation.width,
-                    height: /*baseOffset.height + */move.translation.height
+                    width: move.translation.width,
+                    height: move.translation.height
                 )
-                withAnimation(.spring) {
-                    self.scaleValue = 1.0
-                }
+
             }
             .onEnded { _ in
                 
@@ -207,23 +204,31 @@ struct DragItemView<DragElement: View>: View {
                 
                 if wDistance > -50,
                    wDistance < 50,
-                   hDistance > -35,
-                   hDistance < 35 {
+                   hDistance > -45,
+                   hDistance < 45 {
+                    
+                    // calculate the scale beetween the target and the origin
+                    let scaleX = target.size.width  / startignSize.width
+                    let scaleY = target.size.height / startignSize.height
+                    
+                    let scaleZ = min(scaleX, scaleY)
                     
                     withAnimation(.spring()) {
-                        offset = snap }
+                        
+                        scaledSize = CGSize(width: scaleZ, height: scaleZ) // to be proportioned w and h must be scaled equally
+                        offset = snap
+                    }
+                    
                     isDragEnable = false
                     
                 } else {
                     withAnimation(.spring()) {
                         offset = .zero
-                        self.scaleValue = 0.75
+                        scaledSize = CGSize(width: 0.75, height: 0.75)
+                      //  self.scaleValue = 0.75
                     }
                     
                 }
-                
-                
-     
             }
     }
 }
