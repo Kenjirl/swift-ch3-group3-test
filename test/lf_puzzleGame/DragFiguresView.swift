@@ -8,241 +8,225 @@
 import SwiftUI
 import Combine
 
-struct DragItem:Identifiable {
-    
-    let id:String = UUID().uuidString
-    
-    let asset:String
-    
+// MARK: - Model
+
+struct DragItem: Identifiable {
+    let id: String = UUID().uuidString
+    let asset: String
 }
 
-internal class DragViewModel:ObservableObject {
-    
-    let dragItems:[DragItem] = [
-        
+// MARK: - ViewModel
+
+internal class DragViewModel: ObservableObject {
+
+    let dragItems: [DragItem] = [
         DragItem(asset: "puzzle_item_1"),
         DragItem(asset: "puzzle_item_2"),
-      //  DragItem(asset: "puzzle_item_3"),
-      //  DragItem(asset: "puzzle_item_4"),
-        
+        DragItem(asset: "puzzle_item_3"),
+        DragItem(asset: "puzzle_item_4"),
+        DragItem(asset: "puzzle_item_5"),
+        DragItem(asset: "puzzle_item_6"),
     ]
-    
+
+    /// Returns 2 rows of 3 randomly distributed items.
+    func getThreeItemPerRaw() -> [[DragItem]] {
+        var pool = dragItems
+        var row1 = [DragItem]()
+
+        for _ in 0..<3 {
+            if let pick = pool.randomElement() {
+                pool.removeAll(where: { $0.id == pick.id })
+                row1.append(pick)
+            }
+        }
+        // shuffle the remaining 3 so row2 is also random
+        return [row1, pool.shuffled()]
+    }
 }
 
-struct DragFiguresView: View {
-    
-    @StateObject private var puzzleVM:DragViewModel = DragViewModel()
-    
+// MARK: - Main Scene
+
+struct MiniGameMainScene: View {
+
+    @StateObject private var puzzleVM: DragViewModel = DragViewModel()
+
     var body: some View {
-        
-        ZStack {
-            
-            DragBackgroundArea()
-            
-            DragFiguresArea()
-            
+
+        GeometryReader { geo in
+            let w = geo.size.width
+            let h = geo.size.height
+
+            let mealBoxArea   = w * 0.70
+            let mealBoxFrame  = w * 0.65
+            let draggableArea = w * 0.30
+            let topPadding    = h * 0.09   // vertical → usa height ✓
+            let trailingPad   = w * 0.05
+
+            ZStack {
+
+                LinearGradient(
+                    colors: [Color.mainBackgroundTop, Color.mainBackgroundBottom],
+                    startPoint: .top, endPoint: .bottom)
+                .ignoresSafeArea()
+
+                HStack(spacing: 0) {
+
+                    // MARK: Box area
+                    VStack(alignment: .leading) {
+                        MealBoxOpen()
+                            .frame(width: mealBoxFrame)
+                            .padding(.top, topPadding)
+                            .padding(.trailing, trailingPad)
+                        Spacer()
+                    }
+                    .frame(width: mealBoxArea)
+                    .background(Color.red)     // debug
+
+                    // MARK: Draggable area
+                    VStack { }
+                    .frame(width: draggableArea)
+                    .background(Color.yellow)  // debug
+                }
+            }
         }
         .environmentObject(puzzleVM)
-        
     }
 }
 
-struct DragFiguresArea:View {
-    
-    @EnvironmentObject var puzzleVM:DragViewModel
-    
+// MARK: - Box View
+
+struct MealBoxOpen: View {
+
+    @EnvironmentObject var puzzleVM: DragViewModel
+
+    /// Items stored in @State: calcolati una volta sola all'onAppear,
+    /// non ricalcolati ad ogni re-render.
+    @State private var items: [[DragItem]] = []
+
     var body: some View {
-        
-        HStack {
-            
-            UpperView()
-            
-            
-        }
-        
+
+        Image("puzzle_box")
+            .resizable()
+            .scaledToFit()                    // box è l'ancora del frame ✓
+            .overlay(MealOverlayGrid(items: items))
+            .overlay(alignment: .topTrailing, content: {
+                Button {
+                    items = puzzleVM.getThreeItemPerRaw()
+                } label: {
+                    Text("refresh")
+                }
+
+            })
+            .onAppear {
+                items = puzzleVM.getThreeItemPerRaw()
+            }
     }
 }
 
-struct DragBackgroundArea:View {
-    
+// MARK: - Grid Overlay
+
+struct MealOverlayGrid: View {
+
+    let items: [[DragItem]]
+
     var body: some View {
-        
-        HStack(spacing:0) {
-            
-            Color.orange
-                .ignoresSafeArea()
-                  .frame(width:500)
-              
-              Rectangle()
-                  .frame(width: 5)
-                    .ignoresSafeArea()
-              
-            Color.green
-                .ignoresSafeArea()
-            
-            
+
+        GeometryReader { geo in
+            let w = geo.size.width // essendo applicato in overlay al meal box, legge la sua larghezza
+            let h = geo.size.height // altezza meal box
+
+            // Margini interni al box
+            let hPad = w * 0.08
+            let vPad = h * 0.10
+
+            // Superficie disponibile dopo i margini
+            let innerW  = w - hPad * 2
+            let innerH  = h - vPad * 2
+
+            // Proporzioni dei 3 scomparti del vassoio
+            let leftW   = innerW * 0.40   // scomparto sinistro (40%)
+            let rightW  = innerW * 0.60   // scomparti destri   (60%)
+            let topH    = innerH * 0.42   // scomparto alto      (42%)
+            let bottomH = innerH * 0.30   // scomparto basso     (30%)
+
+            let rowSpacing = innerH * 0.15
+
+            // Scomparto sinistro
+            let leftTopOffsetX  = rowSpacing * 0.70  // item [0][0] spostato a destra
+            let leftVerticalPad = rowSpacing * 0.20  // padding verticale
+
+            // Top-right
+            let topRightOverlap = -rightW * 0.15     // avvicina i due item orizzontalmente
+
+            // Bottom-right
+            let bottomItemSpacing = rowSpacing * 0.15
+            let bottomLeadPad     = rowSpacing * 0.90
+            let bottomTrailPad    = rowSpacing * 0.10
+            let bottomItemScale   = 0.85              // scala ridotta item sovrapposto
+
+            // Posizione verticale del frame
+            let centerY = h / 2.15                   // compensa il padding visivo del vassoio
+
+            HStack(alignment: .center, spacing: 0) {
+
+                // ── Scomparto sinistro: 40% larghezza, altezza piena
+                // items[0][0] sopra, items[1][0] sotto
+                VStack(alignment: .leading, spacing: 0) {
+                    slotImage(row: 0, col: 0, rotation:  15)
+                        .offset(x: leftTopOffsetX)
+                    slotImage(row: 1, col: 0, rotation:  -20)
+                        .offset(x: -rowSpacing)
+                }
+                .padding(.vertical, leftVerticalPad)
+                .frame(width: leftW, height: innerH)
+
+                // ── Scomparti destri: 60% larghezza, split 42 / 30
+                VStack(spacing: rowSpacing) {
+
+                    // Top-right: items[0][1] e items[0][2]
+                    HStack(spacing: topRightOverlap) {
+                        slotImage(row: 0, col: 1, rotation: -15)
+                        slotImage(row: 0, col: 2, rotation:   15)
+                    }
+                    .frame(width: rightW, height: topH)
+
+                    // Bottom-right: items[1][1] e items[1][2]
+                    HStack(spacing: bottomItemSpacing) {
+                        slotImage(row: 1, col: 1, rotation:  -15)
+                        slotImage(row: 1, col: 2, rotation: 15)
+                            .scaleEffect(bottomItemScale)
+                        slotImage(row: 1, col: 2, rotation: 15)
+                    }
+                    .padding(.leading, bottomLeadPad)
+                    .padding(.trailing, bottomTrailPad)
+                    .frame(width: rightW, height: bottomH)
+                }
+            }
+            .frame(width: innerW, height: innerH)
+            .position(x: w / 2, y: centerY)
         }
+    }
+
+    // Helper: accesso sicuro + immagine
+    @ViewBuilder
+    private func slotImage(row: Int, col: Int, rotation: Double) -> some View {
+        if let item = items[ifExists: row]?[ifExists: col] {
+            Image(item.asset)
+                .resizable()
+                .scaledToFit()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .rotationEffect(.degrees(rotation))
+        }
+    }
+}
+
+// Subscript sicuro per Array — evita crash su indici fuori range
+private extension Array {
+    subscript(ifExists index: Int) -> Element? {
+        indices.contains(index) ? self[index] : nil
     }
 }
 
 #Preview {
-    DragFiguresView()
-}
-
-struct UpperView:View {
-    
-    @EnvironmentObject var puzzleVM:DragViewModel
-    
-    
-    var body: some View {
-        
-        VStack {
-            
-            ForEach(puzzleVM.dragItems) { item in
-                
-                ZStack {
-                    DragObject(item: item)
-                        .frame(maxWidth: 200, maxHeight: 140)
-                    
-                    DragObject(item: item,isDragEnabled: true)
-                        .frame(maxWidth: 200, maxHeight: 140)
-                }
-                
-            }
-            
-            
-        }
-    }
-}
-
-
-struct DragObject:View {
-    
-    @EnvironmentObject var puzzleVM:DragViewModel
-    
-    let item:DragItem
-    var isDragEnabled:Bool = false
-    
-    @State private var isDragSuccess:Bool?
-    
-    @State private var scaleEffect:CGFloat = 0.5
-    
-    @State private var xOffset:CGFloat = 0
-    @State private var yOffset:CGFloat = 0
-    
-    var body: some View {
-        
-            // RoundedRectangle(cornerRadius: 20)
-             Image(item.asset)
-                 .resizable()
-                 .scaledToFit()
-                 .clipShape(RoundedRectangle(cornerRadius: 15))
-                 
-                 .opacity(isDragEnabled ? 1.0 : 0.5)
-                 .overlay(alignment: .topTrailing, content: {
-                     if isDragSuccess == true {
-                         Image(systemName: "circle.fill")
-                             .foregroundStyle(Color.green)
-                     } else if isDragSuccess == false {
-                         Image(systemName: "circle.fill")
-                             .foregroundStyle(Color.red)
-                         
-                     } else { }
-                 })
-                 .overlay(alignment: .bottom, content: {
-                     if isDragEnabled {
-                         Text("x: \(xOffset) y: \(yOffset)")
-                     }
-                 })
-                 .scaleEffect(x: isDragEnabled ? scaleEffect : 1, y: isDragEnabled ? scaleEffect : 1)
-                 .offset(x:xOffset,y:yOffset)
-        
-                 //.position(x:xOffset,y:yOffset)
-                 .gesture(drag,isEnabled: isDragEnabled)
-                 .disabled(isDragSuccess == true)
-                 
-                 .onAppear {
-                     
-                     if isDragEnabled {
-                         
-                         self.xOffset = 300
-                         self.yOffset = 0
-                     }
-    
-                     
-                     
-                 }
-               
-        
-    }
-    
-    // --- gesture logic
-    
-    private var drag: some Gesture {
-        
-           DragGesture()
-               .onChanged { value in
-                   
-                   self.isDragSuccess = isDragSuccess != true ? nil : isDragSuccess
-                   
-                   xOffset = value.location.x
-                   yOffset = value.location.y
-                   
-                   withAnimation(.easeInOut(duration: 0.5)) {
-                       scaleEffect = 1.0
-                   }
-//                   let currentX = value.location.x
-//                   
-//                   if currentX >= 0 &&
-//                        currentX < localVM.swipeEndPoint {
-//                       
-//                       withAnimation {
-//                           localVM.positionX = value.location.x
-//                           
-//                       }
-//                   }
-//                   
-//                   if localVM.sidetextOpacity > 0.0 &&
-//                        localVM.sidetextOpacity <= 1.0 { localVM.sidetextOpacity -= 0.01 }
-                   
-                    }
-               .onEnded { value in
-                   // adjust offset. If the user move even a little the icon will be moved completely to the start or the end
-                 let xCondition = xOffset >= -50 && xOffset <= 50
-                 let yCondition = yOffset >= -25 && yOffset <= 25
-                   
-                  if xCondition && yCondition {
-                       withAnimation {
-                          xOffset = 0
-                           yOffset = 0
-                           self.isDragSuccess = true
-                          // self.isDragEnabled.toggle()
-                      }
-                  } else {
-                      
-                      withAnimation {
-                         xOffset = 300
-                          yOffset = 0
-                          self.isDragSuccess = false
-                          scaleEffect = 0.5
-                         // self.isDragEnabled.toggle()
-                     }
-                      
-                  }
-                   
-//                   let endPosition = value.location.x
-//                   
-//                   switch localVM.swipeMove {
-//                   case .toRight:
-//                       localVM.dragToRigh(userEndPoint: endPosition)
-//                   case .toLeft:
-//                       localVM.dragToLeft(userEndPoint: endPosition)
-//                   }
-//                   
-//                   withAnimation {
-//                       localVM.sidetextOpacity = 1.0
-//                   }
-
-               }
-       }
+    MiniGameMainScene()
 }
