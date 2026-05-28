@@ -92,26 +92,42 @@ struct MiniGameMainScene: View {
                     startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
 
-                HStack(spacing: 0) {
+                HStack {
 
                     // MARK: Box area
                     VStack(alignment: .leading) {
+                        
                         MealBoxOpen()
                             .frame(width: mealBoxFrame)
-                            .padding(.top, topPadding)
-                            .padding(.trailing, trailingPad)
+                           // .padding(.top, topPadding)
+                           // .padding(.trailing, trailingPad)
 
-                        Text("Ohh explanation")
+                       
+                        Text("What Eja bring for lunch?")
+                            .font(.headline)
+                            .foregroundStyle(Color.blue)
+                            .fontWeight(.black)
+                        
+                        Text("Place the food in the lunchbox to see!")
+                            .font(.headline)
+                            .foregroundStyle(Color.blue)
+                           
+                        
                         Spacer()
                     }
                     .frame(width: mealBoxArea)
-                    .background(Color.red)     // debug
+                   // .background(Color.red)     // debug
 
                     // MARK: Draggable area
-                    VStack { DraggbleArea() }
+                  //  VStack {  }
+                    DraggbleArea()
+                    // .padding(.top, topPadding)
                     .frame(width: draggableArea)
-                    .background(Color.yellow)  // debug
+                  //  .background(Color.yellow)  // debug
                 }
+                .ignoresSafeArea()
+                .padding(.top, topPadding)
+                .padding(.trailing, trailingPad)
             }
             .coordinateSpace(name: "canvas")
             .onAppear {
@@ -134,7 +150,7 @@ struct DragItemView<DragElement: View>: View {
     @State private var ownCenter: CGPoint = .zero // the starting position
     @State private var startignSize:CGSize = .zero
     
-    @State private var isDragEnable:Bool = true
+    @State private var isDragComplete:Bool = false
     
     @State private var scaledSize:CGSize = CGSize(width: 0.75, height: 0.75)
     
@@ -146,7 +162,7 @@ struct DragItemView<DragElement: View>: View {
             
             element()
                 .scaleEffect(CGSize(width: 0.75, height: 0.75))
-                .opacity(0.6)
+                .opacity(0.5)
                 .background(
                     GeometryReader { geo in
                         
@@ -166,10 +182,19 @@ struct DragItemView<DragElement: View>: View {
             
             // the object moved
             element()
+                .overlay(alignment: .topTrailing, content: {
+                    if isDragComplete {
+                        // animate the right answer
+//                        Image(systemName: "checkmark.circle.fill")
+//                            .imageScale(.large)
+//                            .foregroundStyle(Color.green)
+                    }
+                })
                 .scaleEffect(scaledSize)
                 .offset(offset)
-                .gesture(drag,isEnabled: isDragEnable)
-            
+                
+                .gesture(drag,isEnabled: !isDragComplete)
+               
         }
     }
 
@@ -219,13 +244,12 @@ struct DragItemView<DragElement: View>: View {
                         offset = snap
                     }
                     
-                    isDragEnable = false
+                    isDragComplete = true
                     
                 } else {
                     withAnimation(.spring()) {
                         offset = .zero
                         scaledSize = CGSize(width: 0.75, height: 0.75)
-                      //  self.scaleValue = 0.75
                     }
                     
                 }
@@ -238,43 +262,52 @@ struct DraggbleArea:View {
     @EnvironmentObject var puzzleVM:DragViewModel
     
     var body: some View {
-        
-        VStack(spacing: 25) {
 
-            HStack {
-                DragItemView(itemID: puzzleVM.itemID(row: 0, col: 2)) {
-                    puzzleVM.slotImage(row: 0, col: 2)
+        GeometryReader { geo in
+            let itemSize = geo.size.width / 2
+
+            VStack(spacing: 5) {
+
+                HStack {
+                    DragItemView(itemID: puzzleVM.itemID(row: 0, col: 2)) {
+                        puzzleVM.slotImage(row: 0, col: 2)
+                    }
+                    .frame(width: itemSize, height: itemSize)
+
+                    DragItemView(itemID: puzzleVM.itemID(row: 1, col: 0)) {
+                        puzzleVM.slotImage(row: 1, col: 0)
+                    }
+                    .frame(width: itemSize, height: itemSize)
                 }
-                DragItemView(itemID: puzzleVM.itemID(row: 1, col: 0)) {
-                    puzzleVM.slotImage(row: 1, col: 0)
+
+                HStack {
+                    DragItemView(itemID: puzzleVM.itemID(row: 0, col: 1)) {
+                        puzzleVM.slotImage(row: 0, col: 1)
+                    }
+                    .frame(width: itemSize, height: itemSize)
+
+                    DragItemView(itemID: puzzleVM.itemID(row: 1, col: 1)) {
+                        puzzleVM.slotImage(row: 1, col: 1)
+                    }
+                    .frame(width: itemSize, height: itemSize)
                 }
+
+                HStack {
+                    DragItemView(itemID: puzzleVM.itemID(row: 0, col: 0)) {
+                        puzzleVM.slotImage(row: 0, col: 0)
+                    }
+                    .frame(width: itemSize, height: itemSize)
+
+                    DragItemView(itemID: puzzleVM.itemID(row: 1, col: 2)) {
+                        puzzleVM.slotImage(row: 1, col: 2)
+                    }
+                    .frame(width: itemSize, height: itemSize)
+                }
+
             }
-
-            HStack {
-                DragItemView(itemID: puzzleVM.itemID(row: 0, col: 1)) {
-                    puzzleVM.slotImage(row: 0, col: 1)
-                }
-                DragItemView(itemID: puzzleVM.itemID(row: 1, col: 1)) {
-                    puzzleVM.slotImage(row: 1, col: 1)
-                }
-            }
-
-            HStack {
-                DragItemView(itemID: puzzleVM.itemID(row: 0, col: 0)) {
-                    puzzleVM.slotImage(row: 0, col: 0)
-                }
-                DragItemView(itemID: puzzleVM.itemID(row: 1, col: 2)) {
-                    puzzleVM.slotImage(row: 1, col: 2)
-                }
-            }
-
+           // .padding(.top)
         }
-       // .scaleEffect(0.75)
-        
     }
-    
-
-    
 }
 
 

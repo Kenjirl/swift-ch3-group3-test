@@ -57,29 +57,29 @@ struct MealOverlayGrid: View {
             let vPad = h * 0.10
 
             // Superficie disponibile dopo i margini
-            let innerW  = w - hPad * 2
-            let innerH  = h - vPad * 2
+            let innerW = w - hPad * 2
+            let innerH = h - vPad * 2
 
             // Proporzioni dei 3 scomparti del vassoio
-            let leftW   = innerW * 0.40   // scomparto sinistro (40%)
-            let rightW  = innerW * 0.60   // scomparti destri   (60%)
-            let topH    = innerH * 0.42   // scomparto alto      (42%)
+            let leftW = innerW * 0.40   // scomparto sinistro (40%)
+            let rightW = innerW * 0.60   // scomparti destri   (60%)
+            let topH = innerH * 0.42   // scomparto alto      (42%)
             let bottomH = innerH * 0.30   // scomparto basso     (30%)
 
             let rowSpacing = innerH * 0.15
 
             // Scomparto sinistro
-            let leftTopOffsetX  = rowSpacing * 0.70  // item [0][0] spostato a destra
+            let leftTopOffsetX = rowSpacing * 0.70  // item [0][0] spostato a destra
             let leftVerticalPad = rowSpacing * 0.20  // padding verticale
 
             // Top-right
             let topRightOverlap = -rightW * 0.15     // avvicina i due item orizzontalmente
 
             // Bottom-right
-            let bottomItemSpacing = rowSpacing * 0.15
-            let bottomLeadPad     = rowSpacing * 0.90
-            let bottomTrailPad    = rowSpacing * 0.10
-            let bottomItemScale   = 0.85              // scala ridotta item sovrapposto
+          //  let bottomItemSpacing = rowSpacing * 0.15
+            let bottomLeadPad = rowSpacing * 0.90
+            let bottomTrailPad = rowSpacing * 0.10
+          //  let bottomItemScale   = 0.85              // scala ridotta item sovrapposto
 
             // Posizione verticale del frame
             let centerY = h / 2.15                   // compensa il padding visivo del vassoio
@@ -108,12 +108,13 @@ struct MealOverlayGrid: View {
                     .frame(width: rightW, height: topH)
 
                     // Bottom-right: items[1][1] e items[1][2]
-                    HStack(spacing: bottomItemSpacing) {
+                    HStack(spacing: -10) {
                         slotView(row: 1, col: 1)
-                        slotView(row: 1, col: 2)
-                            .scaleEffect(bottomItemScale)
+                      //  slotView(row: 1, col: 2)
+                        //    .scaleEffect(bottomItemScale)
                         slotView(row: 1, col: 2)
                     }
+                    
                     .padding(.leading, bottomLeadPad)
                     .padding(.trailing, bottomTrailPad)
                     .frame(width: rightW, height: bottomH)
@@ -127,8 +128,16 @@ struct MealOverlayGrid: View {
     // Renderizza lo slot e pubblica il suo frame in canvas space tramite SlotFrameKey
     @ViewBuilder
     private func slotView(row: Int, col: Int) -> some View {
+        
         let item = puzzleVM.itemsForPuzzleMiniGame[ifExists: row]?[ifExists: col]
+        
         puzzleVM.slotImage(row: row, col: col)
+            .overlay(content: {
+                Image(systemName: "questionmark.circle.dashed")
+                   
+            })
+            .blendMode(.destinationOut)
+            .opacity(0.4)
             .background(
                 GeometryReader { geo in
                     Color.clear.preference(
