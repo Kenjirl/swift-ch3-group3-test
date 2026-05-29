@@ -19,7 +19,7 @@ struct LoadingKiwiView: View {
     private var scale: CGFloat { horizontalSizeClass == .regular ? 1.8 : 1.0 }
 
     private var activeStep: Int {
-        Int(angle.truncatingRemainder(dividingBy: 360) / 120)
+        Int(angle.truncatingRemainder(dividingBy: 360) / 90)
     }
 
     var body: some View {
@@ -46,7 +46,7 @@ struct LoadingKiwiView: View {
                 }
 
                 HStack(spacing: 8 * scale) {
-                    ForEach(0..<3, id: \.self) { i in
+                    ForEach(0..<4, id: \.self) { i in
                         Circle()
                             .fill(Color.secondary)
                             .frame(width: 10 * scale, height: 10 * scale)
