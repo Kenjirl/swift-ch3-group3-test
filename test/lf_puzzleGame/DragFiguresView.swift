@@ -22,8 +22,11 @@ struct DragItem: Identifiable {
 internal class DragViewModel: ObservableObject {
 
     @Published var itemsForPuzzleMiniGame: [[DragItem]] = []
+    @Published var itemsDragged:Int = 0
     @Published var slotFrames: [String: CGRect] = [:]
     
+    @Published var resetGame:Bool = false // for test
+    var gameEnded:Bool { itemsDragged == 6 /* can be hardcoded, because we know its always six. */ }
     
     let dragItems: [DragItem] = [
         DragItem(asset: "puzzle_broccolo",defaultRotation: 25),
@@ -88,9 +91,6 @@ struct MiniGameMainScene: View {
 
             ZStack {
 
-//                LinearGradient(
-//                    colors: [Color.mainBackgroundTop, Color.mainBackgroundBottom],
-//                    startPoint: .top, endPoint: .bottom)
                 GradientColor.gameBackground
                 .ignoresSafeArea()
 
@@ -104,7 +104,6 @@ struct MiniGameMainScene: View {
                            // .padding(.top, topPadding)
                            // .padding(.trailing, trailingPad)
 
-                       
                         Text("What Eja bring for lunch?")
                             .font(.headline)
                             .foregroundStyle(Color.blue)
@@ -130,10 +129,38 @@ struct MiniGameMainScene: View {
                 .ignoresSafeArea()
                 .padding(.top, topPadding)
                 .padding(.trailing, trailingPad)
+                .opacity(puzzleVM.gameEnded ? 0.3 : 1.0)
+                .overlay {
+                    
+                    if puzzleVM.gameEnded {
+                        
+                        Image("puzzle_end_remark")
+                            .resizable()
+                            .scaleEffect(0.75)
+                            
+                    }
+
+                }
+                .overlay(alignment: .bottomTrailing) {
+                 
+                    if puzzleVM.gameEnded {
+                        
+                        Button {
+                            //
+                        } label: {
+                            Text("NEXT BUTTON")
+                                .font(.largeTitle)
+                        }
+                        .offset(x:-100)
+
+                    }
+                    
+                }
+                .animation(.easeInOut(duration: 1.5), value: puzzleVM.gameEnded)
             }
             .coordinateSpace(name: "canvas")
             .onAppear {
-               /* items = */puzzleVM.setItemsForPuzzleMiniGame()
+              puzzleVM.setItemsForPuzzleMiniGame()
             }
         }
         .environmentObject(puzzleVM)
@@ -199,6 +226,7 @@ struct DragItemView<DragElement: View>: View {
                 AudioManager.shared.playAudioEffect(.puzzleDetach)
             case .done:
                 AudioManager.shared.playAudioEffect(.puzzleSnap)
+                puzzleVM.itemsDragged += 1
             case .nearby:
                 AudioManager.shared.playAudioEffect(.puzzleNearby)
             case .wrong:
@@ -208,6 +236,9 @@ struct DragItemView<DragElement: View>: View {
             }
 
         }
+        .onChange(of: puzzleVM.resetGame) { _, newValue in
+            offset = .zero
+        } // for test purpose
     }
 
     private enum DragStep {

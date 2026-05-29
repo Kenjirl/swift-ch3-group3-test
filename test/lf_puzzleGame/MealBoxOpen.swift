@@ -27,8 +27,10 @@ struct MealBoxOpen: View {
             }
             .overlay(alignment: .topTrailing, content: {
                 Button {
-                    /* items = puzzleVM.*/puzzleVM.setItemsForPuzzleMiniGame()
+                    puzzleVM.setItemsForPuzzleMiniGame()
+                    puzzleVM.resetGame.toggle()
                     AudioManager.shared.playAudioEffect(.puzzleSnap)
+                    
                 } label: {
                     Text("refresh")
                 } // for test
