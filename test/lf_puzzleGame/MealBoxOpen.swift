@@ -110,8 +110,8 @@ struct MealOverlayGrid: View {
                     // Bottom-right: items[1][1] e items[1][2]
                     HStack(spacing: -10) {
                         slotView(row: 1, col: 1)
-                      //  slotView(row: 1, col: 2)
-                        //    .scaleEffect(bottomItemScale)
+//                        slotView(row: 1, col: 3)
+//                            .scaleEffect(0.75)
                         slotView(row: 1, col: 2)
                     }
                     
@@ -132,10 +132,10 @@ struct MealOverlayGrid: View {
         let item = puzzleVM.itemsForPuzzleMiniGame[ifExists: row]?[ifExists: col]
         
         puzzleVM.slotImage(row: row, col: col)
-            .overlay(content: {
-                Image(systemName: "questionmark.circle.dashed")
-                   
-            })
+//            .overlay(content: {
+//                Image(systemName: "questionmark.circle.dashed")
+//                   
+//            })
             .blendMode(.destinationOut)
             .opacity(0.4)
             .background(

@@ -32,6 +32,7 @@ internal class DragViewModel: ObservableObject {
         DragItem(asset: "puzzle_egg"),
         DragItem(asset: "puzzle_watermellon"),
         DragItem(asset: "puzzle_nasi"),
+        DragItem(asset: "puzzle_kiwi"),
     ]
 
     /// Returns 2 rows of 3 randomly distributed items.
@@ -87,9 +88,10 @@ struct MiniGameMainScene: View {
 
             ZStack {
 
-                LinearGradient(
-                    colors: [Color.mainBackgroundTop, Color.mainBackgroundBottom],
-                    startPoint: .top, endPoint: .bottom)
+//                LinearGradient(
+//                    colors: [Color.mainBackgroundTop, Color.mainBackgroundBottom],
+//                    startPoint: .top, endPoint: .bottom)
+                GradientColor.gameBackground
                 .ignoresSafeArea()
 
                 HStack {
