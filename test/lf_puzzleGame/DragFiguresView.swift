@@ -191,12 +191,6 @@ struct DragItemView<DragElement: View>: View {
                 .gesture(drag,isEnabled: dragStep != .done)
                
         }
-        .onChange(of: offset, { oldValue, newValue in
-            if oldValue == CGSize(width: 0, height: 0),
-               newValue != oldValue {
-                self.dragStep = .detach
-            }
-        })
         .onChange(of: dragStep) { _, newValue in
 
             switch newValue {
@@ -254,7 +248,11 @@ struct DragItemView<DragElement: View>: View {
     private var drag: some Gesture {
         DragGesture()
             .onChanged { move in
-                
+
+                if offset == .zero {
+                    dragStep = .detach
+                }
+
                 offset = CGSize(
                     width: move.translation.width,
                     height: move.translation.height
