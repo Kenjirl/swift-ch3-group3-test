@@ -16,7 +16,7 @@ enum AssetType {
 enum DialogType {
     case player
     case npc
-    case narrator
+    case other
 }
 
 extension AssetType {
@@ -24,7 +24,7 @@ extension AssetType {
         switch self {
             case .player: return .player
             case .npc: return .npc
-            case .other: return .narrator
+            case .other: return .other
         }
     }
 }
@@ -49,13 +49,15 @@ struct SceneModel: Identifiable {
     let assets: [AssetModel]
     let dialogs: [DialogModel]
     var actions: [ActionModel]? = nil
+    var ending: EndingModel? = nil
     let background: String
     
-    init(assets: [AssetModel], dialogs: [DialogModel], actions: [ActionModel]? = nil, background: String) {
+    init(assets: [AssetModel], dialogs: [DialogModel], actions: [ActionModel]? = nil, ending: EndingModel? = nil, background: String) {
         self.assets = assets
         self.dialogs = dialogs
         self.actions = actions
         self.background = background
+        self.ending = ending
     }
 }
 
@@ -65,6 +67,7 @@ struct AssetModel: Identifiable {
     let type: AssetType
     let position: AssetPosition
     let size: AssetSize
+    let animateAble: Bool
 }
 
 struct DialogModel: Identifiable {
@@ -73,12 +76,14 @@ struct DialogModel: Identifiable {
     let text: String
     let type: DialogType
     let position: AssetPosition?
+    let colorName: String
     
-    init(name: String? = nil, text: String, type: DialogType, position: AssetPosition? = nil) {
+    init(name: String? = nil, text: String, type: DialogType, position: AssetPosition? = nil, colorName: String = "accentPink") {
         self.name = name
         self.text = text
         self.type = type
         self.position = position
+        self.colorName = colorName
     }
 }
 
@@ -86,4 +91,19 @@ struct ActionModel: Identifiable {
     let id = UUID()
     let text: String
     let nextScene: Int
+}
+
+struct EndingModel: Identifiable {
+    let id = UUID()
+    let title: String
+    let text: String
+    let star: Int
+    let colorName: String
+        
+    init(title: String, text: String, star: Int, colorName: String = "accentPink") {
+        self.title = title
+        self.text = text
+        self.star = star
+        self.colorName = colorName
+    }
 }

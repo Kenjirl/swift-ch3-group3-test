@@ -11,15 +11,22 @@ struct ActionSheet: View {
     let actions: [ActionModel]
     let onSelect: (ActionModel) -> Void
     
+    @State private var showTitle: Bool = false
+    @State private var showButtons: Bool = false
+    
     var body: some View {
         VStack {
-            Spacer()
-            
-            VStack(spacing: 12) {
+            if showTitle {
                 Text("What will you do?")
                     .bold()
-                    .foregroundColor(.gray)
-                
+                    .foregroundStyle(Color.accentBlue)
+                    .shadow(color: .white.opacity(0.8), radius: 5, x: 0, y: 0)
+                    .transition(.move(edge: .top))
+            }
+            
+            Spacer()
+            
+            if showButtons {
                 HStack(spacing: 8) {
                     ForEach(actions) { action in
                         Button {
@@ -29,24 +36,31 @@ struct ActionSheet: View {
                                 .multilineTextAlignment(.center)
                                 .frame(maxWidth: .infinity)
                                 .padding(10)
-                                .background(Color(red: 255/255, green: 154/255, blue: 134/255))
+                                .background(Color.accentPink)
                                 .foregroundColor(.white)
+                                .shadow(color: .white.opacity(0.8), radius: 5, x: 0, y: 0)
+                                .fontWeight(.semibold)
                                 .cornerRadius(50)
                                 .contentShape(Rectangle())
-                                .shadow(color: .black.opacity(0.4), radius: 2, x: 0, y: 4)
+                                .shadow(color: .accentPink.opacity(0.8), radius: 5, x: 0, y: 4)
                         }
                     }
                 }
+                .transition(.move(edge: .bottom))
             }
-            .padding(20)
-            .padding(.bottom, 40)
-            .background(
-                Color.white
-                    .cornerRadius(20)
-            )
         }
-        .frame(maxWidth: .infinity)
-        .transition(.move(edge: .bottom))
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(.top, 24)
         .font(.custom("Fredoka", size: 20))
+        .onAppear {
+            withAnimation(.spring()) {
+                showTitle = true
+                showButtons = true
+            }
+        }
     }
+}
+
+#Preview {
+    ActionSheet(actions: [.init(text: "Action 1", nextScene: 0), .init(text: "Action 2", nextScene: 1)], onSelect: { _ in })
 }

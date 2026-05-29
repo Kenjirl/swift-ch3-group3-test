@@ -14,7 +14,7 @@ struct DialogBubble: View {
     var body: some View {
         HStack(spacing: 0) {
             RoundedTriangle()
-                .fill(Color.white)
+                .fill(Color(dialog.colorName))
                 .frame(width: 16, height: 16)
                 .opacity(dialog.type == .player ? 1 : 0)
             
@@ -23,15 +23,21 @@ struct DialogBubble: View {
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding()
                 .frame(width: width)
-                .background(Color.white)
+                .background(Color(dialog.colorName))
                 .cornerRadius(12)
                 .font(.custom("Fredoka", size: 20))
+                .foregroundStyle(Color.white)
             
             RoundedTriangle()
-                .fill(Color.white)
+                .fill(Color(dialog.colorName))
                 .frame(width: 16, height: 16)
                 .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
                 .opacity(dialog.type == .npc ? 1 : 0)
         }
     }
+}
+
+#Preview {
+    @Previewable let story: StoryModel = StoryData.stories[0]
+    DialogBubble(dialog: story.scenes[0].dialogs[0], width: 200)
 }

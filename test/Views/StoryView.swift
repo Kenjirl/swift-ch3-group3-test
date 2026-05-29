@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct StoryView: View {
-    let story: StoryModel = TestData.stories[0]
+    let story: StoryModel = StoryData.stories[0]
     
-    @State private var currentSceneIndex: Int = 0
-    @State private var currentDialogIndex: Int = 0
+    @AppStorage("score") var score: Int = 0
+    @AppStorage("currentSceneIndex") var currentSceneIndex: Int = 0
+    @AppStorage("currentDialogIndex") var currentDialogIndex: Int = 0
     @State private var showActions: Bool = false
     @State private var sceneHistory: [Int] = []
-    @State private var activeType: DialogType = .player
     @State private var animationTrigger: String = ""
+    @State private var showActionSheet: Bool = false
+    @State private var showEnding: Bool = false
     
     var currentScene: SceneModel {
         story.scenes[currentSceneIndex]
@@ -41,6 +43,7 @@ struct StoryView: View {
                 Image(currentScene.background)
                     .resizable()
                     .scaledToFill()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .ignoresSafeArea()
                 
                 // Characters
@@ -74,6 +77,18 @@ struct StoryView: View {
                         handleAction(action)
                     }
                 }
+                
+                // Ending Screen
+                if showEnding, let ending = currentScene.ending {
+                    Color.black.opacity(0.4)
+                        .ignoresSafeArea()
+                    
+                    EndingCard(ending: ending) {
+                        showEnding = false
+                        restartScene()
+                    }
+                    .transition(.scale.combined(with: .opacity))
+                }
             }
             .onTapGesture {
                 if !showActions {
@@ -92,6 +107,10 @@ struct StoryView: View {
         } else if currentScene.actions != nil {
             withAnimation(.spring()) {
                 showActions = true
+            }
+        } else if currentScene.ending != nil {
+            withAnimation(.spring()) {
+                showEnding = true
             }
         }
         animationTrigger = "\(currentSceneIndex)-\(currentDialog.id)"

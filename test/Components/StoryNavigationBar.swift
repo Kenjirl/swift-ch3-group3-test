@@ -18,14 +18,11 @@ struct StoryNavigationBar: View {
                 Button {
                     onRestart()
                 } label: {
-                    Image(systemName: "arrow.trianglehead.clockwise")
-                        .frame(width: 40, height: 40)
-                        .background(Color(red: 255/255, green: 154/255, blue: 134/255))
-                        .cornerRadius(50)
-                        .foregroundColor(.white)
-                        .bold()
+                    Image("btn-setting")
+                        .resizable()
+                        .frame(width: 50, height: 50)
                 }
-                .shadow(color: .white.opacity(0.5), radius: 4, x: 0, y: 2)
+                .shadow(color: .black.opacity(0.5), radius: 1, x: 0, y: 1)
             }
             .padding(10)
             
