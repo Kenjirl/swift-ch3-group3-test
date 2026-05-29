@@ -19,6 +19,7 @@ struct ActionSheet: View {
             if showTitle {
                 Text("What will you do?")
                     .bold()
+                    .font(.custom("Fredoka", size: 28))
                     .foregroundStyle(Color.accentBlue)
                     .shadow(color: .white.opacity(0.8), radius: 5, x: 0, y: 0)
                     .transition(.move(edge: .top))
@@ -46,12 +47,13 @@ struct ActionSheet: View {
                         }
                     }
                 }
+                .font(.custom("Fredoka", size: 20))
                 .transition(.move(edge: .bottom))
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(.top, 24)
-        .font(.custom("Fredoka", size: 20))
+        .padding(.bottom, 48)
         .onAppear {
             withAnimation(.spring()) {
                 showTitle = true

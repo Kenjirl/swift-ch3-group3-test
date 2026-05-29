@@ -21,8 +21,8 @@ struct StoryData {
                         AssetModel(source: "lunch-2", type: .other, position: AssetPosition(x: 0.8, y: 0.92), size: AssetSize(width: 0.18, height: 0.25), animateAble: false),
                     ],
                     dialogs: [
-                        DialogModel(name: "Me", text: "WOW! YOUR LUNCH LOOKS YUMMY", type: .player, position: AssetPosition(x: 0.5, y: 0.55)),
-                        DialogModel(name: "Friend", text: "MY MOM MADE IT THIS MORNING", type: .npc, position: AssetPosition(x: 0.5, y: 0.55))
+                        DialogModel(name: "Me", text: "WOW! YOUR LUNCH LOOKS YUMMY", type: .player, position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentPink"),
+                        DialogModel(name: "Friend", text: "MY MOM MADE IT THIS MORNING", type: .npc, position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentBlue")
                     ],
                     actions: [
                         ActionModel(text: "CAN I HAVE ONE PIECE?", nextScene: 2),
@@ -40,10 +40,10 @@ struct StoryData {
                         AssetModel(source: "lunch-2", type: .other, position: AssetPosition(x: 0.8, y: 0.92), size: AssetSize(width: 0.18, height: 0.25), animateAble: false),
                     ],
                     dialogs: [
-                        DialogModel(name: "Friend", text: "SURE! YOU CAN HAVE/TAKE ONE", type: .npc, position: AssetPosition(x: 0.5, y: 0.55)),
-                        DialogModel(name: "Me", text: "THANK YOU", type: .player, position: AssetPosition(x: 0.5, y: 0.55)),
+                        DialogModel(name: "Friend", text: "SURE! YOU CAN HAVE/TAKE ONE", type: .npc, position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentBlue"),
+                        DialogModel(name: "Me", text: "THANK YOU", type: .player, position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentPink"),
                     ],
-                    ending: EndingModel(title: "Title", text: "GOOD JOB ASKING FIRST!", star: 3, colorName: "3E8AEA"),
+                    ending: EndingModel(title: "Title", text: "GOOD JOB ASKING FIRST!", star: 3, colorName: "accentBlue"),
                     background: "bgClassroom"
                 ),
                 SceneModel( /// Scene 3
@@ -56,7 +56,7 @@ struct StoryData {
                         AssetModel(source: "lunch-2", type: .other, position: AssetPosition(x: 0.8, y: 0.92), size: AssetSize(width: 0.18, height: 0.25), animateAble: false),
                     ],
                     dialogs: [
-                        DialogModel(name: "Friend", text: "OH YOU DIDNT ASK FIRST", type: .npc, position: AssetPosition(x: 0.5, y: 0.55))
+                        DialogModel(name: "Friend", text: "OH YOU DIDNT ASK FIRST", type: .npc, position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentBlue")
                     ],
                     actions: [
                         ActionModel(text: "SORRY", nextScene: 4),
@@ -74,9 +74,9 @@ struct StoryData {
                         AssetModel(source: "lunch-2", type: .other, position: AssetPosition(x: 0.8, y: 0.92), size: AssetSize(width: 0.18, height: 0.25), animateAble: false),
                     ],
                     dialogs: [
-                        DialogModel(name: "Friend", text: "THATS OKEYY, PLEASE ASK NEXT TIME", type: .npc, position: AssetPosition(x: 0.5, y: 0.55)),
+                        DialogModel(name: "Friend", text: "THATS OKEYY, PLEASE ASK NEXT TIME", type: .npc, position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentBlue"),
                     ],
-                    ending: EndingModel(title: "Title", text: "FRIENDS SHOULD ASK PERMISSION FIRST", star: 2, colorName: "3E8AEA"),
+                    ending: EndingModel(title: "Title", text: "FRIENDS SHOULD ASK PERMISSION FIRST", star: 2, colorName: "accentBlue"),
                     background: "bgClassroom"
                 ),
                 SceneModel( /// Scene 5
@@ -89,9 +89,9 @@ struct StoryData {
                         AssetModel(source: "lunch-2", type: .other, position: AssetPosition(x: 0.8, y: 0.92), size: AssetSize(width: 0.18, height: 0.25), animateAble: false),
                     ],
                     dialogs: [
-                        DialogModel(text: "Aw you can't do that", type: .npc, position: AssetPosition(x: 0.5, y: 0.55)),
+                        DialogModel(text: "Aw you can't do that", type: .npc, position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentBlue"),
                     ],
-                    ending: EndingModel(title: "Title", text: "FRIENDS SHOULD ASK PERMISSION FIRST", star: 1, colorName: "FF687A"),
+                    ending: EndingModel(title: "Title", text: "FRIENDS SHOULD ASK PERMISSION FIRST", star: 1, colorName: "accentPink"),
                     background: "bgClassroom"
                 )
             ]
