@@ -32,6 +32,7 @@ extension AudioManager {
         case puzzleTrash
         case puzzleSnap
         case puzzleNearby
+        case puzzleDetach
         
         func getAudioAssetName() -> String {
             
@@ -42,6 +43,9 @@ extension AudioManager {
                 return "puzzle_snap"
             case .puzzleNearby:
                 return "puzzle_nearby"
+            case .puzzleDetach:
+                return "puzzle_detach"
+                
             }
             
             

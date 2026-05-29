@@ -191,28 +191,34 @@ struct DragItemView<DragElement: View>: View {
                 .gesture(drag,isEnabled: dragStep != .done)
                
         }
+        .onChange(of: offset, { oldValue, newValue in
+            if oldValue == CGSize(width: 0, height: 0),
+               newValue != oldValue {
+                self.dragStep = .detach
+            }
+        })
         .onChange(of: dragStep) { _, newValue in
-            
+
             switch newValue {
                 
+            case .detach:
+                AudioManager.shared.playAudioEffect(.puzzleDetach)
             case .done:
                 AudioManager.shared.playAudioEffect(.puzzleSnap)
             case .nearby:
                 AudioManager.shared.playAudioEffect(.puzzleNearby)
             case .wrong:
                 AudioManager.shared.playAudioEffect(.puzzleTrash)
-                dragStep = .zero
             case .zero:
-                // or a starting game gingle
                 return
-                
             }
-            
+
         }
     }
 
     private enum DragStep {
         
+        case detach
         case nearby
         case wrong
         case done
@@ -256,6 +262,8 @@ struct DragItemView<DragElement: View>: View {
 
                 if checkIsNearby() {
                     dragStep = .nearby
+                } else if dragStep == .nearby {
+                    dragStep = .zero
                 }
             }
             .onEnded { _ in
@@ -268,22 +276,7 @@ struct DragItemView<DragElement: View>: View {
                     return
                 }
                 
-                // get the distance from the target to the draggable starting point
-//                let snap = CGSize(
-//                    width:  target.midX - ownCenter.x,
-//                    height: target.midY - ownCenter.y
-//                )
-        
-                // check distance from the current point
-//                let wDistance = snap.width - offset.width // is zero when its on the snap position
-//                let hDistance = snap.height - offset.height
-//                
-//                if wDistance > -50,
-//                   wDistance < 50,
-//                   hDistance > -45,
-//                   hDistance < 45 {
-                    
-                    if checkIsNearby(),
+                if checkIsNearby(),
                        let snap = getSnap() {
                     
                     // calculate the scale beetween the target and the origin
@@ -305,9 +298,8 @@ struct DragItemView<DragElement: View>: View {
                         offset = .zero
                         scaledSize = CGSize(width: 0.75, height: 0.75)
                     }
-                    
                     dragStep = .wrong
-                    
+                    Task { @MainActor in dragStep = .zero }
                 }
             }
     }
