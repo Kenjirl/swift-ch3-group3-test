@@ -151,8 +151,9 @@ struct DragItemView<DragElement: View>: View {
    // @State private var baseOffset: CGSize = .zero
     @State private var ownCenter: CGPoint = .zero // the starting position
     @State private var startignSize:CGSize = .zero
+    @State private var target:CGRect?
     
-    @State private var isDragComplete:Bool = false
+    @State private var dragStep:DragStep = .zero
     
     @State private var scaledSize:CGSize = CGSize(width: 0.75, height: 0.75)
     
@@ -173,6 +174,7 @@ struct DragItemView<DragElement: View>: View {
                                 let frame = geo.frame(in: .named("canvas"))
                                 ownCenter = CGPoint(x: frame.midX, y: frame.midY)
                                 startignSize = frame.size
+                                target = puzzleVM.slotFrames[itemID]
                             }
                     }
                 )
@@ -184,22 +186,65 @@ struct DragItemView<DragElement: View>: View {
             
             // the object moved
             element()
-                .overlay(alignment: .topTrailing, content: {
-                    if isDragComplete {
-                        // animate the right answer
-//                        Image(systemName: "checkmark.circle.fill")
-//                            .imageScale(.large)
-//                            .foregroundStyle(Color.green)
-                    }
-                })
                 .scaleEffect(scaledSize)
                 .offset(offset)
-                
-                .gesture(drag,isEnabled: !isDragComplete)
+                .gesture(drag,isEnabled: dragStep != .done)
                
+        }
+        .onChange(of: dragStep) { _, newValue in
+            
+            switch newValue {
+                
+            case .done:
+                AudioManager.shared.playAudioEffect(.puzzleSnap)
+            case .nearby:
+                AudioManager.shared.playAudioEffect(.puzzleNearby)
+            case .wrong:
+                AudioManager.shared.playAudioEffect(.puzzleTrash)
+                dragStep = .zero
+            case .zero:
+                // or a starting game gingle
+                return
+                
+            }
+            
         }
     }
 
+    private enum DragStep {
+        
+        case nearby
+        case wrong
+        case done
+        
+        case zero
+        
+    }
+    
+    private func getSnap() -> CGSize? {
+        
+        guard let target else { return nil }
+        
+        return CGSize(
+            width:  target.midX - ownCenter.x,
+            height: target.midY - ownCenter.y
+        )
+    }
+    
+    private func checkIsNearby() -> Bool {
+        
+        guard let snap = getSnap() else { return false }
+        
+        // check distance from the current point
+        let wDistance = snap.width - offset.width // is zero when its on the snap position
+        let hDistance = snap.height - offset.height
+        
+        return wDistance > -50 &&
+               wDistance < 50 &&
+               hDistance > -45 &&
+               hDistance < 45
+    }
+    
     private var drag: some Gesture {
         DragGesture()
             .onChanged { move in
@@ -209,10 +254,14 @@ struct DragItemView<DragElement: View>: View {
                     height: move.translation.height
                 )
 
+                if checkIsNearby() {
+                    dragStep = .nearby
+                }
             }
             .onEnded { _ in
                 
-                guard let target = puzzleVM.slotFrames[itemID] else {
+                guard let target /*= puzzleVM.slotFrames[itemID]*/
+                else {
                     // there is not target - if happen its an error
                     // its handle going back to the start position
                     withAnimation(.spring()) { offset = .zero }
@@ -220,19 +269,22 @@ struct DragItemView<DragElement: View>: View {
                 }
                 
                 // get the distance from the target to the draggable starting point
-                let snap = CGSize(
-                    width:  target.midX - ownCenter.x,
-                    height: target.midY - ownCenter.y
-                )
-                
+//                let snap = CGSize(
+//                    width:  target.midX - ownCenter.x,
+//                    height: target.midY - ownCenter.y
+//                )
+        
                 // check distance from the current point
-                let wDistance = snap.width - offset.width // is zero when its on the snap position
-                let hDistance = snap.height - offset.height
-                
-                if wDistance > -50,
-                   wDistance < 50,
-                   hDistance > -45,
-                   hDistance < 45 {
+//                let wDistance = snap.width - offset.width // is zero when its on the snap position
+//                let hDistance = snap.height - offset.height
+//                
+//                if wDistance > -50,
+//                   wDistance < 50,
+//                   hDistance > -45,
+//                   hDistance < 45 {
+                    
+                    if checkIsNearby(),
+                       let snap = getSnap() {
                     
                     // calculate the scale beetween the target and the origin
                     let scaleX = target.size.width  / startignSize.width
@@ -246,13 +298,15 @@ struct DragItemView<DragElement: View>: View {
                         offset = snap
                     }
                     
-                    isDragComplete = true
+                    dragStep = .done
                     
                 } else {
                     withAnimation(.spring()) {
                         offset = .zero
                         scaledSize = CGSize(width: 0.75, height: 0.75)
                     }
+                    
+                    dragStep = .wrong
                     
                 }
             }
