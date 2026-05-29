@@ -20,6 +20,15 @@ extension Color {
     static var itemBackground:Color {
         Color(red: 125/255, green: 162/255, blue: 180/255)
     }
+    
+    static var loadingDotOn:Color {
+      //  Color(red: 216/255, green: 234/255, blue: 76/255)
+          Color(red: 150/255, green: 188/255, blue: 0/255)
+    }
+    
+    static var loadingDotOff:Color {
+        Color(red: 228/255, green: 228/255, blue: 228/255)
+    }
 }
 
 // Subscript sicuro per Array — evita crash su indici fuori range

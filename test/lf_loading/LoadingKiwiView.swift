@@ -48,7 +48,7 @@ struct LoadingKiwiView: View {
                 HStack(spacing: 8 * scale) {
                     ForEach(0..<4, id: \.self) { i in
                         Circle()
-                            .fill(Color.secondary)
+                            .fill(activeStep == i ? Color.loadingDotOn : Color.secondary)
                             .frame(width: 10 * scale, height: 10 * scale)
                             .scaleEffect(activeStep == i ? 1.4 : 1.0)
                             .opacity(activeStep == i ? 1.0 : 0.35)
