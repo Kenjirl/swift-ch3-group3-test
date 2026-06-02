@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct OnboardingView: View {
+    
+    @State private var rotateBack:CGFloat = 0
+    
     var body: some View {
         
         ZStack(alignment:.bottom) {
@@ -29,13 +32,9 @@ struct OnboardingView: View {
             CloudCartView(h: 45, opacity: 0.6)
                  .offset(x: 100, y: -150)
             
-            Image("onboarding_back")
-                .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
+            CircleBoarding()
+
               
-          
-            
             VStack(spacing:10) {
                 
                 Text("Games")
@@ -49,18 +48,26 @@ struct OnboardingView: View {
                   
                 
                 Spacer()
+                 
+
             }
-            .padding(.vertical,50)
+            .padding(.top,50)
         }
         .onAppear {
-            AudioManager.shared.playAudioEffect(.mainSound)
+           // AudioManager.shared.playAudioEffect(.mainSound)
         }
         
     }
 }
 
+//#Preview {
+//   // OnboardingView()
+//    CircleBoarding()
+//}
+
 #Preview {
     OnboardingView()
+  //  CircleBoarding()
 }
 
 import Combine
@@ -91,5 +98,26 @@ struct CloudCartView:View {
             
         }
         
+    }
+}
+
+struct CircleBoarding:View {
+    
+    @State private var rotate:CGFloat = 0
+    
+    var body: some View {
+        
+        GeometryReader { geo in
+            
+            Image("onboarding_back_circle")
+                .resizable()
+                .scaledToFill()
+                .rotationEffect(.degrees(rotate))
+                .animation(.easeOut(duration: 1.2), value: rotate)
+                .position(x:geo.size.width / 2,y:geo.size.height * 1.70)
+                .onTapGesture {
+                    rotate -= 180
+                }
+        }
     }
 }
