@@ -19,7 +19,7 @@ final class AudioManager {
         
         let audioResource = audio.getAudioAssetName()
         
-        guard let url = Bundle.main.url(forResource: audioResource, withExtension: "wav") else { return }
+        guard let url = Bundle.main.url(forResource: audioResource, withExtension: audio.soundExtension()) else { return }
         player = try? AVAudioPlayer(contentsOf: url)
         player?.play()
     }
@@ -34,6 +34,8 @@ extension AudioManager {
         case puzzleNearby
         case puzzleDetach
         
+        case mainSound
+        
         func getAudioAssetName() -> String {
             
             switch self {
@@ -45,9 +47,22 @@ extension AudioManager {
                 return "puzzle_nearby"
             case .puzzleDetach:
                 return "puzzle_detach"
+            case .mainSound:
+                return "game_sound"
                 
             }
             
+            
+        }
+        
+        func soundExtension() -> String {
+            
+            switch self {
+            case .mainSound:
+                return "mp3"
+            default:
+                return "wav"
+            }
             
         }
         

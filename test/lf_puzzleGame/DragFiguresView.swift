@@ -25,7 +25,7 @@ internal class DragViewModel: ObservableObject {
     @Published var itemsDragged:Int = 0
     @Published var slotFrames: [String: CGRect] = [:]
     
-    @Published var resetGame:Bool = false // for test
+  //  @Published var resetGame:Bool = false // for test
     var gameEnded:Bool { itemsDragged == 6 /* can be hardcoded, because we know its always six. */ }
     
     let dragItems: [DragItem] = [
@@ -236,9 +236,9 @@ struct DragItemView<DragElement: View>: View {
             }
 
         }
-        .onChange(of: puzzleVM.resetGame) { _, newValue in
-            offset = .zero
-        } // for test purpose
+//        .onChange(of: puzzleVM.resetGame) { _, newValue in
+//            offset = .zero
+//        } // for test purpose
     }
 
     private enum DragStep {
