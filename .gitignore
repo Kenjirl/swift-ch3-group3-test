@@ -1,1 +1,68 @@
+# ─────────────────────────────────────────────
+# Claude Code & AI assistant files
+# ─────────────────────────────────────────────
+.claude/
+CLAUDE.md
+MEMORY.md
+*.claude
+.anthropic/
+
+# ─────────────────────────────────────────────
+# macOS
+# ─────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+
+# ─────────────────────────────────────────────
+# Xcode
+# ─────────────────────────────────────────────
+# User-specific Xcode settings
 *.xcuserstate
+xcuserdata/
+*.xccheckout
+*.moved-aside
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+
+# Build products
+build/
+DerivedData/
+*.build/
+*.app
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Packages/
+Package.resolved
+*.resolved
+
+# CocoaPods (if used)
+Pods/
+*.xcworkspace
+!*.xcodeproj/*.xcworkspace
+
+# Fastlane (if used)
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
