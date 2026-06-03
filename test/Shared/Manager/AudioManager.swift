@@ -23,6 +23,11 @@ final class AudioManager {
         player = try? AVAudioPlayer(contentsOf: url)
         player?.play()
     }
+    
+    func stopMusic() {
+        
+        player?.stop()
+    }
 }
 
 extension AudioManager {
