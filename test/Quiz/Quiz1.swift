@@ -71,6 +71,7 @@ struct Quiz1: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .ignoresSafeArea()
+//                .animation(.spring, value:showingMessage)
             }
             
 //            .alert(messageTitle, isPresented: $showingMessage) {
