@@ -19,6 +19,11 @@ enum DialogType {
     case other
 }
 
+enum DialogArrowDirection {
+    case left
+    case right
+}
+
 extension AssetType {
     var dialogType: DialogType {
         switch self {
@@ -51,13 +56,17 @@ struct SceneModel: Identifiable {
     var actions: [ActionModel]? = nil
     var ending: EndingModel? = nil
     let background: String
+    let nextScene: Int?
+    let checkPoint: Bool
     
-    init(assets: [AssetModel], dialogs: [DialogModel], actions: [ActionModel]? = nil, ending: EndingModel? = nil, background: String) {
+    init(assets: [AssetModel], dialogs: [DialogModel], actions: [ActionModel]? = nil, ending: EndingModel? = nil, background: String, nextScene: Int? = nil, checkPoint: Bool = false) {
         self.assets = assets
         self.dialogs = dialogs
         self.actions = actions
         self.background = background
         self.ending = ending
+        self.nextScene = nextScene
+        self.checkPoint = checkPoint
     }
 }
 
@@ -75,13 +84,15 @@ struct DialogModel: Identifiable {
     var name: String? = nil
     let text: String
     let type: DialogType
+    let arrowDirection: DialogArrowDirection
     let position: AssetPosition?
     let colorName: String
     
-    init(name: String? = nil, text: String, type: DialogType, position: AssetPosition? = nil, colorName: String = "accentPink") {
+    init(name: String? = nil, text: String, type: DialogType, arrowDirection: DialogArrowDirection, position: AssetPosition? = nil, colorName: String = "accentPink") {
         self.name = name
         self.text = text
         self.type = type
+        self.arrowDirection = arrowDirection
         self.position = position
         self.colorName = colorName
     }
@@ -95,15 +106,17 @@ struct ActionModel: Identifiable {
 
 struct EndingModel: Identifiable {
     let id = UUID()
-    let title: String
     let text: String
     let star: Int
     let colorName: String
+    let background: String
+    let nextScene: Int?
         
-    init(title: String, text: String, star: Int, colorName: String = "accentPink") {
-        self.title = title
+    init(text: String, star: Int, colorName: String = "accentPink", background: String, nextScene: Int? = nil) {
         self.text = text
         self.star = star
         self.colorName = colorName
+        self.background = background
+        self.nextScene = nextScene
     }
 }

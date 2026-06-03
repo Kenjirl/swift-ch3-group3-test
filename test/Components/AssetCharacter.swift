@@ -22,9 +22,9 @@ struct AssetCharacter: View {
     
     var playbackMode: LottiePlaybackMode {
         switch phase {
-        case .idle:    return .paused(at: .progress(0))
-        case .forward: return .playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce))
-        case .reverse: return .playing(.fromProgress(1, toProgress: 0, loopMode: .playOnce))
+            case .idle:    return .paused(at: .progress(0))
+            case .forward: return .playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce))
+            case .reverse: return .playing(.fromProgress(1, toProgress: 0, loopMode: .playOnce))
         }
     }
     
@@ -71,11 +71,11 @@ struct AssetCharacter: View {
             }
             .playbackMode(playbackMode)
             .animationDidFinish { completed in
-                guard completed else { return }  // ignore incomplete callbacks
+                guard completed else { return }
                 switch phase {
                 case .forward:
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                        phase = .reverse  // small delay helps Lottie register the state change
+                        phase = .reverse
                     }
                 case .reverse:
                     phase = .idle
