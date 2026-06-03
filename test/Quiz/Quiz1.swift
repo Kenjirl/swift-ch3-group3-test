@@ -42,8 +42,9 @@ struct Quiz1: View {
                 
                 Text(expressions[correctAnswer])
                     .font(.custom("Fredoka", size: 25))
+                    .padding(.bottom, 30)
                 
-                Spacer()
+//                Spacer()
                 
                 HStack {
                     ForEach(0..<3) { number in
@@ -60,12 +61,16 @@ struct Quiz1: View {
             .padding(50)
             
             if let feedbackImageName, showingMessage {
-                Color.black.opacity(0.001) // keep interaction layer
-                    .ignoresSafeArea()
-                Image(feedbackImageName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 500, height: 500)
+                VStack {
+                    Color.black.opacity(0.001) // keep interaction layer
+                        .ignoresSafeArea()
+                    Image(feedbackImageName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 400, height: 400)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .ignoresSafeArea()
             }
             
 //            .alert(messageTitle, isPresented: $showingMessage) {
