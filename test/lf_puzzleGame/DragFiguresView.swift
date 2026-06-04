@@ -110,7 +110,7 @@ struct MiniGameMainScene: View {
                            // .padding(.top, topPadding)
                            // .padding(.trailing, trailingPad)
 
-                        Text("What Eja bring for lunch?")
+                        Text("What Friend bring for lunch?")
                             .foregroundStyle(Color.accentPink)
                             .fontWeight(.semibold)
                             .font(.custom("Fredoka", size: 24))
