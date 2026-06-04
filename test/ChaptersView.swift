@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Lottie
 
 struct ChaptersView: View {
 	@State private var isZoomed = false
@@ -34,25 +33,21 @@ struct ChaptersView: View {
 				Button {
 					isZoomed.toggle()
 					DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-						isZoomed.toggle()
+						isZoomed = false
 						}
-					DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-						isProcessing.toggle()
+					DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+						isProcessing = true
 
 						}
 				} label: {
 					Image(currentAsset)
 						.scaleEffect(isZoomed ? scaleZoom : scale)
 						.animation(.bouncy, value: isZoomed ? scaleZoom : scale)
-//					Text(isProcessing ? "Processing..." : "Tap to Navigate with Delay")
-//					Text("\(isZoomed ? scaleZoom : scale)")
-//					if isProcessing {
-//						TestView()
-//					}
 				}
 				.offset(y: 50)
 				.navigationDestination(isPresented: $isProcessing) {					TestView()
 				}
+				//.disabled(isProcessing)
 				
 				
 				VStack {
