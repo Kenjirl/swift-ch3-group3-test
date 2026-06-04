@@ -77,6 +77,8 @@ struct MiniGameMainScene: View {
     
     @EnvironmentObject var vm:ViewModel
     @StateObject private var puzzleVM: DragViewModel = DragViewModel()
+    
+    @AppStorage("playerCharacter") var playerCharacter: String = CharacterData.female.rawValue
 
     var body: some View {
 

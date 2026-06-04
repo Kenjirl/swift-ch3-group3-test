@@ -58,8 +58,9 @@ struct SceneModel: Identifiable {
     let background: String
     let nextScene: Int?
     let checkPoint: Bool
+    let triggerMiniGame: Bool
     
-    init(assets: [AssetModel], dialogs: [DialogModel], actions: [ActionModel]? = nil, ending: EndingModel? = nil, background: String, nextScene: Int? = nil, checkPoint: Bool = false) {
+    init(assets: [AssetModel], dialogs: [DialogModel], actions: [ActionModel]? = nil, ending: EndingModel? = nil, background: String, nextScene: Int? = nil, checkPoint: Bool = false, triggerMiniGame: Bool = false) {
         self.assets = assets
         self.dialogs = dialogs
         self.actions = actions
@@ -67,6 +68,7 @@ struct SceneModel: Identifiable {
         self.ending = ending
         self.nextScene = nextScene
         self.checkPoint = checkPoint
+        self.triggerMiniGame = triggerMiniGame
     }
 }
 
