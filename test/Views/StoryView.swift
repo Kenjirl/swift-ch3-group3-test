@@ -8,13 +8,17 @@
 import SwiftUI
 
 struct StoryView: View {
-    let story: StoryModel = StoryData.stories[0]
+    
+    @EnvironmentObject var vm:ViewModel
+    
+    let story: StoryModel //= StoryData.stories[0]
     
     @AppStorage("score") var score: Int = 0
     @AppStorage("currentSceneIndex") var currentSceneIndex: Int = 0
     @AppStorage("currentDialogIndex") var currentDialogIndex: Int = 0
+    @AppStorage("checkpoint") var checkpoint: Int = 0
+    
     @State private var showActions: Bool = false
-    @State private var sceneHistory: [Int] = []
     @State private var animationTrigger: String = ""
     @State private var showActionSheet: Bool = false
     @State private var showEnding: Bool = false
@@ -57,10 +61,9 @@ struct StoryView: View {
                 }
                 
                 // Dialog bubble
-                if let dialogPos = currentDialog.position {
+                if !showActions, let dialogPos = currentDialog.position {
                     DialogBubble(
-                        dialog: currentDialog,
-                        width: geometry.size.width * 0.3
+                        dialog: currentDialog
                     )
                     .position(
                         x: geometry.size.width * dialogPos.x,
@@ -69,7 +72,7 @@ struct StoryView: View {
                 }
                 
                 // Restart button
-                StoryNavigationBar(onRestart: restartScene)
+                StoryNavigationBar(onHome: goToHome)
                 
                 // Actions
                 if showActions, let actions = currentScene.actions {
@@ -80,14 +83,21 @@ struct StoryView: View {
                 
                 // Ending Screen
                 if showEnding, let ending = currentScene.ending {
-                    Color.black.opacity(0.4)
-                        .ignoresSafeArea()
-                    
-                    EndingCard(ending: ending) {
-                        showEnding = false
-                        restartScene()
-                    }
-                    .transition(.scale.combined(with: .opacity))
+                    EndingCard(
+                        ending: ending,
+                        onHome: {
+                            goToHome()
+                        },
+                        onRestart: {
+                            showEnding = false
+                            restartScene()
+                        },
+                        onProceed: {
+                            handleEnding(ending)
+                        },
+                        hasNext: ending.nextScene != nil
+                    )
+                    .transition(.opacity)
                 }
             }
             .onTapGesture {
@@ -99,40 +109,77 @@ struct StoryView: View {
                 animationTrigger = "\(currentSceneIndex)-\(currentDialog.id)"
             }
         }
+		.navigationBarBackButtonHidden(true)
     }
+	
     
     func goToNext() {
         if currentDialogIndex < currentScene.dialogs.count - 1 {
             currentDialogIndex += 1
         } else if currentScene.actions != nil {
-            withAnimation(.spring()) {
-                showActions = true
-            }
+            withAnimation(.spring()) { showActions = true }
         } else if currentScene.ending != nil {
-            withAnimation(.spring()) {
-                showEnding = true
+            withAnimation(.spring()) { showEnding = true }
+        } else if let next = currentScene.nextScene {
+            if next == 2 {
+                vm.moveScreenState(to: .miniGame)
+               currentSceneIndex += 1
+                currentDialogIndex = 0
             }
+            else { navigateTo(next) }
+            
         }
         animationTrigger = "\(currentSceneIndex)-\(currentDialog.id)"
     }
-    
+
     func handleAction(_ action: ActionModel) {
-        sceneHistory.append(currentSceneIndex)
-        currentSceneIndex = action.nextScene - 1
-        currentDialogIndex = 0
-        withAnimation {
-            showActions = false
+        withAnimation { showActions = false }
+        navigateTo(action.nextScene)
+    }
+
+    func handleEnding(_ ending: EndingModel) {
+        if let next = ending.nextScene {
+            withAnimation { showEnding = false }
+            navigateTo(next)
         }
+    }
+
+    func navigateTo(_ sceneNumber: Int) {
+        currentSceneIndex = sceneNumber - 1
+        currentDialogIndex = 0
+        updateCheckpoint()
         DispatchQueue.main.async {
             animationTrigger = UUID().uuidString
         }
     }
     
+    func updateCheckpoint() {
+        if currentScene.checkPoint {
+            checkpoint = currentSceneIndex
+        }
+    }
+    
     func restartScene() {
+        currentSceneIndex = checkpoint
+        currentDialogIndex = 0
+        showActions = false
+        showEnding = false
+        DispatchQueue.main.async {
+            animationTrigger = UUID().uuidString
+        }
+    }
+    
+    func goToHome() {
+        reset()
+        vm.moveScreenState(to: .menu)
+    }
+    
+    func reset() {
+        checkpoint = 0
         currentSceneIndex = 0
         currentDialogIndex = 0
         showActions = false
-        sceneHistory = []
+        showEnding = false
         DispatchQueue.main.async {
             animationTrigger = UUID().uuidString
         }
@@ -140,5 +187,7 @@ struct StoryView: View {
 }
 
 #Preview {
-    StoryView()
+    let _ = UserDefaults.standard.set(0, forKey: "currentSceneIndex")
+    let _ = UserDefaults.standard.set(0, forKey: "currentDialogIndex")
+    return StoryView(story: StoryData.storie_1)
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StoryNavigationBar: View {
-    let onRestart: () -> Void
+    let onHome: () -> Void
 
     var body: some View {
         VStack {
@@ -16,18 +16,20 @@ struct StoryNavigationBar: View {
                 Spacer()
                 
                 Button {
-                    onRestart()
+                    onHome()
                 } label: {
-                    Image("btn-setting")
+                    Image("btn home")
                         .resizable()
                         .frame(width: 50, height: 50)
+                        .shadow(color: .black.opacity(0.5), radius: 2, x: 0, y: 2)
                 }
-                .shadow(color: .black.opacity(0.5), radius: 1, x: 0, y: 1)
             }
-            .padding(10)
+            .frame(maxWidth: .infinity)
+            .padding(.top, 30)
+            .padding(.trailing, 63)
             
             Spacer()
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(width: .infinity)
     }
 }

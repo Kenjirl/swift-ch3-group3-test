@@ -11,23 +11,17 @@ struct ActionSheet: View {
     let actions: [ActionModel]
     let onSelect: (ActionModel) -> Void
     
-    @State private var showTitle: Bool = false
-    @State private var showButtons: Bool = false
-    
     var body: some View {
         VStack {
-            if showTitle {
-                Text("What will you do?")
-                    .bold()
-                    .font(.custom("Fredoka", size: 28))
-                    .foregroundStyle(Color.accentBlue)
-                    .shadow(color: .white.opacity(0.8), radius: 5, x: 0, y: 0)
-                    .transition(.move(edge: .top))
-            }
-            
             Spacer()
             
-            if showButtons {
+            VStack(spacing: 10) {
+                Text("What will you do?")
+                    .foregroundColor(Color.accentGreen)
+                    .fontWeight(.semibold)
+                    .font(.custom("Fredoka", size: 24))
+                    .padding(.top, 30)
+                
                 HStack(spacing: 8) {
                     ForEach(actions) { action in
                         Button {
@@ -36,30 +30,31 @@ struct ActionSheet: View {
                             Text(action.text)
                                 .multilineTextAlignment(.center)
                                 .frame(maxWidth: .infinity)
-                                .padding(10)
-                                .background(Color.accentPink)
+                                .padding(20)
+                                .padding(.bottom)
+                                .background(
+                                    Image("btn action")
+                                        .resizable()
+                                        .scaledToFit()
+                                )
                                 .foregroundColor(.white)
-                                .shadow(color: .white.opacity(0.8), radius: 5, x: 0, y: 0)
                                 .fontWeight(.semibold)
-                                .cornerRadius(50)
-                                .contentShape(Rectangle())
-                                .shadow(color: .accentPink.opacity(0.8), radius: 5, x: 0, y: 4)
+                                .font(.custom("Fredoka", size: 16))
                         }
                     }
                 }
-                .font(.custom("Fredoka", size: 20))
-                .transition(.move(edge: .bottom))
+                .padding(.horizontal, 30)
+                .frame(width: 400)
             }
+            .background(
+                Color.white
+                    .cornerRadius(20)
+            )
+            .padding(.bottom)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(.top, 24)
-        .padding(.bottom, 48)
-        .onAppear {
-            withAnimation(.spring()) {
-                showTitle = true
-                showButtons = true
-            }
-        }
+        .frame(maxWidth: .infinity)
+        .transition(.move(edge: .bottom))
+        .ignoresSafeArea()
     }
 }
 
