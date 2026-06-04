@@ -108,13 +108,13 @@ struct MiniGameMainScene: View {
                            // .padding(.trailing, trailingPad)
 
                         Text("What Eja bring for lunch?")
-                            .font(.headline)
                             .foregroundStyle(Color.blue)
                             .fontWeight(.black)
+                            .font(.custom("Fredoka", size: 24))
                         
                         Text("Place the food in the lunchbox to see!")
-                            .font(.headline)
                             .foregroundStyle(Color.blue)
+                            .font(.custom("Fredoka", size: 20))
                            
                         
                         Spacer()
@@ -134,34 +134,16 @@ struct MiniGameMainScene: View {
                 .padding(.trailing, trailingPad)
                 .opacity(puzzleVM.gameEnded ? 0.3 : 1.0)
                 .overlay {
-                    
                     if puzzleVM.gameEnded {
-                        
                         Image("puzzle_end_remark")
                             .resizable()
+                            .scaledToFill()
                             .scaleEffect(0.75)
-                            
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                vm.moveScreenState(to: .storie(StoryData.storie_1))
+                            }
                     }
-
-                }
-                .overlay(alignment: .bottomTrailing) {
-                 
-                    if puzzleVM.gameEnded {
-                        
-                        Button {
-                            vm.moveScreenState(to: .storie(
-                                StoryData.storie_1(
-                                    player: CharacterData(rawValue: playerCharacter) ?? .female
-                                )
-                            ))
-                        } label: {
-                            Text("NEXT BUTTON")
-                                .font(.largeTitle)
-                        }
-                        .offset(x:-100)
-
-                    }
-                    
                 }
                 .animation(.easeInOut(duration: 1.5), value: puzzleVM.gameEnded)
             }
