@@ -181,7 +181,7 @@ struct CircleBoarding:View {
                         }
 
                         Button {
-                            vm.moveScreenState(to: .storie(StoryData.storie_1))
+                            vm.moveScreenState(to: .menu)
                         } label: {
                             
                             Image("kid_m")

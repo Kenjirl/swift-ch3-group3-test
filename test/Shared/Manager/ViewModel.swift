@@ -34,6 +34,7 @@ enum SceneState {
     case onBoarding
     case storie(_ :StoryModel)
     case miniGame
+    case menu
     
     
     @ViewBuilder func viewAssociated() -> some View {
@@ -41,6 +42,8 @@ enum SceneState {
         switch self {
         case .onBoarding:
             OnboardingView()
+        case .menu:
+            ChaptersView()
         case .storie(let storie):
             StoryView(story: storie)
         case .miniGame:

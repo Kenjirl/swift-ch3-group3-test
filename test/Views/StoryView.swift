@@ -171,6 +171,7 @@ struct StoryView: View {
     
     func goToHome() {
         reset()
+        vm.moveScreenState(to: .menu)
     }
     
     func reset() {
