@@ -7,112 +7,91 @@
 
 import SwiftUI
 
-struct FacesExpression: View {
-    let expression: String
-    
-    var body: some View {
-        Image(expression)
-            .resizable()
-            .scaledToFit()
-            .frame(width: 150, height: 150)
-            .offset(x:20)
-            
-    }
-}
-
 struct Quiz1: View {
-    @State private var expressions = ["Sad", "Happy", "Shock"].shuffled()
-    @State private var correctAnswer = Int.random(in: 0...2)
-    @State private var messageTitle = ""
-    @State private var message = ""
-    
-    @State private var showingMessage = false
-    @State private var feedbackImageName: String? = nil
-    
+
+    let onComplete: () -> Void
+
+    @State private var expressions =
+        ["Sad", "Happy", "Shock"].shuffled()
+
+    @State private var correctAnswer =
+        Int.random(in: 0...2)
+
+    @State private var feedbackImageName: String?
+    @State private var showingFeedback = false
+
+    @State private var score = 0
+
     var body: some View {
+
         ZStack {
-            Color(red: 141/255, green: 193/255, blue: 246/255)
-                .ignoresSafeArea()
+            Color(
+                red: 141/255,
+                green: 193/255,
+                blue: 246/255
+            )
+            .ignoresSafeArea()
             
-            VStack(spacing: 15) {
-                Text("Emotion Detection")
-                    .bold()
-                    .font(.custom("Fredoka", size: 30))
-                    .foregroundStyle(Color.white)
+            VStack(spacing: 25) {
+                QuizTitle(text: "Emotion Detection")
                 
+                Text("Question \(score + 1)/5")
+                    .font(.custom("Fredoka", size: 22))
+                    .foregroundStyle(.white)
+
                 Text(expressions[correctAnswer])
                     .font(.custom("Fredoka", size: 25))
-                    .padding(.bottom, 30)
-                
-//                Spacer()
-                
+
                 HStack {
                     ForEach(0..<3) { number in
                         Button {
-                            // emotion was tapped
                             emotionTapped(number)
                         } label: {
-                            FacesExpression(expression:expressions[number])
+                            FacesExpression(expression: expressions[number])
                         }
-                        Spacer()
                     }
+                    .padding()
+                    
                 }
             }
-            .padding(50)
-            
-            if let feedbackImageName, showingMessage {
-                VStack {
-                    Color.black.opacity(0.001) // keep interaction layer
-                        .ignoresSafeArea()
-                    Image(feedbackImageName)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 400, height: 400)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .ignoresSafeArea()
-//                .animation(.spring, value:showingMessage)
+
+            if let feedbackImageName,
+               showingFeedback {
+
+                FeedbackOverlay(
+                    imageName: feedbackImageName
+                )
             }
-            
-//            .alert(messageTitle, isPresented: $showingMessage) {
-//                Button("Continue", action: reset)
-//            } message: {
-//                Text("Continue")
-//            }
-//            .padding(50)
         }
     }
-    
+
     func emotionTapped(_ number: Int) {
-        if number == correctAnswer {
-            messageTitle = "Correct!"
-            message = "Your are very smart"
-        } else {
-            messageTitle = "Wrong!"
-            message = "That is \(expressions[number])"
-        }
-        
-        feedbackImageName = (number == correctAnswer) ? "correct" : "tryAgain"
-        showingMessage = true
-        
-        // Auto-hide feedback and move to next question
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            showingMessage = false
-            feedbackImageName = nil
-            askQuestion()
+        let isCorrect = number == correctAnswer
+        feedbackImageName = isCorrect ? "correct" : "tryAgain"
+        showingFeedback = true
+        DispatchQueue.main.asyncAfter(
+            deadline: .now() + 1
+        ) {
+            showingFeedback = false
+            if isCorrect {
+                score += 1
+                if score > 4 {
+                    onComplete()
+                } else {
+                    askQuestion()
+                }
+            } else {
+                askQuestion()
+            }
         }
     }
-    
+
     func askQuestion() {
         expressions.shuffle()
         correctAnswer = Int.random(in: 0...2)
     }
-    
-    func reset() {
-        askQuestion()
-    }
 }
 
 #Preview {
-    Quiz1()
+    Quiz1(onComplete: {})
 }

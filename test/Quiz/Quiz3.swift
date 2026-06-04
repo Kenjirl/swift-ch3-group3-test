@@ -1,22 +1,21 @@
 //
-//  Quiz2.swift
+//  Quiz3.swift
 //  test
 //
-//  Created by Lutfi Syahreza Lubis on 03/06/26.
+//  Created by Lutfi Syahreza Lubis on 04/06/26.
 //
 
 import SwiftUI
 
-struct Quiz2: View {
+struct Quiz3: View {
 
     let onComplete: () -> Void
-
+    
     let actions = [
-        "Grab it",
-        "Ask it",
-        "Hide it"
+        "Stop asking",
+        "Keep asking"
     ]
-
+    
     @State private var feedbackImageName: String?
     @State private var showingFeedback = false
 
@@ -30,56 +29,53 @@ struct Quiz2: View {
             )
             .ignoresSafeArea()
 
-            VStack(spacing: 25) {
+            VStack(spacing:25) {
                 QuizTitle(
-                    text: "Choose The Best Action"
+                    text: "Stop or Go"
                 )
                 
-                Image("crayon")
+                Text("Your friend said \"NO\"")
+                    .font(.custom("Fredoka", size: 22))
                 
-                VStack {
-                    Text("You want to borrow some crayons from your friend.")
-                    
-                    Text("What should you do?")
-                }
-                .font(.custom("Fredoka", size: 22))
-
+                Image("No Gesture")
+                    .resizable()
+                    .scaledToFit()
+                
                 HStack {
-                    ForEach(0..<3) { number in
+                    ForEach(0..<2) { number in
                         Button {
-                            buttonTapped(number)
+                            actionTapped(number)
                         } label: {
                             ZStack {
                                 Image("quiz-button")
                                     .resizable()
                                     .frame(width: 200, height: 70)
                                 Text(actions[number])
-                                    .font(.custom( "Fredoka", size: 20)
-                                    )
+                                    .font(.custom("Fredoka",size: 20))
                                     .foregroundStyle(.white)
                                     .padding(.bottom, 15)
                             }
                         }
                     }
                 }
+                
+//                Button("Finish Game") {
+//                    onComplete()
+//                }
             }
             
             if let feedbackImageName,
                showingFeedback {
-                FeedbackOverlay(
-                    imageName: feedbackImageName
-                )
+                FeedbackOverlay(imageName: feedbackImageName)
             }
         }
     }
-
-    func buttonTapped(_ number: Int) {
-        let isCorrect = number == 1
+    
+    func actionTapped(_ number: Int) {
+        let isCorrect = number == 0
         feedbackImageName = isCorrect ? "correct" : "tryAgain"
         showingFeedback = true
-        DispatchQueue.main.asyncAfter(
-            deadline: .now() + 1
-        ) {
+        DispatchQueue.main.asyncAfter( deadline: .now() + 1) {
             showingFeedback = false
             if isCorrect {
                 onComplete()
@@ -89,5 +85,5 @@ struct Quiz2: View {
 }
 
 #Preview {
-    Quiz2(onComplete: {})
+    Quiz3(onComplete: {})
 }
