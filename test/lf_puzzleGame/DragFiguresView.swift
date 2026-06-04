@@ -79,6 +79,9 @@ struct MiniGameMainScene: View {
     @StateObject private var puzzleVM: DragViewModel = DragViewModel()
     
     @AppStorage("playerCharacter") var playerCharacter: String = CharacterData.female.rawValue
+    @AppStorage("currentSceneIndex") var currentSceneIndex: Int = 0
+    @AppStorage("currentDialogIndex") var currentDialogIndex: Int = 0
+    @AppStorage("checkpoint") var checkpoint: Int = 0
 
     var body: some View {
 
@@ -108,12 +111,12 @@ struct MiniGameMainScene: View {
                            // .padding(.trailing, trailingPad)
 
                         Text("What Eja bring for lunch?")
-                            .foregroundStyle(Color.blue)
-                            .fontWeight(.black)
+                            .foregroundStyle(Color.accentPink)
+                            .fontWeight(.semibold)
                             .font(.custom("Fredoka", size: 24))
                         
                         Text("Place the food in the lunchbox to see!")
-                            .foregroundStyle(Color.blue)
+                            .foregroundStyle(Color.accentPink)
                             .font(.custom("Fredoka", size: 20))
                            
                         
@@ -141,11 +144,21 @@ struct MiniGameMainScene: View {
                             .scaleEffect(0.75)
                             .contentShape(Rectangle())
                             .onTapGesture {
-                                vm.moveScreenState(to: .storie(StoryData.storie_1))
+                                vm.moveScreenState(to: .storie(
+                                    StoryData.storie_1(
+                                        player: CharacterData(rawValue: playerCharacter) ?? .female
+                                    )
+                                ))
                             }
                     }
                 }
                 .animation(.easeInOut(duration: 1.5), value: puzzleVM.gameEnded)
+                
+                VStack {
+                    StoryNavigationBar(onHome: goToHome)
+                }
+                .ignoresSafeArea()
+                .offset(x: 35)
             }
             .coordinateSpace(name: "canvas")
             .onAppear {
@@ -153,6 +166,16 @@ struct MiniGameMainScene: View {
             }
         }
         .environmentObject(puzzleVM)
+    }
+    
+    func goToHome() {
+        vm.moveScreenState(to: .storie(
+            StoryData.storie_1(
+                player: CharacterData(rawValue: playerCharacter) ?? .female
+            )
+        ))
+        currentSceneIndex -= 1
+        currentDialogIndex = StoryData.storie_1(player: .female).scenes[currentSceneIndex].dialogs.count - 1
     }
 }
 
