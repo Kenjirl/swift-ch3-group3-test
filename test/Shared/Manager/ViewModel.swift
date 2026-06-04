@@ -39,6 +39,7 @@ enum SceneState {
     case menu
 	case loading
 	case ending
+	case upcoming
     
     @ViewBuilder func viewAssociated() -> some View {
         
@@ -55,6 +56,8 @@ enum SceneState {
 			LoadingKiwiView()
 		case .ending:
 			EndingView()
+		case .upcoming:
+			NewFeatureNotifView()
         }
         
     }

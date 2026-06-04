@@ -16,7 +16,6 @@ struct ChaptersView: View {
 	@State private var lastChapter: Int = 2
 	@State private var currentChapter: Int = 1
 	@State private var currentAsset: String = "chapter1Asset"
-	@State private var isProcessing = false
     
 	
 	var body: some View {
@@ -46,9 +45,8 @@ struct ChaptersView: View {
 					DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
 						isZoomed = false
 						}
-					DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-						isProcessing = true
-
+					DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
+							goToChapter()
 						}
 				} label: {
 					Image(currentAsset)
@@ -59,16 +57,6 @@ struct ChaptersView: View {
 						.animation(.bouncy, value: isZoomed ? scaleZoom : scale)
 				}
 				.offset(y: 50)
-				.navigationDestination(isPresented: $isProcessing) {
-					if currentChapter == 1 {
-						StoryView(story: StoryData.storie_1)
-					} else {
-						Text("To be added")
-					}
-                    
-				}
-				//.disabled(isProcessing)
-				
 				
 				VStack {
 					Text("Chapter \(currentChapter)")
@@ -115,6 +103,15 @@ struct ChaptersView: View {
 	func goToPrev() {
 		currentChapter -= 1
 		currentAsset = "chapter\(currentChapter)Asset"
+	}
+	
+	func goToChapter() {
+		if currentChapter == 1 {
+			vm.moveScreenState(to: .storie(StoryData.storie_1))
+		} else {
+			vm.moveScreenState(to: .upcoming)
+		}
+		
 	}
 }
 
