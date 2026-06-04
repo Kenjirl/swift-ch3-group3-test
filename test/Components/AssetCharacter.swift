@@ -67,21 +67,11 @@ struct AssetCharacter: View {
             /// Lottie Asset
 
             LottieView {
-                try await DotLottieFile.named("sparkles 3")
+                try await DotLottieFile.named(asset.source)
             }
             .playbackMode(playbackMode)
-            .animationDidFinish { completed in
-                guard completed else { return }
-                switch phase {
-                case .forward:
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                        phase = .reverse
-                    }
-                case .reverse:
-                    phase = .idle
-                case .idle:
-                    break
-                }
+            .animationDidFinish { _ in
+                phase = .idle
             }
             .onTapGesture {
                 guard phase == .idle else { return }

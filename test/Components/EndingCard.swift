@@ -58,24 +58,8 @@ struct EndingCard: View {
                             Button {
                                 onHome()
                             } label: {
-                                Image(systemName: "house.fill")
+                                Image("btn home")
                                     .frame(width: 50, height: 50)
-                                    .background(Color.white)
-                                    .cornerRadius(50)
-                                    .foregroundColor(Color(ending.colorName))
-                                    .font(.title2)
-                            }
-                            
-                            // Restart Button
-                            Button {
-                                onRestart()
-                            } label: {
-                                Image(systemName: "arrow.trianglehead.counterclockwise")
-                                    .frame(width: 50, height: 50)
-                                    .background(Color.white)
-                                    .cornerRadius(50)
-                                    .foregroundColor(Color(ending.colorName))
-                                    .font(.title2)
                             }
                             
                             // Proceed Button
@@ -83,12 +67,8 @@ struct EndingCard: View {
                                 Button {
                                     onProceed()
                                 } label: {
-                                    Image(systemName: "forward.fill")
+                                    Image("btn next")
                                         .frame(width: 50, height: 50)
-                                        .background(Color.white)
-                                        .cornerRadius(50)
-                                        .foregroundColor(Color(ending.colorName))
-                                        .font(.title2)
                                 }
 							} else {
 								Button {
