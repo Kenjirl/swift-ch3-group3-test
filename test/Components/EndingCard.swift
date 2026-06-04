@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct EndingCard: View {
+	@EnvironmentObject var vm:ViewModel
+	
     let ending: EndingModel
     let onHome: () -> Void
     let onRestart: () -> Void
@@ -88,7 +90,18 @@ struct EndingCard: View {
                                         .foregroundColor(Color(ending.colorName))
                                         .font(.title2)
                                 }
-                            }
+							} else {
+								Button {
+									goToEnding()
+								} label: {
+									Image(systemName: "arrowtriangle.forward")
+										.frame(width: 50, height: 50)
+										.background(Color.white)
+										.cornerRadius(50)
+										.foregroundColor(Color(ending.colorName))
+										.font(.title2)
+								}
+							}
                         }
                     }
                     .padding(24)
@@ -104,6 +117,10 @@ struct EndingCard: View {
             .ignoresSafeArea()
         }
     }
+	
+	func goToEnding() {
+		vm.moveScreenState(to: .ending)
+	}
 }
 
 #Preview {

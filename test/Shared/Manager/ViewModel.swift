@@ -19,8 +19,10 @@ class ViewModel:ObservableObject {
 extension ViewModel {
     
     func moveScreenState(to new:SceneState) {
-        
-       sceneState = new
+		sceneState = .loading
+		DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+			self.sceneState = new
+		}
     }
 }
 
@@ -35,7 +37,8 @@ enum SceneState {
     case storie(_ :StoryModel)
     case miniGame
     case menu
-    
+	case loading
+	case ending
     
     @ViewBuilder func viewAssociated() -> some View {
         
@@ -48,6 +51,10 @@ enum SceneState {
             StoryView(story: storie)
         case .miniGame:
             MiniGameMainScene()
+		case .loading:
+			LoadingKiwiView()
+		case .ending:
+			EndingView()
         }
         
     }

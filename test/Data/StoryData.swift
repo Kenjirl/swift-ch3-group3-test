@@ -456,5 +456,20 @@ enum StoryData {
             ),
         ]
     )
+	
+	static let story_1_ending:StoryModel = StoryModel(
+		scenes: [
+			SceneModel(
+				assets: [
+					AssetModel(source: "teacherEnding", type: .npc,
+							   position: AssetPosition(x: 160, y: 230), size: AssetSize(width: 1, height: 1), animateAble: false),
+				],
+				dialogs: [
+					
+				],
+				background: "endingBG"
+			),
+		]
+	)
     
 }
