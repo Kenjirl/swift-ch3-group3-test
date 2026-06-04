@@ -121,7 +121,8 @@ struct StoryView: View {
         } else if let next = currentScene.nextScene {
             if next == 2 {
                 vm.moveScreenState(to: .miniGame)
-               // currentSceneIndex = 1
+               currentSceneIndex += 1
+                currentDialogIndex = 0
             }
             else { navigateTo(next) }
             
