@@ -20,6 +20,10 @@ enum StoryData {
             /// Scene 1
             SceneModel(
                 assets: [
+                    AssetModel(source: "prop clock", type: .other,
+                               position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
+                    AssetModel(source: "prop sticky", type: .other,
+                               position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "char female right", type: .player,
                                position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
                     AssetModel(source: "char male left", type: .npc,
@@ -47,6 +51,10 @@ enum StoryData {
             /// Scene 2
             SceneModel(
                 assets: [
+                    AssetModel(source: "prop clock", type: .other,
+                               position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
+                    AssetModel(source: "prop sticky", type: .other,
+                               position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "char female right", type: .player,
                                position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
                     AssetModel(source: "char male left", type: .npc,
@@ -74,6 +82,10 @@ enum StoryData {
             /// Scene 3
             SceneModel(
                 assets: [
+                    AssetModel(source: "prop clock", type: .other,
+                               position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
+                    AssetModel(source: "prop sticky", type: .other,
+                               position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "char female right", type: .player,
                                position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
                     AssetModel(source: "char male left", type: .npc,
@@ -102,6 +114,10 @@ enum StoryData {
             /// Scene 4
             SceneModel(
                 assets: [
+                    AssetModel(source: "prop clock", type: .other,
+                               position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
+                    AssetModel(source: "prop sticky", type: .other,
+                               position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "char female right", type: .player,
                                position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
                     AssetModel(source: "char male shock left", type: .npc,
@@ -129,6 +145,10 @@ enum StoryData {
             /// Scene 5
             SceneModel(
                 assets: [
+                    AssetModel(source: "prop clock", type: .other,
+                               position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
+                    AssetModel(source: "prop sticky", type: .other,
+                               position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "char female right", type: .player,
                                position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
                     AssetModel(source: "char male left", type: .npc,
@@ -155,6 +175,10 @@ enum StoryData {
             /// Scene 6
             SceneModel(
                 assets: [
+                    AssetModel(source: "prop clock", type: .other,
+                               position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
+                    AssetModel(source: "prop sticky", type: .other,
+                               position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "char female right", type: .player,
                                position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
                     AssetModel(source: "char male shock left", type: .npc,
@@ -180,6 +204,10 @@ enum StoryData {
             /// Scene 7
             SceneModel(
                 assets: [
+                    AssetModel(source: "prop clock", type: .other,
+                               position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
+                    AssetModel(source: "prop sticky", type: .other,
+                               position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "char female right", type: .player,
                                position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
                     AssetModel(source: "char male left", type: .npc,
@@ -210,6 +238,10 @@ enum StoryData {
             /// Scene 8
             SceneModel(
                 assets: [
+                    AssetModel(source: "prop clock", type: .other,
+                               position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
+                    AssetModel(source: "prop sticky", type: .other,
+                               position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "char female right", type: .player,
                                position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
                     AssetModel(source: "char male left", type: .npc,
@@ -238,6 +270,10 @@ enum StoryData {
             /// Scene 9
             SceneModel(
                 assets: [
+                    AssetModel(source: "prop clock", type: .other,
+                               position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
+                    AssetModel(source: "prop sticky", type: .other,
+                               position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "char female right", type: .player,
                                position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
                     AssetModel(source: "char male shock left", type: .npc,
@@ -267,6 +303,10 @@ enum StoryData {
             /// Scene 10
             SceneModel(
                 assets: [
+                    AssetModel(source: "prop clock", type: .other,
+                               position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
+                    AssetModel(source: "prop sticky", type: .other,
+                               position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "char female right", type: .player,
                                position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
                     AssetModel(source: "char male left", type: .npc,
@@ -295,6 +335,10 @@ enum StoryData {
             /// Scene 11
             SceneModel(
                 assets: [
+                    AssetModel(source: "prop clock", type: .other,
+                               position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
+                    AssetModel(source: "prop sticky", type: .other,
+                               position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "char female right", type: .player,
                                position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
                     AssetModel(source: "char male sad left", type: .npc,
@@ -321,6 +365,8 @@ enum StoryData {
             /// Scene 12
             SceneModel(
                 assets: [
+                    AssetModel(source: "prop clock", type: .other,
+                               position: AssetPosition(x: 0.76, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "char teacher right", type: .npc,
                                position: AssetPosition(x: 0.12, y: 0.72), size: AssetSize(width: 0.9, height: 1.05), animateAble: false),
                     AssetModel(source: "char female left", type: .player,
@@ -341,6 +387,10 @@ enum StoryData {
             /// Scene 13
             SceneModel(
                 assets: [
+                    AssetModel(source: "prop clock", type: .other,
+                               position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
+                    AssetModel(source: "prop sticky", type: .other,
+                               position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "char female right", type: .player,
                                position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
                     AssetModel(source: "char male sad left", type: .npc,
@@ -355,7 +405,7 @@ enum StoryData {
                                position: AssetPosition(x: 0.87, y: 0.88), size: AssetSize(width: 0.12, height: 0.22), animateAble: false),
                 ],
                 dialogs: [
-                    DialogModel(name: "Friend", text: "Ya, I don't like that", type: .npc, arrowDirection: .right,
+                    DialogModel(name: "Friend", text: "Yea, I don't like that", type: .npc, arrowDirection: .right,
                                 position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentBlue"),
                 ],
                 actions: [
@@ -368,6 +418,10 @@ enum StoryData {
             /// Scene 14
             SceneModel(
                 assets: [
+                    AssetModel(source: "prop clock", type: .other,
+                               position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
+                    AssetModel(source: "prop sticky", type: .other,
+                               position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "char female right", type: .player,
                                position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
                     AssetModel(source: "char male left", type: .npc,
@@ -394,6 +448,8 @@ enum StoryData {
             /// Scene 15
             SceneModel(
                 assets: [
+                    AssetModel(source: "prop clock", type: .other,
+                               position: AssetPosition(x: 0.76, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "char teacher right", type: .npc,
                                position: AssetPosition(x: 0.12, y: 0.72), size: AssetSize(width: 0.9, height: 1.05), animateAble: false),
                     AssetModel(source: "char female left", type: .player,
@@ -414,6 +470,10 @@ enum StoryData {
             /// Scene 16
             SceneModel(
                 assets: [
+                    AssetModel(source: "prop clock", type: .other,
+                               position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
+                    AssetModel(source: "prop sticky", type: .other,
+                               position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "char female right", type: .player,
                                position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
                     AssetModel(source: "char male sad left", type: .npc,
@@ -438,6 +498,8 @@ enum StoryData {
             /// Scene 17
             SceneModel(
                 assets: [
+                    AssetModel(source: "prop clock", type: .other,
+                               position: AssetPosition(x: 0.76, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "char teacher right", type: .npc,
                                position: AssetPosition(x: 0.12, y: 0.72), size: AssetSize(width: 0.9, height: 1.05), animateAble: false),
                     AssetModel(source: "char female left", type: .player,

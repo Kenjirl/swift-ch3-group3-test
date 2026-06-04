@@ -187,7 +187,7 @@ struct StoryView: View {
 }
 
 #Preview {
-    let _ = UserDefaults.standard.set(0, forKey: "currentSceneIndex")
+    let _ = UserDefaults.standard.set(11, forKey: "currentSceneIndex")
     let _ = UserDefaults.standard.set(0, forKey: "currentDialogIndex")
     return StoryView(story: StoryData.storie_1)
 }

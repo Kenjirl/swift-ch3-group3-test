@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "right_button.png",
+      "filename" : "btn right.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "btn right 2.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "btn right 3.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
