@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ChaptersView: View {
+    @EnvironmentObject var vm:ViewModel
+    
 	@State private var isZoomed = false
 	@State private var scale: Double = 1.1
 	@State private var scaleZoom: Double = 1.2
@@ -15,6 +17,7 @@ struct ChaptersView: View {
 	@State private var currentChapter: Int = 1
 	@State private var currentAsset: String = "chapter1Asset"
 	@State private var isProcessing = false
+    
 	
 	var body: some View {
 		NavigationStack {
@@ -45,7 +48,8 @@ struct ChaptersView: View {
 						.animation(.bouncy, value: isZoomed ? scaleZoom : scale)
 				}
 				.offset(y: 50)
-				.navigationDestination(isPresented: $isProcessing) {					StoryView()
+				.navigationDestination(isPresented: $isProcessing) {
+                    StoryView(story: StoryData.storie_1)
 				}
 				//.disabled(isProcessing)
 				
