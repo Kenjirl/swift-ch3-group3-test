@@ -20,16 +20,19 @@ struct StoryNavigationBar: View {
                 } label: {
                     Image("btn home")
                         .resizable()
-                        .frame(width: 50, height: 50)
-                        .shadow(color: .black.opacity(0.5), radius: 2, x: 0, y: 2)
+                        .frame(width: 75, height: 75)
                 }
             }
             .frame(maxWidth: .infinity)
-            .padding(.top, 30)
-            .padding(.trailing, 63)
+            .padding(.top, 10)
+            .padding(.trailing, 60)
             
             Spacer()
         }
-        .frame(width: .infinity)
+        .frame(maxWidth: .infinity)
     }
+}
+
+#Preview {
+    StoryNavigationBar(onHome: {})
 }
