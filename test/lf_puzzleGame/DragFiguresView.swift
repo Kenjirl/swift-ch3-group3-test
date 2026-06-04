@@ -77,6 +77,8 @@ struct MiniGameMainScene: View {
     
     @EnvironmentObject var vm:ViewModel
     @StateObject private var puzzleVM: DragViewModel = DragViewModel()
+    
+    @AppStorage("playerCharacter") var playerCharacter: String = CharacterData.female.rawValue
 
     var body: some View {
 
@@ -147,7 +149,11 @@ struct MiniGameMainScene: View {
                     if puzzleVM.gameEnded {
                         
                         Button {
-                            vm.moveScreenState(to: .storie(StoryData.storie_1))
+                            vm.moveScreenState(to: .storie(
+                                StoryData.storie_1(
+                                    player: CharacterData(rawValue: playerCharacter) ?? .female
+                                )
+                            ))
                         } label: {
                             Text("NEXT BUTTON")
                                 .font(.largeTitle)

@@ -10,6 +10,8 @@ import SwiftUI
 struct ChaptersView: View {
     @EnvironmentObject var vm:ViewModel
     
+    @AppStorage("playerCharacter") var playerCharacter: String = CharacterData.female.rawValue
+    
 	@State private var isZoomed = false
 	@State private var scale: Double = 1.1
 	@State private var scaleZoom: Double = 1.2
@@ -48,9 +50,11 @@ struct ChaptersView: View {
 						.animation(.bouncy, value: isZoomed ? scaleZoom : scale)
 				}
 				.offset(y: 50)
-				.navigationDestination(isPresented: $isProcessing) {
-                    StoryView(story: StoryData.storie_1)
-				}
+                .navigationDestination(isPresented: $isProcessing) {
+                    StoryView(story: StoryData.storie_1(
+                        player: CharacterData(rawValue: playerCharacter) ?? .female)
+                    )
+                }
 				//.disabled(isProcessing)
 				
 				
