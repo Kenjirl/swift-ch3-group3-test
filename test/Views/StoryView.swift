@@ -106,7 +106,9 @@ struct StoryView: View {
                 animationTrigger = "\(currentSceneIndex)-\(currentDialog.id)"
             }
         }
+		.navigationBarBackButtonHidden(true)
     }
+	
     
     func goToNext() {
         if currentDialogIndex < currentScene.dialogs.count - 1 {
@@ -175,7 +177,7 @@ struct StoryView: View {
 }
 
 #Preview {
-    let _ = UserDefaults.standard.set(11, forKey: "currentSceneIndex")
+    let _ = UserDefaults.standard.set(0, forKey: "currentSceneIndex")
     let _ = UserDefaults.standard.set(0, forKey: "currentDialogIndex")
     return StoryView()
 }

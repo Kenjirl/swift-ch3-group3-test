@@ -35,7 +35,7 @@ struct ChaptersView: View {
 					DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
 						isZoomed = false
 						}
-					DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+					DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
 						isProcessing = true
 
 						}
@@ -45,7 +45,7 @@ struct ChaptersView: View {
 						.animation(.bouncy, value: isZoomed ? scaleZoom : scale)
 				}
 				.offset(y: 50)
-				.navigationDestination(isPresented: $isProcessing) {					TestView()
+				.navigationDestination(isPresented: $isProcessing) {					StoryView()
 				}
 				//.disabled(isProcessing)
 				
