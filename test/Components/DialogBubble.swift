@@ -103,6 +103,6 @@ struct DialogBubble: View {
 }
 
 #Preview {
-    @Previewable let story: StoryModel = StoryData.stories[0]
+    @Previewable let story: StoryModel = StoryData.storie_1//.stories[0]
     DialogBubble(dialog: story.scenes[0].dialogs[1])
 }

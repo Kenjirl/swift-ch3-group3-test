@@ -74,7 +74,8 @@ internal class DragViewModel: ObservableObject {
 // MARK: - Main Scene
 
 struct MiniGameMainScene: View {
-
+    
+    @EnvironmentObject var vm:ViewModel
     @StateObject private var puzzleVM: DragViewModel = DragViewModel()
 
     var body: some View {
@@ -146,7 +147,7 @@ struct MiniGameMainScene: View {
                     if puzzleVM.gameEnded {
                         
                         Button {
-                            //
+                            vm.moveScreenState(to: .storie(StoryData.storie_1))
                         } label: {
                             Text("NEXT BUTTON")
                                 .font(.largeTitle)

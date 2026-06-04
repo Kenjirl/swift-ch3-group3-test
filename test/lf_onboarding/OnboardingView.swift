@@ -9,6 +9,8 @@ import SwiftUI
 
 struct OnboardingView: View {
     
+    @EnvironmentObject var vm:ViewModel
+    
     @State private var onboardingFace:BoardingFace = .threeAsset
     
     @State private var rotateBack:CGFloat = 0
@@ -143,6 +145,7 @@ struct CloudCartView:View {
 
 struct CircleBoarding:View {
     
+    @EnvironmentObject var vm:ViewModel
     @Environment(\.accessibilityReduceMotion) var reduceMotion
     
     @Binding var onboardingFace:BoardingFace
@@ -168,7 +171,7 @@ struct CircleBoarding:View {
                     HStack(spacing:40) {
                         
                         Button {
-                            //
+                           // vm.moveScreenState(to: .miniGame)
                         } label: {
                             
                             Image("kid_f")
@@ -178,7 +181,7 @@ struct CircleBoarding:View {
                         }
 
                         Button {
-                            //
+                            vm.moveScreenState(to: .storie(StoryData.storie_1))
                         } label: {
                             
                             Image("kid_m")

@@ -11,6 +11,41 @@ import UIKit
 @MainActor
 class ViewModel:ObservableObject {
     
-
+    @Published private(set) var sceneState:SceneState = .onBoarding
     
+}
+
+// MARK: Screen Manager
+extension ViewModel {
+    
+    func moveScreenState(to new:SceneState) {
+        
+       sceneState = new
+    }
+}
+
+
+
+// MARK: Programmatically move scene
+
+import SwiftUI
+enum SceneState {
+    
+    case onBoarding
+    case storie(_ :StoryModel)
+    case miniGame
+    
+    
+    @ViewBuilder func viewAssociated() -> some View {
+        
+        switch self {
+        case .onBoarding:
+            OnboardingView()
+        case .storie(let storie):
+            StoryView(story: storie)
+        case .miniGame:
+            MiniGameMainScene()
+        }
+        
+    }
 }
