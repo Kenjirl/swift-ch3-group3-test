@@ -235,14 +235,17 @@ struct DragItemView<DragElement: View>: View {
             switch newValue {
                 
             case .detach:
-                AudioManager.shared.playAudioEffect(.puzzleDetach)
+//                AudioManager.shared.playAudioEffect(.puzzleDetach)
+                break
             case .done:
-                AudioManager.shared.playAudioEffect(.puzzleSnap)
+//                AudioManager.shared.playAudioEffect(.puzzleSnap)
                 puzzleVM.itemsDragged += 1
             case .nearby:
-                AudioManager.shared.playAudioEffect(.puzzleNearby)
+//                AudioManager.shared.playAudioEffect(.puzzleNearby)
+                break
             case .wrong:
-                AudioManager.shared.playAudioEffect(.puzzleTrash)
+//                AudioManager.shared.playAudioEffect(.puzzleTrash)
+                break
             case .zero:
                 return
             }
