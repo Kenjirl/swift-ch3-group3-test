@@ -30,7 +30,7 @@ struct LessonData: Identifiable {
 }
 
 struct EndingView: View {
-
+	@Environment(\.accessibilityReduceMotion) var reduceMotion
 	let lesson: [LessonData]
 	var isVisible: Bool
 
@@ -58,7 +58,7 @@ struct EndingView: View {
 					}
 					.opacity(isVisible ? 1 : 0)
 					.scaleEffect(isVisible ? 1 : 0.8)
-					.animation(
+					.animation(reduceMotion ? nil :
 						.easeOut(duration: 0.5).delay(Double(index) * 0.15),
 						value: isVisible
 					)
@@ -78,6 +78,8 @@ struct EndingView: View {
 
 struct LessonFlowView: View {
 	@EnvironmentObject var vm: ViewModel
+	@Environment(\.accessibilityReduceMotion) var reduceMotion
+
 	let lessons: [[LessonData]] = [
 		LessonData.lesson_1,
 		LessonData.lesson_2,
@@ -93,17 +95,25 @@ struct LessonFlowView: View {
 			.onAppear { isVisible = true }
 			.onTapGesture {
 				guard currentIndex < lessons.count - 1 else {
-					withAnimation { isVisible = false }
+					if !reduceMotion {
+						withAnimation {
+							isVisible = false
+						}
+					}
 					DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
 						goToQuiz()
 					}
 					return
 				}
-				withAnimation { isVisible = false }
+				if !reduceMotion {
+					withAnimation { isVisible = false }
+				}
 				DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
 					currentIndex += 1
 					isVisible = false
-					withAnimation { isVisible = true }
+					if !reduceMotion {
+						withAnimation { isVisible = true }
+					}
 				}
 			}
 	}

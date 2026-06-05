@@ -8,69 +8,75 @@
 import SwiftUI
 
 struct ChaptersView: View {
-    @EnvironmentObject var vm:ViewModel
-    
-    @AppStorage("playerCharacter") var playerCharacter: String = CharacterData.female.rawValue
-    
+	@EnvironmentObject var vm: ViewModel
+	@Environment(\.accessibilityReduceMotion) var reduceMotion
+
+	@AppStorage("playerCharacter") var playerCharacter: String = CharacterData
+		.female.rawValue
+
 	@State private var isZoomed = false
 	@State private var scale: Double = 1.1
 	@State private var scaleZoom: Double = 1.2
 	@State private var lastChapter: Int = 2
 	@State private var currentChapter: Int = 1
 	@State private var currentAsset: String = "chapter1Asset"
-    
-	
+
 	var body: some View {
 		NavigationStack {
-			ZStack (alignment: .center) {
-				Image(.menuBG)
+			ZStack(alignment: .center) {
+				Image(reduceMotion ? .chapter1 : .menuBG)
 					.resizable()
 					.ignoresSafeArea()
 					.scaledToFill()
 					.scaleEffect(isZoomed ? scaleZoom : scale)
-					.animation(.bouncy, value: isZoomed ? scaleZoom : scale)
+					.animation(reduceMotion ? nil : .bouncy, value: isZoomed ? scaleZoom : scale)
 				
-				CloudCartView(h: 65, opacity: 0.3)
-					 .offset(x: -90, y: -100)
-				CloudCartView(h: 65, opacity: 0.6)
-					 .offset(x: 250, y: 0)
-				CloudCartView(h: 65, opacity: 0.9)
-					 .offset(x: -300, y: 20)
+				//Clouds
+				if !reduceMotion {
+					CloudCartView(h: 65, opacity: 0.3)
+						.offset(x: -90, y: -100)
+					CloudCartView(h: 65, opacity: 0.6)
+						.offset(x: 250, y: 0)
+					CloudCartView(h: 65, opacity: 0.9)
+						.offset(x: -300, y: 20)
+				}
 				
 				Image("chapter\(currentChapter)Prop")
 					.scaleEffect(isZoomed ? scaleZoom : scale)
-					.animation(.bouncy, value: isZoomed ? scaleZoom : scale)
-					.offset(y:130)
-				
+					.animation(reduceMotion ? nil : .bouncy, value: isZoomed ? scaleZoom : scale)
+					.offset(y: 130)
+
 				Button {
 					isZoomed.toggle()
 					DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
 						isZoomed = false
-						}
+					}
 					DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) {
-							goToChapter()
-						}
+						goToChapter()
+					}
 				} label: {
 					Image(currentAsset)
 						.resizable()
 						.scaledToFit()
 						.frame(width: 330)
 						.scaleEffect(isZoomed ? scaleZoom : scale)
-						.animation(.bouncy, value: isZoomed ? scaleZoom : scale)
+						.animation(reduceMotion ? nil : .bouncy, value: isZoomed ? scaleZoom : scale)
 				}
 				.offset(y: 50)
-				
+
 				VStack {
 					Text("Chapter \(currentChapter)")
 						.font(.title2)
-					Text(currentChapter == 2 ? "Holiday at the Farm" : "Lunch in The School")
-						.font(.title)
-						.bold()
+					Text(
+						currentChapter == 2
+							? "Holiday at the Farm" : "Lunch in The School"
+					)
+					.font(.title)
+					.bold()
 				}
 				.frame(width: 300, height: 300, alignment: .top)
 				.foregroundStyle(Color.white)
-				
-				
+
 				// Navigasi
 				HStack {
 					if currentChapter != 1 {
@@ -80,9 +86,9 @@ struct ChaptersView: View {
 							Image(.prev)
 						}
 					}
-					
+
 					Spacer()
-					
+
 					if currentChapter != lastChapter {
 						Button {
 							goToNext()
@@ -93,30 +99,60 @@ struct ChaptersView: View {
 				}
 				.padding(20)
 				.offset(x: -20, y: 20)
+
+				VStack {
+					HStack {
+						Button {
+							goToHome()
+						} label: {
+							Image("btn home")
+								.resizable()
+								.frame(width: 75, height: 75)
+						}
+						Spacer()
+					}
+					.frame(maxWidth: .infinity)
+					.padding(.top, 30)
+					.padding(.leading, 10)
+
+					Spacer()
+				}
+				.frame(maxWidth: .infinity)
 			}
+			.frame(width: .infinity, height: .infinity)
 		}
 	}
-	
+
 	func goToNext() {
 		currentChapter += 1
 		currentAsset = "chapter\(currentChapter)Asset"
 	}
-	
+
 	func goToPrev() {
 		currentChapter -= 1
 		currentAsset = "chapter\(currentChapter)Asset"
 	}
-	
+
 	func goToChapter() {
 		if currentChapter == 1 {
-			vm.moveScreenState(to: .storie(StoryData.storie_1(player: CharacterData(rawValue: playerCharacter) ?? .female)))
+			vm.moveScreenState(
+				to: .storie(
+					StoryData.storie_1(
+						player: CharacterData(rawValue: playerCharacter)
+							?? .female
+					)
+				)
+			)
 		} else {
 			vm.moveScreenState(to: .upcoming)
 		}
-		
+
+	}
+
+	func goToHome() {
+		vm.moveScreenState(to: .onBoarding)
 	}
 }
-
 
 #Preview {
 	ChaptersView()
