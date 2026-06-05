@@ -145,15 +145,11 @@ struct CloudCartView:View {
 
 struct CircleBoarding:View {
     
-    @AppStorage("playerCharacter") var playerCharacter: String = CharacterData.female.rawValue
-
     @EnvironmentObject var vm:ViewModel
     @Environment(\.accessibilityReduceMotion) var reduceMotion
     
     @Binding var onboardingFace:BoardingFace
     @State private var rotate:CGFloat = 0
-    @State private var isZoomed: Bool = false
-    @State private var selectedCharacter: CharacterData? = nil
   
     
     var body: some View {
@@ -173,25 +169,25 @@ struct CircleBoarding:View {
                 if onboardingFace == .twoAsset {
                     
                     HStack(spacing:40) {
-                        ForEach(CharacterData.allCases, id: \.rawValue) { character in
-                            Button {
-                                selectedCharacter = character
-                                isZoomed = true
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    isZoomed = false
-                                }
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
-                                    playerCharacter = character.rawValue
-                                    vm.moveScreenState(to: .menu)
-                                }
-                            } label: {
-                                Image(character.imageName)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 100, height: 100)
-                                    .scaleEffect(selectedCharacter == character && isZoomed ? 1.2 : 1.0)
-                                    .animation(.bouncy, value: isZoomed)
-                            }
+                        
+                        Button {
+                           // vm.moveScreenState(to: .miniGame)
+                        } label: {
+                            
+                            Image("kid_f")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 100, height: 100)
+                        }
+
+                        Button {
+                            vm.moveScreenState(to: .menu)
+                        } label: {
+                            
+                            Image("kid_m")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 100, height: 100)
                         }
                     }
                     .padding(.bottom,80)
