@@ -14,6 +14,10 @@ struct AssetCharacter: View {
     let animationTrigger: String
     let geometrySize: CGSize
     
+    let lottiePropName = " lottie"
+    
+    @Environment(\.accessibilityReduceMotion) var reduceMotion
+    
     @State private var phase: AnimationPhase = .idle
     
     enum AnimationPhase {
@@ -29,7 +33,7 @@ struct AssetCharacter: View {
     }
     
     var body: some View {
-        if !asset.animateAble {
+        if reduceMotion || !asset.animateAble {
             /// Common Asset
 
             let animatedView =
@@ -41,7 +45,7 @@ struct AssetCharacter: View {
                         height: geometrySize.height * asset.size.height
                     )
             
-            if asset.type != .other {
+            if reduceMotion && asset.type != .other {
                 animatedView
                     .keyframeAnimator(initialValue: CGFloat(0), trigger: animationTrigger) { view, offset in
                         view.offset(y: isActive ? offset : 0)
@@ -67,7 +71,7 @@ struct AssetCharacter: View {
             /// Lottie Asset
 
             LottieView {
-                try await DotLottieFile.named(asset.source)
+                try await DotLottieFile.named(asset.source+lottiePropName)
             }
             .playbackMode(playbackMode)
             .animationDidFinish { _ in
