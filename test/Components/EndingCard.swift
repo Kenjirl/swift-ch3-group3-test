@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct EndingCard: View {
+	@EnvironmentObject var vm:ViewModel
+	
     let ending: EndingModel
     let onHome: () -> Void
     let onRestart: () -> Void
@@ -68,7 +70,18 @@ struct EndingCard: View {
                                     Image("btn next")
                                         .frame(width: 50, height: 50)
                                 }
-                            }
+							} else {
+								Button {
+									goToEnding()
+								} label: {
+									Image(systemName: "arrowtriangle.forward")
+										.frame(width: 50, height: 50)
+										.background(Color.white)
+										.cornerRadius(50)
+										.foregroundColor(Color(ending.colorName))
+										.font(.title2)
+								}
+							}
                         }
                     }
                     .padding(24)
@@ -84,10 +97,14 @@ struct EndingCard: View {
             .ignoresSafeArea()
         }
     }
+	
+	func goToEnding() {
+		vm.moveScreenState(to: .ending)
+	}
 }
 
 #Preview {
-    @Previewable let story: StoryModel = StoryData.storie_1//.stories[0]
+    @Previewable let story: StoryModel = StoryData.storie_1(player: .female)
     EndingCard(
         ending: story.scenes[4].ending!,
         onHome: {},

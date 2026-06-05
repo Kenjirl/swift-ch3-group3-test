@@ -77,6 +77,11 @@ struct MiniGameMainScene: View {
     
     @EnvironmentObject var vm:ViewModel
     @StateObject private var puzzleVM: DragViewModel = DragViewModel()
+    
+    @AppStorage("playerCharacter") var playerCharacter: String = CharacterData.female.rawValue
+    @AppStorage("currentSceneIndex") var currentSceneIndex: Int = 0
+    @AppStorage("currentDialogIndex") var currentDialogIndex: Int = 0
+    @AppStorage("checkpoint") var checkpoint: Int = 0
 
     var body: some View {
 
@@ -105,14 +110,14 @@ struct MiniGameMainScene: View {
                            // .padding(.top, topPadding)
                            // .padding(.trailing, trailingPad)
 
-                        Text("What Eja bring for lunch?")
-                            .font(.headline)
-                            .foregroundStyle(Color.blue)
-                            .fontWeight(.black)
+                        Text("What Friend bring for lunch?")
+                            .foregroundStyle(Color.accentPink)
+                            .fontWeight(.semibold)
+                            .font(.custom("Fredoka", size: 24))
                         
                         Text("Place the food in the lunchbox to see!")
-                            .font(.headline)
-                            .foregroundStyle(Color.blue)
+                            .foregroundStyle(Color.accentPink)
+                            .font(.custom("Fredoka", size: 20))
                            
                         
                         Spacer()
@@ -132,32 +137,28 @@ struct MiniGameMainScene: View {
                 .padding(.trailing, trailingPad)
                 .opacity(puzzleVM.gameEnded ? 0.3 : 1.0)
                 .overlay {
-                    
                     if puzzleVM.gameEnded {
-                        
                         Image("puzzle_end_remark")
                             .resizable()
+                            .scaledToFill()
                             .scaleEffect(0.75)
-                            
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                vm.moveScreenState(to: .storie(
+                                    StoryData.storie_1(
+                                        player: CharacterData(rawValue: playerCharacter) ?? .female
+                                    )
+                                ))
+                            }
                     }
-
-                }
-                .overlay(alignment: .bottomTrailing) {
-                 
-                    if puzzleVM.gameEnded {
-                        
-                        Button {
-                            vm.moveScreenState(to: .storie(StoryData.storie_1))
-                        } label: {
-                            Text("NEXT BUTTON")
-                                .font(.largeTitle)
-                        }
-                        .offset(x:-100)
-
-                    }
-                    
                 }
                 .animation(.easeInOut(duration: 1.5), value: puzzleVM.gameEnded)
+                
+                VStack {
+                    StoryNavigationBar(onHome: goToHome)
+                }
+                .ignoresSafeArea()
+                .offset(x: 35)
             }
             .coordinateSpace(name: "canvas")
             .onAppear {
@@ -165,6 +166,16 @@ struct MiniGameMainScene: View {
             }
         }
         .environmentObject(puzzleVM)
+    }
+    
+    func goToHome() {
+        vm.moveScreenState(to: .storie(
+            StoryData.storie_1(
+                player: CharacterData(rawValue: playerCharacter) ?? .female
+            )
+        ))
+        currentSceneIndex -= 1
+        currentDialogIndex = StoryData.storie_1(player: .female).scenes[currentSceneIndex].dialogs.count - 1
     }
 }
 
@@ -224,14 +235,17 @@ struct DragItemView<DragElement: View>: View {
             switch newValue {
                 
             case .detach:
-                AudioManager.shared.playAudioEffect(.puzzleDetach)
+//                AudioManager.shared.playAudioEffect(.puzzleDetach)
+                break
             case .done:
-                AudioManager.shared.playAudioEffect(.puzzleSnap)
+//                AudioManager.shared.playAudioEffect(.puzzleSnap)
                 puzzleVM.itemsDragged += 1
             case .nearby:
-                AudioManager.shared.playAudioEffect(.puzzleNearby)
+//                AudioManager.shared.playAudioEffect(.puzzleNearby)
+                break
             case .wrong:
-                AudioManager.shared.playAudioEffect(.puzzleTrash)
+//                AudioManager.shared.playAudioEffect(.puzzleTrash)
+                break
             case .zero:
                 return
             }
