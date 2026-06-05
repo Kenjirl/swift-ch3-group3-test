@@ -49,7 +49,8 @@ struct EndingView: View {
 					item in
 					Group {
 						if item.type == "title" {
-							Text(item.text).font(.custom("Fredoka", size: 30))
+							Text(item.text)
+								.font(.custom("Fredoka", size: 30))
 								.bold()
 						} else {
 							Text(item.text)
@@ -58,8 +59,12 @@ struct EndingView: View {
 					}
 					.opacity(isVisible ? 1 : 0)
 					.scaleEffect(isVisible ? 1 : 0.8)
-					.animation(reduceMotion ? nil :
-						.easeOut(duration: 0.5).delay(Double(index) * 0.15),
+					.animation(
+						reduceMotion
+							? nil
+							: .easeOut(duration: 0.5).delay(
+								Double(index) * 0.15
+							),
 						value: isVisible
 					)
 				}

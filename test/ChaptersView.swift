@@ -99,7 +99,8 @@ struct ChaptersView: View {
 				}
 				.padding(20)
 				.offset(x: -20, y: 20)
-
+				
+				//home button
 				VStack {
 					HStack {
 						Button {
@@ -117,7 +118,6 @@ struct ChaptersView: View {
 
 					Spacer()
 				}
-				.frame(maxWidth: .infinity)
 			}
 		}
 	}
