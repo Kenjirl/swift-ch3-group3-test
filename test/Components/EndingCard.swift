@@ -104,7 +104,7 @@ struct EndingCard: View {
 }
 
 #Preview {
-    @Previewable let story: StoryModel = StoryData.storie_1(player: .female)
+    @Previewable let story: StoryModel = StoryData.storie_1//.stories[0]
     EndingCard(
         ending: story.scenes[4].ending!,
         onHome: {},
