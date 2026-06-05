@@ -14,10 +14,7 @@ import Foundation
 // MARK: Scenes that have same value can be written only one time and reuse
 enum StoryData {
     
-    static func storie_1(player: CharacterData) -> StoryModel {
-        let npc: CharacterData = player == .female ? .male : .female
-        
-        return StoryModel (
+    static let storie_1:StoryModel = StoryModel(
         scenes: [
             /// --- Part 1 ---
             /// Scene 1
@@ -27,10 +24,10 @@ enum StoryData {
                                position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "prop sticky", type: .other,
                                position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
-                    AssetModel(source: "char \(player.rawValue) right", type: .player,
-                               position: AssetPosition(x: 0.12, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
-                    AssetModel(source: "char \(npc.rawValue) left", type: .npc,
-                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char female right", type: .player,
+                               position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char male left", type: .npc,
+                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.55, height: 0.75), animateAble: false),
                     AssetModel(source: "table", type: .other,
                                position: AssetPosition(x: 0.15, y: 0.95), size: AssetSize(width: 0.32, height: 0.45), animateAble: false),
                     AssetModel(source: "table", type: .other,
@@ -41,15 +38,14 @@ enum StoryData {
                                position: AssetPosition(x: 0.87, y: 0.88), size: AssetSize(width: 0.12, height: 0.22), animateAble: false),
                 ],
                 dialogs: [
-                    DialogModel(name: "Me", text: "Hey, what did you bring for lunch?", type: .player, arrowDirection: .left,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: player.colorName),
+                    DialogModel(name: "Me", text: "Andi, what did you bring for lunch?", type: .player, arrowDirection: .left,
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentPink"),
                     DialogModel(name: "Friend", text: "Hmm. not sure, let’s check together!", type: .npc, arrowDirection: .right,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: npc.colorName)
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentBlue")
                 ],
                 background: "bg classroom",
                 nextScene: 2,
-                checkPoint: true,
-                triggerMiniGame: true
+                checkPoint: true
             ),
             
             /// Scene 2
@@ -59,10 +55,10 @@ enum StoryData {
                                position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "prop sticky", type: .other,
                                position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
-                    AssetModel(source: "char \(player.rawValue) right", type: .player,
-                               position: AssetPosition(x: 0.12, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
-                    AssetModel(source: "char \(npc.rawValue) left", type: .npc,
-                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char female right", type: .player,
+                               position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char male left", type: .npc,
+                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.55, height: 0.75), animateAble: false),
                     AssetModel(source: "table", type: .other,
                                position: AssetPosition(x: 0.15, y: 0.95), size: AssetSize(width: 0.32, height: 0.45), animateAble: false),
                     AssetModel(source: "table", type: .other,
@@ -74,7 +70,7 @@ enum StoryData {
                 ],
                 dialogs: [
                     DialogModel(name: "Me", text: "Wow, your lunch look yummier...", type: .player, arrowDirection: .left,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: player.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentPink"),
                 ],
                 actions: [
                     ActionModel(text: "Ask Permission", nextScene: 3),
@@ -90,10 +86,10 @@ enum StoryData {
                                position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "prop sticky", type: .other,
                                position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
-                    AssetModel(source: "char \(player.rawValue) right", type: .player,
-                               position: AssetPosition(x: 0.12, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
-                    AssetModel(source: "char \(npc.rawValue) left", type: .npc,
-                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char female right", type: .player,
+                               position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char male left", type: .npc,
+                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.55, height: 0.75), animateAble: false),
                     AssetModel(source: "table", type: .other,
                                position: AssetPosition(x: 0.15, y: 0.95), size: AssetSize(width: 0.32, height: 0.45), animateAble: false),
                     AssetModel(source: "table", type: .other,
@@ -105,13 +101,13 @@ enum StoryData {
                 ],
                 dialogs: [
                     DialogModel(name: "Me", text: "Can I have one please?", type: .player, arrowDirection: .left,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: player.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentPink"),
                     DialogModel(name: "Friend", text: "Sure, you can take one", type: .npc, arrowDirection: .right,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: npc.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentBlue"),
                     DialogModel(name: "Me", text: "Thank you", type: .player, arrowDirection: .left,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: player.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentPink"),
                 ],
-                ending: EndingModel(text: "Good Job Asking First!", star: 3, colorName: npc.colorName, background: "bg ending blue", nextScene: 7),
+                ending: EndingModel(text: "Good Job Asking First!", star: 3, colorName: "accentBlue", background: "bg ending blue", nextScene: 7),
                 background: "bg classroom"
             ),
             
@@ -122,10 +118,10 @@ enum StoryData {
                                position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "prop sticky", type: .other,
                                position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
-                    AssetModel(source: "char \(player.rawValue) right", type: .player,
-                               position: AssetPosition(x: 0.12, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
-                    AssetModel(source: "char \(npc.rawValue) shock left", type: .npc,
-                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char female right", type: .player,
+                               position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char male shock left", type: .npc,
+                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.55, height: 0.75), animateAble: false),
                     AssetModel(source: "table", type: .other,
                                position: AssetPosition(x: 0.15, y: 0.95), size: AssetSize(width: 0.32, height: 0.45), animateAble: false),
                     AssetModel(source: "table", type: .other,
@@ -137,7 +133,7 @@ enum StoryData {
                 ],
                 dialogs: [
                     DialogModel(name: "Friend", text: "Oh, you didn’t ask first?", type: .npc, arrowDirection: .right,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: npc.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentBlue"),
                 ],
                 actions: [
                     ActionModel(text: "Say sorry", nextScene: 5),
@@ -153,10 +149,10 @@ enum StoryData {
                                position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "prop sticky", type: .other,
                                position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
-                    AssetModel(source: "char \(player.rawValue) right", type: .player,
-                               position: AssetPosition(x: 0.12, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
-                    AssetModel(source: "char \(npc.rawValue) left", type: .npc,
-                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char female right", type: .player,
+                               position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char male left", type: .npc,
+                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.55, height: 0.75), animateAble: false),
                     AssetModel(source: "table", type: .other,
                                position: AssetPosition(x: 0.15, y: 0.95), size: AssetSize(width: 0.32, height: 0.45), animateAble: false),
                     AssetModel(source: "table", type: .other,
@@ -168,11 +164,11 @@ enum StoryData {
                 ],
                 dialogs: [
                     DialogModel(name: "Me", text: "I’m Sorry", type: .player, arrowDirection: .left,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: player.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentPink"),
                     DialogModel(name: "Friend", text: "It’s okay please ask next time", type: .npc, arrowDirection: .right,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: npc.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentBlue"),
                 ],
-                ending: EndingModel(text: "Good Friends Respect Boundaries", star: 2, colorName: npc.colorName, background: "bg ending blue", nextScene: 7),
+                ending: EndingModel(text: "Good Friends Respect Boundaries", star: 2, colorName: "accentBlue", background: "bg ending blue", nextScene: 7),
                 background: "bg classroom"
             ),
             
@@ -183,10 +179,10 @@ enum StoryData {
                                position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "prop sticky", type: .other,
                                position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
-                    AssetModel(source: "char \(player.rawValue) right", type: .player,
-                               position: AssetPosition(x: 0.12, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
-                    AssetModel(source: "char \(npc.rawValue) sad left", type: .npc,
-                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char female right", type: .player,
+                               position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char male shock left", type: .npc,
+                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.55, height: 0.75), animateAble: false),
                     AssetModel(source: "table", type: .other,
                                position: AssetPosition(x: 0.15, y: 0.95), size: AssetSize(width: 0.32, height: 0.45), animateAble: false),
                     AssetModel(source: "table", type: .other,
@@ -198,9 +194,9 @@ enum StoryData {
                 ],
                 dialogs: [
                     DialogModel(name: "Friend", text: "...", type: .npc, arrowDirection: .right,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: npc.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentBlue"),
                 ],
-                ending: EndingModel(text: "Good Friends Respect Boundaries", star: 1, colorName: npc.colorName, background: "bg ending blue", nextScene: 7),
+                ending: EndingModel(text: "Good Friends Respect Boundaries", star: 1, colorName: "accentBlue", background: "bg ending blue", nextScene: 7),
                 background: "bg classroom"
             ),
             
@@ -212,10 +208,10 @@ enum StoryData {
                                position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "prop sticky", type: .other,
                                position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
-                    AssetModel(source: "char \(player.rawValue) right", type: .player,
-                               position: AssetPosition(x: 0.12, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
-                    AssetModel(source: "char \(npc.rawValue) left", type: .npc,
-                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char female right", type: .player,
+                               position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char male left", type: .npc,
+                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.55, height: 0.75), animateAble: false),
                     AssetModel(source: "table", type: .other,
                                position: AssetPosition(x: 0.15, y: 0.95), size: AssetSize(width: 0.32, height: 0.45), animateAble: false),
                     AssetModel(source: "table", type: .other,
@@ -227,9 +223,9 @@ enum StoryData {
                 ],
                 dialogs: [
                     DialogModel(name: "Me", text: "Can I have another one?", type: .player, arrowDirection: .left,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: player.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentPink"),
                     DialogModel(name: "Friend", text: "Sorry! I want to save it for later.", type: .npc, arrowDirection: .right,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: npc.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentBlue"),
                 ],
                 actions: [
                     ActionModel(text: "Okay!", nextScene: 8),
@@ -246,10 +242,10 @@ enum StoryData {
                                position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "prop sticky", type: .other,
                                position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
-                    AssetModel(source: "char \(player.rawValue) right", type: .player,
-                               position: AssetPosition(x: 0.12, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
-                    AssetModel(source: "char \(npc.rawValue) left", type: .npc,
-                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char female right", type: .player,
+                               position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char male left", type: .npc,
+                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.55, height: 0.75), animateAble: false),
                     AssetModel(source: "table", type: .other,
                                position: AssetPosition(x: 0.15, y: 0.95), size: AssetSize(width: 0.32, height: 0.45), animateAble: false),
                     AssetModel(source: "table", type: .other,
@@ -261,11 +257,11 @@ enum StoryData {
                 ],
                 dialogs: [
                     DialogModel(name: "Me", text: "Ok!", type: .player, arrowDirection: .left,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: player.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentPink"),
                     DialogModel(name: "Friend", text: "Thank you for understanding!", type: .npc, arrowDirection: .right,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: npc.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentBlue"),
                     DialogModel(name: "Me", text: "No problem!", type: .player, arrowDirection: .left,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: player.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentPink"),
                 ],
                 ending: EndingModel(text: "Good Friends Respect Boundaries", star: 3, background: "bg ending pink"),
                 background: "bg classroom"
@@ -278,10 +274,10 @@ enum StoryData {
                                position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "prop sticky", type: .other,
                                position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
-                    AssetModel(source: "char \(player.rawValue) right", type: .player,
-                               position: AssetPosition(x: 0.12, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
-                    AssetModel(source: "char \(npc.rawValue) shock left", type: .npc,
-                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char female right", type: .player,
+                               position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char male shock left", type: .npc,
+                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.55, height: 0.75), animateAble: false),
                     AssetModel(source: "table", type: .other,
                                position: AssetPosition(x: 0.15, y: 0.95), size: AssetSize(width: 0.32, height: 0.45), animateAble: false),
                     AssetModel(source: "table", type: .other,
@@ -293,9 +289,9 @@ enum StoryData {
                 ],
                 dialogs: [
                     DialogModel(name: "Me", text: "Please... just one more", type: .player, arrowDirection: .left,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: player.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentPink"),
                     DialogModel(name: "Friend", text: "I said no...", type: .npc, arrowDirection: .right,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: npc.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentBlue"),
                 ],
                 actions: [
                     ActionModel(text: "Ok, sorry!", nextScene: 10),
@@ -311,10 +307,10 @@ enum StoryData {
                                position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "prop sticky", type: .other,
                                position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
-                    AssetModel(source: "char \(player.rawValue) right", type: .player,
-                               position: AssetPosition(x: 0.12, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
-                    AssetModel(source: "char \(npc.rawValue) left", type: .npc,
-                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char female right", type: .player,
+                               position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char male left", type: .npc,
+                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.55, height: 0.75), animateAble: false),
                     AssetModel(source: "table", type: .other,
                                position: AssetPosition(x: 0.15, y: 0.95), size: AssetSize(width: 0.32, height: 0.45), animateAble: false),
                     AssetModel(source: "table", type: .other,
@@ -326,11 +322,11 @@ enum StoryData {
                 ],
                 dialogs: [
                     DialogModel(name: "Me", text: "Oh... Ok, sorry friend!", type: .player, arrowDirection: .left,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: player.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentPink"),
                     DialogModel(name: "Friend", text: "Thank you for understanding!", type: .npc, arrowDirection: .right,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: npc.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentBlue"),
                     DialogModel(name: "Me", text: "No problem!", type: .player, arrowDirection: .left,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: player.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentPink"),
                 ],
                 ending: EndingModel(text: "Good Friends Respect Boundaries", star: 3, background: "bg ending pink"),
                 background: "bg classroom"
@@ -343,10 +339,10 @@ enum StoryData {
                                position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "prop sticky", type: .other,
                                position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
-                    AssetModel(source: "char \(player.rawValue) sad right", type: .player,
-                               position: AssetPosition(x: 0.12, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
-                    AssetModel(source: "char \(npc.rawValue) sad left", type: .npc,
-                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char female right", type: .player,
+                               position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char male sad left", type: .npc,
+                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.55, height: 0.75), animateAble: false),
                     AssetModel(source: "table", type: .other,
                                position: AssetPosition(x: 0.15, y: 0.95), size: AssetSize(width: 0.32, height: 0.45), animateAble: false),
                     AssetModel(source: "table", type: .other,
@@ -358,9 +354,9 @@ enum StoryData {
                 ],
                 dialogs: [
                     DialogModel(name: "Me", text: "Please, please, please... just one more", type: .player, arrowDirection: .left,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: player.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentPink"),
                     DialogModel(name: "Friend", text: "I do not like that", type: .npc, arrowDirection: .right,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: npc.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentBlue"),
                 ],
                 background: "bg classroom",
                 nextScene: 12
@@ -373,8 +369,8 @@ enum StoryData {
                                position: AssetPosition(x: 0.76, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "char teacher right", type: .npc,
                                position: AssetPosition(x: 0.12, y: 0.72), size: AssetSize(width: 0.9, height: 1.05), animateAble: false),
-                    AssetModel(source: "char \(player.rawValue) sad left", type: .player,
-                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char female left", type: .player,
+                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.55, height: 0.75), animateAble: false),
                     AssetModel(source: "table", type: .other,
                                position: AssetPosition(x: 0.85, y: 0.95), size: AssetSize(width: 0.32, height: 0.45), animateAble: false),
                     AssetModel(source: "prop lunch box blue", type: .other,
@@ -395,10 +391,10 @@ enum StoryData {
                                position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "prop sticky", type: .other,
                                position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
-                    AssetModel(source: "char \(player.rawValue) sad right", type: .player,
-                               position: AssetPosition(x: 0.12, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
-                    AssetModel(source: "char \(npc.rawValue) sad left", type: .npc,
-                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char female right", type: .player,
+                               position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char male sad left", type: .npc,
+                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.55, height: 0.75), animateAble: false),
                     AssetModel(source: "table", type: .other,
                                position: AssetPosition(x: 0.15, y: 0.95), size: AssetSize(width: 0.32, height: 0.45), animateAble: false),
                     AssetModel(source: "table", type: .other,
@@ -410,7 +406,7 @@ enum StoryData {
                 ],
                 dialogs: [
                     DialogModel(name: "Friend", text: "Yea, I don't like that", type: .npc, arrowDirection: .right,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: npc.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentBlue"),
                 ],
                 actions: [
                     ActionModel(text: "Sorry, friend!", nextScene: 14),
@@ -426,10 +422,10 @@ enum StoryData {
                                position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "prop sticky", type: .other,
                                position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
-                    AssetModel(source: "char \(player.rawValue) right", type: .player,
-                               position: AssetPosition(x: 0.12, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
-                    AssetModel(source: "char \(npc.rawValue) left", type: .npc,
-                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char female right", type: .player,
+                               position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char male left", type: .npc,
+                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.55, height: 0.75), animateAble: false),
                     AssetModel(source: "table", type: .other,
                                position: AssetPosition(x: 0.15, y: 0.95), size: AssetSize(width: 0.32, height: 0.45), animateAble: false),
                     AssetModel(source: "table", type: .other,
@@ -441,9 +437,9 @@ enum StoryData {
                 ],
                 dialogs: [
                     DialogModel(name: "Me", text: "Sorry, friend!", type: .player, arrowDirection: .left,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: player.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentPink"),
                     DialogModel(name: "Friend", text: "Thank you!", type: .npc, arrowDirection: .right,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: npc.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentBlue"),
                 ],
                 background: "bg classroom",
                 nextScene: 15
@@ -456,8 +452,8 @@ enum StoryData {
                                position: AssetPosition(x: 0.76, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "char teacher right", type: .npc,
                                position: AssetPosition(x: 0.12, y: 0.72), size: AssetSize(width: 0.9, height: 1.05), animateAble: false),
-                    AssetModel(source: "char \(player.rawValue) left", type: .player,
-                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char female left", type: .player,
+                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.55, height: 0.75), animateAble: false),
                     AssetModel(source: "table", type: .other,
                                position: AssetPosition(x: 0.85, y: 0.95), size: AssetSize(width: 0.32, height: 0.45), animateAble: false),
                     AssetModel(source: "prop lunch box blue", type: .other,
@@ -478,10 +474,10 @@ enum StoryData {
                                position: AssetPosition(x: 0.09, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "prop sticky", type: .other,
                                position: AssetPosition(x: 0.84, y: 0.28), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
-                    AssetModel(source: "char \(player.rawValue) sad right", type: .player,
-                               position: AssetPosition(x: 0.12, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
-                    AssetModel(source: "char \(npc.rawValue) sad left", type: .npc,
-                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char female right", type: .player,
+                               position: AssetPosition(x: 0.12, y: 0.825), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char male sad left", type: .npc,
+                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.55, height: 0.75), animateAble: false),
                     AssetModel(source: "table", type: .other,
                                position: AssetPosition(x: 0.15, y: 0.95), size: AssetSize(width: 0.32, height: 0.45), animateAble: false),
                     AssetModel(source: "table", type: .other,
@@ -493,7 +489,7 @@ enum StoryData {
                 ],
                 dialogs: [
                     DialogModel(name: "Me", text: "...", type: .player, arrowDirection: .left,
-                                position: AssetPosition(x: 0.5, y: 0.55), colorName: player.colorName),
+                                position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentPink"),
                 ],
                 background: "bg classroom",
                 nextScene: 17
@@ -506,8 +502,8 @@ enum StoryData {
                                position: AssetPosition(x: 0.76, y: 0.23), size: AssetSize(width: 0.12, height: 0.22), animateAble: true),
                     AssetModel(source: "char teacher right", type: .npc,
                                position: AssetPosition(x: 0.12, y: 0.72), size: AssetSize(width: 0.9, height: 1.05), animateAble: false),
-                    AssetModel(source: "char \(player.rawValue) sad left", type: .player,
-                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.65, height: 0.8), animateAble: false),
+                    AssetModel(source: "char female left", type: .player,
+                               position: AssetPosition(x: 0.88, y: 0.775), size: AssetSize(width: 0.55, height: 0.75), animateAble: false),
                     AssetModel(source: "table", type: .other,
                                position: AssetPosition(x: 0.85, y: 0.95), size: AssetSize(width: 0.32, height: 0.45), animateAble: false),
                     AssetModel(source: "prop lunch box blue", type: .other,
@@ -521,7 +517,21 @@ enum StoryData {
                 background: "bg classroom 2"
             ),
         ]
-        )
-    }
+    )
+	
+	static let story_1_ending:StoryModel = StoryModel(
+		scenes: [
+			SceneModel(
+				assets: [
+					AssetModel(source: "teacherEnding", type: .npc,
+							   position: AssetPosition(x: 160, y: 230), size: AssetSize(width: 1, height: 1), animateAble: false),
+				],
+				dialogs: [
+					
+				],
+				background: "endingBG"
+			),
+		]
+	)
     
 }

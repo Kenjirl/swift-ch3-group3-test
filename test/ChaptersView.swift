@@ -10,8 +10,6 @@ import SwiftUI
 struct ChaptersView: View {
     @EnvironmentObject var vm:ViewModel
     
-    @AppStorage("playerCharacter") var playerCharacter: String = CharacterData.female.rawValue
-    
 	@State private var isZoomed = false
 	@State private var scale: Double = 1.1
 	@State private var scaleZoom: Double = 1.2
