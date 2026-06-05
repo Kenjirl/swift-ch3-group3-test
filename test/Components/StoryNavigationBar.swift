@@ -22,6 +22,8 @@ struct StoryNavigationBar: View {
                         .resizable()
                         .frame(width: 75, height: 75)
                 }
+                .accessibilityLabel("Go-Back")
+                .accessibilityAddTraits(.isButton)
             }
             .frame(maxWidth: .infinity)
             .padding(.top, 10)

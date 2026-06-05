@@ -70,6 +70,14 @@ struct StoryView: View {
                         x: geometry.size.width * dialogPos.x,
                         y: geometry.size.height * dialogPos.y
                     )
+                    .accessibilityElement(children: .ignore)
+                    .accessibilityLabel("Next-Scene")
+                    .accessibilityAddTraits(.isButton)
+                    .accessibilityAction {
+                        if !showActions {
+                            goToNext()
+                        }
+                    }
                 }
                 
                 // Restart button

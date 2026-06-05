@@ -41,6 +41,9 @@ struct ActionSheet: View {
                                 .fontWeight(.semibold)
                                 .font(.custom("Fredoka", size: 16))
                         }
+                        .accessibilityLabel(action.text)
+                        .accessibilityHint("Tap to choose this action")
+                        .accessibilityAddTraits(.isButton)
                     }
                 }
                 .padding(.horizontal, 30)

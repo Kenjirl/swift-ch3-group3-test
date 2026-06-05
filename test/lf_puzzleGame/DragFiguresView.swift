@@ -248,9 +248,31 @@ struct DragItemView<DragElement: View>: View {
             }
 
         }
+        .overlay(
+            Button {
+                placeItem()
+            } label: {
+                Color.clear
+            }
+            .accessibilityLabel("Food item")
+        )
 //        .onChange(of: puzzleVM.resetGame) { _, newValue in
 //            offset = .zero
 //        } // for test purpose
+    }
+    
+    func placeItem() {
+        guard dragStep != .done, let snap = getSnap(), let target else { return }
+        
+        let scaleX = target.size.width / startignSize.width
+        let scaleY = target.size.height / startignSize.height
+        let scaleZ = min(scaleX, scaleY)
+        
+        withAnimation(.spring()) {
+            scaledSize = CGSize(width: scaleZ, height: scaleZ)
+            offset = snap
+        }
+        dragStep = .done
     }
 
     private enum DragStep {
