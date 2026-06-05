@@ -111,7 +111,7 @@ enum StoryData {
                     DialogModel(name: "Me", text: "Thank you", type: .player, arrowDirection: .left,
                                 position: AssetPosition(x: 0.5, y: 0.55), colorName: player.colorName),
                 ],
-                ending: EndingModel(text: "Good Job Asking First!", star: 3, colorName: npc.colorName, background: "bg ending blue", nextScene: 7),
+                ending: EndingModel(text: "Good job asking first!", star: 3, colorName: npc.colorName, background: "bg ending blue", nextScene: 7),
                 background: "bg classroom"
             ),
             
@@ -172,7 +172,7 @@ enum StoryData {
                     DialogModel(name: "Friend", text: "It’s okay please ask next time", type: .npc, arrowDirection: .right,
                                 position: AssetPosition(x: 0.5, y: 0.55), colorName: npc.colorName),
                 ],
-                ending: EndingModel(text: "Good Friends Respect Boundaries", star: 2, colorName: npc.colorName, background: "bg ending blue", nextScene: 7),
+                ending: EndingModel(text: "Good friends respect boundaries", star: 2, colorName: npc.colorName, background: "bg ending blue", nextScene: 7),
                 background: "bg classroom"
             ),
             
@@ -200,7 +200,7 @@ enum StoryData {
                     DialogModel(name: "Friend", text: "...", type: .npc, arrowDirection: .right,
                                 position: AssetPosition(x: 0.5, y: 0.55), colorName: npc.colorName),
                 ],
-                ending: EndingModel(text: "Good Friends Respect Boundaries", star: 1, colorName: npc.colorName, background: "bg ending blue", nextScene: 7),
+                ending: EndingModel(text: "Good friends respect boundaries", star: 1, colorName: npc.colorName, background: "bg ending blue", nextScene: 7),
                 background: "bg classroom"
             ),
             
@@ -267,7 +267,7 @@ enum StoryData {
                     DialogModel(name: "Me", text: "No problem!", type: .player, arrowDirection: .left,
                                 position: AssetPosition(x: 0.5, y: 0.55), colorName: player.colorName),
                 ],
-                ending: EndingModel(text: "Good Friends Respect Boundaries", star: 3, background: "bg ending pink"),
+                ending: EndingModel(text: "Good friends respect boundaries", star: 3, background: "bg ending pink"),
                 background: "bg classroom"
             ),
             
@@ -332,7 +332,7 @@ enum StoryData {
                     DialogModel(name: "Me", text: "No problem!", type: .player, arrowDirection: .left,
                                 position: AssetPosition(x: 0.5, y: 0.55), colorName: player.colorName),
                 ],
-                ending: EndingModel(text: "Good Friends Respect Boundaries", star: 3, background: "bg ending pink"),
+                ending: EndingModel(text: "Good friends respect boundaries", star: 3, background: "bg ending pink"),
                 background: "bg classroom"
             ),
             
@@ -467,7 +467,7 @@ enum StoryData {
                     DialogModel(name: "Teacher", text: "It is important to stop asking when someone says no", type: .npc, arrowDirection: .left,
                                 position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentBrown"),
                 ],
-                ending: EndingModel(text: "EVERYONE HAS BOUNDARIES", star: 3, background: "bg ending pink"),
+                ending: EndingModel(text: "Everyone has boundaries", star: 3, background: "bg ending pink"),
                 background: "bg classroom 2"
             ),
             
@@ -517,7 +517,7 @@ enum StoryData {
                     DialogModel(name: "Teacher", text: "It is important to stop asking when someone says no", type: .npc, arrowDirection: .left,
                                 position: AssetPosition(x: 0.5, y: 0.55), colorName: "accentBrown"),
                 ],
-                ending: EndingModel(text: "EVERYONE HAS BOUNDARIES", star: 3, background: "bg ending pink"),
+                ending: EndingModel(text: "Everyone has boundaries", star: 3, background: "bg ending pink"),
                 background: "bg classroom 2"
             ),
         ]

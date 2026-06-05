@@ -16,6 +16,10 @@ struct EndingCard: View {
     let onProceed: () -> Void
     let hasNext: Bool
     
+    @AppStorage("currentSceneIndex") var currentSceneIndex: Int = 0
+    @AppStorage("currentDialogIndex") var currentDialogIndex: Int = 0
+    @AppStorage("checkpoint") var checkpoint: Int = 0
+    
     var body: some View {
         ZStack {
             Color.black.opacity(0.4)
@@ -32,7 +36,7 @@ struct EndingCard: View {
                                 .scaledToFit()
                                 .frame(width: 70, height: 70)
                             
-                            Text("Lesson Learned")
+                            Text(hasNext ? "Lesson Learned" : "Story Clear")
                                 .font(.custom("Fredoka", size: 24))
                                 .foregroundColor(.white)
                                 .multilineTextAlignment(.center)
@@ -74,12 +78,8 @@ struct EndingCard: View {
 								Button {
 									goToEnding()
 								} label: {
-									Image(systemName: "arrowtriangle.forward")
-										.frame(width: 50, height: 50)
-										.background(Color.white)
-										.cornerRadius(50)
-										.foregroundColor(Color(ending.colorName))
-										.font(.title2)
+                                    Image("btn check")
+                                        .frame(width: 50, height: 50)
 								}
 							}
                         }
@@ -99,7 +99,10 @@ struct EndingCard: View {
     }
 	
 	func goToEnding() {
-		vm.moveScreenState(to: .ending)
+        vm.moveScreenState(to: .ending)
+        checkpoint = 0
+        currentSceneIndex = 0
+        currentDialogIndex = 0
 	}
 }
 
