@@ -55,7 +55,7 @@ enum SceneState {
 		case .loading:
 			LoadingKiwiView()
 		case .ending:
-			EndingView()
+			LessonFlowView()
 		case .upcoming:
 			NewFeatureNotifView()
         }
