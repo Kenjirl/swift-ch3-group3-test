@@ -9,8 +9,9 @@ import Lottie
 import SwiftUI
 
 struct QuizView: View {
+	@EnvironmentObject var vm: ViewModel
     @State private var phase: AnimationPhase = .idle
-    @State private var currentStep: QuizStep = .finished
+    @State private var currentStep: QuizStep = .quiz1
 
     enum AnimationPhase {
         case idle, forward, reverse
@@ -95,7 +96,11 @@ struct QuizView: View {
 //                        phase = .forward
 //                    }
                 }
+				
             }
+			.onTapGesture {
+				vm.moveScreenState(to: .menu)
+			}
         }
     }
 }

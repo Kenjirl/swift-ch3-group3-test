@@ -95,7 +95,7 @@ struct LessonFlowView: View {
 				guard currentIndex < lessons.count - 1 else {
 					withAnimation { isVisible = false }
 					DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-						goToHome()
+						goToQuiz()
 					}
 					return
 				}
@@ -108,8 +108,8 @@ struct LessonFlowView: View {
 			}
 	}
 
-	func goToHome() {
-		vm.moveScreenState(to: .menu)
+	func goToQuiz() {
+		vm.moveScreenState(to: .quiz)
 	}
 
 }

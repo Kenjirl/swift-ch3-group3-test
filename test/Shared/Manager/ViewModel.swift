@@ -40,6 +40,7 @@ enum SceneState {
 	case loading
 	case ending
 	case upcoming
+	case quiz
     
     @ViewBuilder func viewAssociated() -> some View {
         
@@ -58,6 +59,8 @@ enum SceneState {
 			LessonFlowView()
 		case .upcoming:
 			NewFeatureNotifView()
+		case .quiz:
+			QuizView()
         }
         
     }
