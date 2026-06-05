@@ -113,13 +113,12 @@ struct ChaptersView: View {
 					}
 					.frame(maxWidth: .infinity)
 					.padding(.top, 30)
-					.padding(.leading, 10)
+					.padding(.leading, 0)
 
 					Spacer()
 				}
 				.frame(maxWidth: .infinity)
 			}
-			.frame(width: .infinity, height: .infinity)
 		}
 	}
 
