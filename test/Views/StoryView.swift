@@ -10,6 +10,7 @@ import SwiftUI
 struct StoryView: View {
     
     @EnvironmentObject var vm:ViewModel
+    @Environment(\.dismiss) var dismiss
     
     let story: StoryModel //= StoryData.stories[0]
     
@@ -121,13 +122,12 @@ struct StoryView: View {
         } else if currentScene.ending != nil {
             withAnimation(.spring()) { showEnding = true }
         } else if let next = currentScene.nextScene {
-            if next == 2 {
+            if currentScene.triggerMiniGame {
                 vm.moveScreenState(to: .miniGame)
-               currentSceneIndex += 1
+                currentSceneIndex += 1
                 currentDialogIndex = 0
             }
             else { navigateTo(next) }
-            
         }
         animationTrigger = "\(currentSceneIndex)-\(currentDialog.id)"
     }
@@ -170,8 +170,9 @@ struct StoryView: View {
     }
     
     func goToHome() {
-        reset()
+        dismiss()
         vm.moveScreenState(to: .menu)
+        reset()
     }
     
     func reset() {
@@ -187,7 +188,7 @@ struct StoryView: View {
 }
 
 #Preview {
-    let _ = UserDefaults.standard.set(11, forKey: "currentSceneIndex")
+    let _ = UserDefaults.standard.set(0, forKey: "currentSceneIndex")
     let _ = UserDefaults.standard.set(0, forKey: "currentDialogIndex")
-    return StoryView(story: StoryData.storie_1)
+    StoryView(story: StoryData.storie_1(player: .male))
 }

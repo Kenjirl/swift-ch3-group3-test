@@ -25,17 +25,17 @@ struct MealBoxOpen: View {
             .onPreferenceChange(SlotFrameKey.self) { frames in
                 puzzleVM.slotFrames = frames
             }
-            .overlay(alignment: .topTrailing, content: {
-                Button {
-                    puzzleVM.setItemsForPuzzleMiniGame()
-                  //  puzzleVM.resetGame.toggle()
-                    AudioManager.shared.playAudioEffect(.puzzleSnap)
-                    
-                } label: {
-                    Text("refresh")
-                } // for test
-
-            })
+//            .overlay(alignment: .topTrailing, content: {
+//                Button {
+//                    puzzleVM.setItemsForPuzzleMiniGame()
+//                  //  puzzleVM.resetGame.toggle()
+//                    AudioManager.shared.playAudioEffect(.puzzleSnap)
+//                    
+//                } label: {
+//                    Text("refresh")
+//                } // for test
+//
+//            })
 //            .onAppear {
 //               /* items = */puzzleVM.getThreeItemPerRaw()
 //            }
