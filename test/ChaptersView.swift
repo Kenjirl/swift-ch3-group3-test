@@ -109,7 +109,7 @@ struct ChaptersView: View {
 	
 	func goToChapter() {
 		if currentChapter == 1 {
-			vm.moveScreenState(to: .storie(StoryData.storie_1))
+			vm.moveScreenState(to: .storie(StoryData.storie_1(player: CharacterData(rawValue: playerCharacter) ?? .female)))
 		} else {
 			vm.moveScreenState(to: .upcoming)
 		}
