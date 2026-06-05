@@ -70,20 +70,21 @@ struct QuizView: View {
                         )
                         .foregroundStyle(.white)
                     LottieView {
-                        try await DotLottieFile.named("sparkles")
+                        try await DotLottieFile.named("starGoodJob")
                     }
                     .playbackMode(playbackMode)
                     .animationDidFinish { completed in
                         guard completed else { return }
                         switch phase {
                         case .forward:
-                            DispatchQueue.main.asyncAfter(
-                                deadline: .now() + 0.05
-                            ) {
-                                phase = .reverse
-                            }
+                            phase = .reverse
+//                            DispatchQueue.main.asyncAfter(
+//                                deadline: .now() + 0.05
+//                            ) {
+//                                phase = .reverse
+//                            }
                         case .reverse:
-                            phase = .idle
+                            phase = .forward
                         case .idle:
                             break
                         }
