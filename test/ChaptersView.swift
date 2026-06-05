@@ -66,12 +66,12 @@ struct ChaptersView: View {
 
 				VStack {
 					Text("Chapter \(currentChapter)")
-						.font(.title2)
+						.font(.custom("Fredoka", size: 24))
 					Text(
 						currentChapter == 2
 							? "Holiday at the Farm" : "Lunch in The School"
 					)
-					.font(.title)
+					.font(.custom("Fredoka", size: 32))
 					.bold()
 				}
 				.frame(width: 300, height: 300, alignment: .top)
