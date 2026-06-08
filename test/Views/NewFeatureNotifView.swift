@@ -36,8 +36,8 @@ struct NewFeatureNotifView: View {
 				Spacer()
 			}
 		}
-		.background(Color(.accentPink).opacity(0.9))
-		.frame(width: .infinity, height: .infinity)
+		.background(Color.accentPink.opacity(0.9))
+		.frame(maxWidth: .infinity, maxHeight: .infinity)
 		.ignoresSafeArea()
 	}
 	
@@ -48,4 +48,5 @@ struct NewFeatureNotifView: View {
 
 #Preview {
 	NewFeatureNotifView()
+		.environmentObject(ViewModel())
 }
