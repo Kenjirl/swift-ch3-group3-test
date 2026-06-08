@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "nogesturetest.png",
+      "filename" : "chapter1Prop.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "2222.png",
+      "filename" : "prop 2.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "3333.png",
+      "filename" : "prop 3.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

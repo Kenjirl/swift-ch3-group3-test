@@ -15,6 +15,7 @@ struct OnboardingView: View {
     
     @State private var rotateBack:CGFloat = 0
     @State private var playMusic:Bool = true
+    @State private var isVisible: Bool = false
     
     var body: some View {
         
@@ -40,9 +41,10 @@ struct OnboardingView: View {
             CircleBoarding(onboardingFace: $onboardingFace)
             
             onboardingFace
-                .getSceneTitle()
-                .frame(width: .infinity, height: 125)
-                .padding(.bottom,230)
+                .getSceneTitle(isVisible: isVisible)
+                .onAppear {
+                    isVisible = true
+                }
             
 //            Button {
 //                playMusic.toggle()
@@ -83,20 +85,42 @@ enum BoardingFace {
         else { return .twoAsset }
     }
     
-   @ViewBuilder func getSceneTitle() -> some View {
+    @ViewBuilder func getSceneTitle(isVisible: Bool) -> some View {
         
         switch self {
         case .threeAsset:
-            // name game asset
-            Image("game_name")
-                .resizable()
-                .scaledToFit()
+            VStack {
+                // name game asset
+                Image("game_name")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 125)
+                
+                Spacer()
+                
+                Text("Swipe to continue")
+                    .font(.largeTitle)
+                    .fontDesign(.rounded)
+                    .fontWeight(.black)
+                    .foregroundStyle(Color.white)
+                    .shadow(color: .white, radius: 10, x: 0, y: 0)
+                    .opacity(isVisible ? 1 : 0)
+                    .animation(.easeInOut(duration: 1).repeatForever(autoreverses: true), value: isVisible)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding()
         case .twoAsset:
-            Text("Select your character")
-                .font(.largeTitle)
-                .fontDesign(.rounded)
-                .fontWeight(.black)
-                .foregroundStyle(Color.white)
+            VStack {
+                Text("Select your character")
+                    .font(.largeTitle)
+                    .fontDesign(.rounded)
+                    .fontWeight(.black)
+                    .foregroundStyle(Color.white)
+                
+                Spacer()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(.top, 40)
         }
         
     }

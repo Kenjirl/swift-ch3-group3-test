@@ -45,7 +45,7 @@ struct AssetCharacter: View {
                         height: geometrySize.height * asset.size.height
                     )
             
-            if reduceMotion && asset.type != .other {
+            if !reduceMotion && asset.type != .other {
                 animatedView
                     .keyframeAnimator(initialValue: CGFloat(0), trigger: animationTrigger) { view, offset in
                         view.offset(y: isActive ? offset : 0)

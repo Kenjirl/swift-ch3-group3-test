@@ -19,15 +19,9 @@ struct QuizView: View {
 
     var playbackMode: LottiePlaybackMode {
         switch phase {
-        case .idle: return .paused(at: .progress(0))
-        case .forward:
-            return .playing(
-                .fromProgress(0, toProgress: 1, loopMode: .playOnce)
-            )
-        case .reverse:
-            return .playing(
-                .fromProgress(1, toProgress: 0, loopMode: .playOnce)
-            )
+        case .idle:    return .paused(at: .progress(1))
+        case .forward: return .playing(.fromProgress(0, toProgress: 1, loopMode: .playOnce))
+        case .reverse: return .playing(.fromProgress(1, toProgress: 0, loopMode: .playOnce))
         }
     }
 
@@ -75,19 +69,7 @@ struct QuizView: View {
                     .playbackMode(playbackMode)
                     .animationDidFinish { completed in
                         guard completed else { return }
-                        switch phase {
-                        case .forward:
-                            phase = .reverse
-//                            DispatchQueue.main.asyncAfter(
-//                                deadline: .now() + 0.05
-//                            ) {
-//                                phase = .reverse
-//                            }
-                        case .reverse:
-                            phase = .forward
-                        case .idle:
-                            break
-                        }
+                    phase = .idle
                     }
                     .onAppear{
                         phase = .forward
